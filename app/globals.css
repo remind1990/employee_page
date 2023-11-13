@@ -18,10 +18,14 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: url('/main-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.flex-column {
+  @apply flex items-center flex-col
+}
+.header-button {
+  @apply rounded-md px-4 py-2 transition duration-300 hover:bg-amber-600
 }
