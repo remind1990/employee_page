@@ -16,7 +16,7 @@ const LoginForm = (props: Props) => {
     if (!email || !password) return;
     toast.success('Succefully logged in');
     console.log(email, password);
-    // router.push('/dashboard')
+    router.push('/dashboard');
   };
   type Event = ChangeEvent<HTMLInputElement>;
 
@@ -51,10 +51,10 @@ const LoginForm = (props: Props) => {
       <button
         type='submit'
         className='w-full rounded-md bg-orange-400
-         p-3 text-center text-white
+          p-3 text-center text-white
           ring-0
-           hover:bg-orange-500 
-           active:bg-orange-600'
+          hover:bg-orange-500 
+          active:bg-orange-600'
       >
         Log in
       </button>
