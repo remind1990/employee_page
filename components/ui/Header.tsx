@@ -13,7 +13,7 @@ export default function Header() {
       <div className='grid grid-cols-2 gap-2'>
         <Link
           href='/about'
-          className={`header-button text-center ${
+          className={`header-link text-center ${
             isActive('/about') ? 'link' : ''
           }`}
         >
@@ -21,7 +21,7 @@ export default function Header() {
         </Link>
         <Link
           href='/contacts'
-          className={`header-button text-center ${
+          className={`header-link text-center ${
             isActive('/contacts') ? 'link' : ''
           }`}
         >
@@ -31,7 +31,7 @@ export default function Header() {
       <div className='grid justify-self-end'>
         <Link
           href='/login'
-          className={`header-button  ${isActive('/login') ? 'link' : ''}`}
+          className={`header-link  ${isActive('/login') ? 'link' : ''}`}
         >
           Log In
         </Link>

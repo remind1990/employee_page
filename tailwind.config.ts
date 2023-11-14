@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -16,9 +16,10 @@ const config: Config = {
       fontFamily: {
         ranga: ['var(--font-ranga-bold)'],
         roboto: ['var(--font-roboto-condensed)'],
+        antiqua: ['var(--font-glass-antiqua)'],
       },
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

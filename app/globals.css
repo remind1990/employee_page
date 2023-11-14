@@ -26,9 +26,36 @@ body {
 .flex-column {
   @apply flex flex-col items-center;
 }
-.header-button {
+.header-link {
   @apply rounded-md px-4 py-2 text-stone-800 transition duration-300 hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600;
 }
 .link {
-  @apply text-blue-800 underline;
+  @apply bg-amber-600;
+}
+.special-border {
+  border-radius: 5% 5% 29% / 5% 14% 44%;
+}
+
+.custom-shape-divider-top {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.divider-top {
+  position: relative;
+  display: block;
+  width: calc(209% + 1.3px);
+  height: 700px;
+}
+.divider-bottom {
+  position: relative;
+  display: block;
+  width: calc(149% + 1.3px);
+  height: 270px;
+  transform: rotatex(180deg);
+}
+
+.shape-fill {
+  fill: #ffffff8d;
 }

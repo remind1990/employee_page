@@ -20,7 +20,7 @@ const Sidebar = (props: Props) => {
       </h1>
       <Link
         href='/login'
-        className='header-button  bg-amber-500 font-mono text-xl text-slate-100 hover:text-black'
+        className='header-link  bg-amber-500 font-mono text-xl text-slate-100 hover:text-black'
       >
         Start Now
       </Link>
