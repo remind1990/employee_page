@@ -1,16 +1,22 @@
 import Link from 'next/link';
 import React from 'react';
+import { TbArrowBigLeftFilled } from 'react-icons/tb';
 
 type Props = {};
 
 const NotFound = (props: Props) => {
   return (
-    <div className='flex items-center justify-center h-screen bg-gradient-to-r from-slate-50 to-slate-300'>
-      <div className='flex w-[400px] h-[100px] bg-white justify-center items-center flex-col'>
-        <h1>Page not Found</h1>
-        <Link href='./'>⬅ Go Back</Link>
+    <div className='flex h-screen items-center justify-center'>
+      <div className='flex  w-[400px] flex-col items-center justify-center gap-6 rounded-md bg-gradient-to-b from-stone-100 to-stone-400 p-4'>
+        <h1 className='text-2xl text-stone-800'>Page not Found</h1>
+
+        <Link
+          href='./'
+          className='flex flex-wrap items-center text-2xl text-stone-800'
+        >
+          <TbArrowBigLeftFilled /> Go Back
+        </Link>
       </div>
-     
     </div>
   );
 };
