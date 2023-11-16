@@ -13,14 +13,17 @@ async function getTranslators() {
         'Content-Type': 'application/json',
       },
     });
-    toast.success('Succes');
-    const data = await res.json();
-    console.log(data);
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      toast.success('correct user');
+    } else {
+      throw new Error('user not found');
+    }
   } catch (err: any) {
     if (err instanceof Error) {
-      toast.error(`Error: ${err.message}`);
+      toast.error('Error: ' + err.message);
     } else {
-      // Handle other types of errors or unknown errors
       toast.error('An unknown error occurred');
     }
   }
