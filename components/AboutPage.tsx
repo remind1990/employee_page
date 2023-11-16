@@ -11,19 +11,21 @@ const AboutPage = (props: Props) => {
     >
       <Header />
       <div className='relative'>
-        <div className='absolute right-[17rem] max-w-xl sm:top-20 md:right-10 md:top-60 lg:top-40'>
+        <div
+          className='font-fantasy absolute right-[17rem] max-w-xl sm:top-20 md:right-10 md:top-60 lg:top-40'
+          style={{ fontFamily: 'fantasy' }}
+        >
           <h1
-            className='bg-gradient-to-t from-amber-500  to-amber-900 bg-clip-text text-center
-        font-mono text-4xl text-transparent 
+            className='bg-gradient-to-t from-amber-500  to-amber-900 bg-clip-text text-center text-4xl text-transparent 
         '
             style={{
               textShadow: '5px 4px 9px #101010',
             }}
           >
-            ❝Hello dear Coworkers! For us as for employer it was always
-            important to keep fair principals in our job with you, that is why
-            we decided to make this small app, that could help you keep your
-            progress everyday in front of your eyes's❞
+            ❝Hello dear coworkers! For us, as employers, it has always been
+            important to uphold fair principles in our collaboration with you.
+            That is why we decided to create this small app, which can assist
+            you in tracking your progress every day and keeping it visible.❞
           </h1>
         </div>
       </div>

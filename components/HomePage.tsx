@@ -10,7 +10,7 @@ const HomePage = (props: Props) => {
       className='flex h-screen w-full flex-col  gap-8 bg-cover bg-center'
       style={{ backgroundImage: 'url(/bg-2.jpg)' }}
     >
-      <Header />
+      <Header variant='light' />
       <Sidebar />
     </div>
   );

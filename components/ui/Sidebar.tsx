@@ -6,7 +6,7 @@ type Props = {};
 
 const Sidebar = (props: Props) => {
   return (
-    <div className='flex-column  ml-8 h-[400px] w-[350px] justify-around gap-4 rounded-xl bg-gradient-to-t from-stone-700 to-stone-900 px-4 py-3'>
+    <div className='flex-column  ml-8 h-[400px] w-[350px] justify-around gap-4 rounded-xl bg-gradient-to-t from-stone-700 to-stone-900 px-4 py-3 shadow-xl'>
       <Logo />
       <h1 className='font-roboto text-3xl text-slate-100'>
         Track your{' '}

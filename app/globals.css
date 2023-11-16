@@ -15,6 +15,13 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+@font-face {
+  font-family: 'Glass Antiqua';
+  src: url('/fonts/GlassAntiqua-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
   color: rgb(var(--foreground-rgb));

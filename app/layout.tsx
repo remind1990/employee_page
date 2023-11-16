@@ -1,12 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
-import {
-  Inter,
-  Ranga,
-  Roboto_Condensed,
-  Glass_Antiqua,
-} from 'next/font/google';
+import { Inter, Ranga, Roboto_Condensed } from 'next/font/google';
 
 const ranga = Ranga({
   subsets: ['latin'],
@@ -17,12 +12,6 @@ const robotoCondensed = Roboto_Condensed({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-roboto-condensed',
-});
-
-const glassAntiqua = Glass_Antiqua({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-glass-antiqua',
 });
 
 const inter = Inter({ subsets: ['latin'] });
@@ -41,7 +30,7 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      className={`${ranga.variable} ${robotoCondensed.variable} ${glassAntiqua.variable}}`}
+      className={`${ranga.variable} ${robotoCondensed.variable}}`}
     >
       <body>
         <Toaster

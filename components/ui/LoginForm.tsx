@@ -5,7 +5,26 @@ import React, { ChangeEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 
 type Props = {};
-
+async function getTranslators() {
+  try {
+    const res = await fetch('api/translators', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    toast.success('Succes');
+    const data = await res.json();
+    console.log(data);
+  } catch (err: any) {
+    if (err instanceof Error) {
+      toast.error(`Error: ${err.message}`);
+    } else {
+      // Handle other types of errors or unknown errors
+      toast.error('An unknown error occurred');
+    }
+  }
+}
 const LoginForm = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,9 +33,8 @@ const LoginForm = (props: Props) => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!email || !password) return;
-    toast.success('Succefully logged in');
-    console.log(email, password);
-    router.push('/dashboard');
+    getTranslators();
+    // router.push('/dashboard');
   };
   type Event = ChangeEvent<HTMLInputElement>;
 
