@@ -1,6 +1,7 @@
 'use client';
 import { useAuth } from '@/contexts/authContext';
 import getTranslator from '@/services/getTranslator';
+import updateTranslator from '@/services/updateTranslator';
 import React, { ChangeEvent, useState, useTransition } from 'react';
 import toast from 'react-hot-toast';
 import Button from './Button';
@@ -51,7 +52,9 @@ const SignupForm = (props: Props) => {
       if (password !== passwordConfirm) {
         toast.error('password does not match');
       } else {
-        console.log('lets move on');
+        startTransition(async () => {
+          await updateTranslator(email, password);
+        });
       }
     }
   }

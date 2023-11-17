@@ -32,3 +32,14 @@ export async function GET(req) {
     throw new Error('Error downloading collection');
   }
 }
+
+export async function POST(req) {
+  console.log('Updating translator');
+  try {
+    await connectToDatabase();
+    // Add logic to update the translator in the database based on req.body
+  } catch (err) {
+    console.error(err);
+    throw new Error('Error connecting to database');
+  }
+}
