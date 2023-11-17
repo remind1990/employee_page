@@ -1,45 +1,64 @@
 'use client';
-import FormRow from '@/components/ui/FormRow';
+import React, { ChangeEvent, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useState } from 'react';
+import FormRow from '@/components/ui/FormRow';
 import toast from 'react-hot-toast';
+import getTranslator from '../../services/getTranslator';
+import Spinner from './Spinner';
+import Button from './Button';
 
-type Props = {};
-async function getTranslators() {
-  try {
-    const res = await fetch('api/translators', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
-      toast.success('correct user');
-    } else {
-      throw new Error('user not found');
-    }
-  } catch (err: any) {
-    if (err instanceof Error) {
-      toast.error('Error: ' + err.message);
-    } else {
-      toast.error('An unknown error occurred');
-    }
-  }
-}
+type Props = {
+  setUser: any;
+};
+type Event = ChangeEvent<HTMLInputElement>;
+
+// async function getTranslators(query: any) {
+//   try {
+//     const res = await fetch(
+//       `api/translators?email=${encodeURIComponent(query)}`,
+//       {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       }
+//     );
+//     if (res.ok) {
+//       const data = await res.json();
+//       return data;
+//     } else {
+//       throw new Error('user not found');
+//     }
+//   } catch (err: any) {
+//     if (err instanceof Error) {
+//       throw new Error('There is no such user in our database');
+//     } else {
+//       throw new Error('An unknown error occurred');
+//     }
+//   }
+// }
+
 const LoginForm = (props: Props) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!email || !password) return;
-    getTranslators();
+    startTransition(async () => {
+      try {
+        const data = await getTranslator(email);
+        toast.success(data.msg);
+      } catch (err: any) {
+        toast.error(err.message);
+        setErrors({ ...errors, email: err.message });
+      }
+    });
     // router.push('/dashboard');
   };
-  type Event = ChangeEvent<HTMLInputElement>;
 
   function handleInputChange(e: Event): void {
     const { name, value } = e.target;
@@ -50,6 +69,7 @@ const LoginForm = (props: Props) => {
       setEmail((state: string) => value);
     }
   }
+
   return (
     <form
       className='flex-column  w-full gap-4  p-4  font-mono'
@@ -57,28 +77,27 @@ const LoginForm = (props: Props) => {
     >
       <FormRow
         id='email'
-        type='email'
+        type='text'
         name='email'
         value={email}
         onChange={handleInputChange}
       />
       <FormRow
         id='password'
-        type='text'
+        type='password'
         name='password'
         value={password}
         onChange={handleInputChange}
       />
-      <button
-        type='submit'
-        className='w-full rounded-md bg-orange-400
-          p-3 text-center text-white
-          ring-0
-          hover:bg-orange-500 
-          active:bg-orange-600'
-      >
-        Log in
-      </button>
+      <Button type='submit' variation='formButton'>
+        {isPending ? (
+          <span className='flex h-[24px] items-center justify-center'>
+            <Spinner /> Sending
+          </span>
+        ) : (
+          'Log in'
+        )}
+      </Button>
     </form>
   );
 };

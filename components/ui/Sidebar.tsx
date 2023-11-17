@@ -19,7 +19,7 @@ const Sidebar = (props: Props) => {
         </span>
       </h1>
       <Link
-        href='/login'
+        href='/signin'
         className='header-link  bg-amber-500 font-mono text-xl text-slate-100 hover:text-black'
       >
         Start Now
