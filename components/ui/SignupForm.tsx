@@ -2,6 +2,7 @@
 import { useAuth } from '@/contexts/authContext';
 import getTranslator from '@/services/getTranslator';
 import updateTranslator from '@/services/updateTranslator';
+import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useState, useTransition } from 'react';
 import toast from 'react-hot-toast';
 import Button from './Button';
@@ -17,6 +18,7 @@ const SignupForm = (props: Props) => {
   const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const router = useRouter();
 
   function handleInputChange(e: Event): void {
     const { name, value } = e.target;
@@ -49,16 +51,19 @@ const SignupForm = (props: Props) => {
     }
 
     if (userExist) {
-      if (!password || !passwordConfirm) return;
-      if (password !== passwordConfirm) {
-        toast.error('password does not match');
+      if (!password || !passwordConfirm) {
+        toast.error('Please enter both password and password confirmation');
+      } else if (password !== passwordConfirm) {
+        toast.error('Password does not match the confirmation');
+      } else if (password.length < 4) {
+        toast.error('Password must be at least 4 characters long');
       } else {
         startTransition(async () => {
           try {
-            console.log(user.id);
             const data = await updateTranslator(user.id, { email, password });
             console.log(data);
             toast.success(data.msg);
+            router.push('/login');
           } catch (err: any) {
             console.error(err.message);
           }
@@ -66,6 +71,7 @@ const SignupForm = (props: Props) => {
       }
     }
   }
+
   return (
     <form
       className='flex-column  w-full gap-4  p-4  font-mono'

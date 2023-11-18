@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase, collections } from '../../../libs/mongoDB';
-import Translator from '../../../models/translator';
-import mongooseConnectDB from '../../../libs/mongodbConnectWithMongoose';
 
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
@@ -35,27 +33,27 @@ export async function GET(req) {
   }
 }
 
-export async function POST(req) {
-  console.log('Posting translator');
-  try {
-    await connectToDatabase();
-    await mongooseConnectDB();
+// export async function POST(req) {
+//   console.log('Posting translator');
+//   try {
+//     await connectToDatabase();
+//     await mongooseConnectDB();
 
-    // Find documents in the collection
-    const translatorsCollections = collections.get('collectionTranslators');
-    const irina = await translatorsCollections
-      .find({ email: 'pesnja25@gmail.com' })
-      .toArray();
-    const newTranslator = irina[0];
-    const insertedTranslator =
-      await Translator.collection.insertOne(newTranslator);
-    return NextResponse.json({
-      msg: 'translators found using mongoose',
-      success: true,
-      data: newTranslator,
-    });
-  } catch (err) {
-    console.log(err);
-    throw new Error('Error in function:', err);
-  }
-}
+//     // Find documents in the collection
+//     const translatorsCollections = collections.get('collectionTranslators');
+//     const irina = await translatorsCollections
+//       .find({ email: 'pesnja25@gmail.com' })
+//       .toArray();
+//     const newTranslator = irina[0];
+//     const insertedTranslator =
+//       await Translator.collection.insertOne(newTranslator);
+//     return NextResponse.json({
+//       msg: 'translators found using mongoose',
+//       success: true,
+//       data: newTranslator,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error('Error in function:', err);
+//   }
+// }

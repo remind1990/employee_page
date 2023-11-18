@@ -52,12 +52,12 @@ const LoginForm = (props: Props) => {
       try {
         const data = await getTranslator(email);
         toast.success(data.msg);
+        router.push('/dashboard');
       } catch (err: any) {
         toast.error(err.message);
         setErrors({ ...errors, email: err.message });
       }
     });
-    // router.push('/dashboard');
   };
 
   function handleInputChange(e: Event): void {
