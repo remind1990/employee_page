@@ -3,45 +3,20 @@ import React, { ChangeEvent, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import FormRow from '@/components/ui/FormRow';
 import toast from 'react-hot-toast';
-import getTranslator from '../../services/getTranslator';
 import Spinner from './Spinner';
 import Button from './Button';
+import loginTranslator from '@/services/loginTranslator';
+import { useAuth } from '@/contexts/authContext';
 
 type Props = {
   setUser: any;
 };
 type Event = ChangeEvent<HTMLInputElement>;
 
-// async function getTranslators(query: any) {
-//   try {
-//     const res = await fetch(
-//       `api/translators?email=${encodeURIComponent(query)}`,
-//       {
-//         method: 'GET',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       }
-//     );
-//     if (res.ok) {
-//       const data = await res.json();
-//       return data;
-//     } else {
-//       throw new Error('user not found');
-//     }
-//   } catch (err: any) {
-//     if (err instanceof Error) {
-//       throw new Error('There is no such user in our database');
-//     } else {
-//       throw new Error('An unknown error occurred');
-//     }
-//   }
-// }
-
 const LoginForm = (props: Props) => {
+  const { login } = useAuth();
   const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -50,12 +25,12 @@ const LoginForm = (props: Props) => {
     if (!email || !password) return;
     startTransition(async () => {
       try {
-        const data = await getTranslator(email);
-        toast.success(data.msg);
+        const res = await loginTranslator({ email, password });
+        toast.success(res.msg);
+        login(res.data);
         router.push('/dashboard');
       } catch (err: any) {
         toast.error(err.message);
-        setErrors({ ...errors, email: err.message });
       }
     });
   };

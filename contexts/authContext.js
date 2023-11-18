@@ -4,6 +4,7 @@ const AuthContext = createContext();
 const initialState = {
   user: null,
   userExist: false,
+  isRegistered: false,
   isAuthenticated: false,
 };
 
@@ -14,16 +15,22 @@ function reducer(state, action) {
         ...state,
         user: action.payload,
         isAuthenticated: true,
+        isRegistered: true,
+        userExist: true,
       };
     case 'logout':
-      return { ...state, user: null, isAuthenticated: false };
+      return initialState;
     case 'createNewUser':
       return { ...state, user: null, isAuthenticated: false };
     case 'commitUser':
       return {
         ...state,
         userExist: true,
-        user: { ...state.user, id: action.payload },
+        user: {
+          ...state.user,
+          _id: action.payload.id,
+        },
+        isRegistered: action.payload.registered,
       };
     default:
       throw new Error('Unknown action');
@@ -38,59 +45,20 @@ function reducer(state, action) {
 // };
 
 function AuthProvider({ children }) {
-  const [{ user, isAuthenticated, userExist }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const [{ user, isAuthenticated, isRegistered, userExist }, dispatch] =
+    useReducer(reducer, initialState);
 
-  async function login(email, password) {
-    // let users;
-    // if (email && password) {
-    //   const res = await fetch(`${BASE_URL}/users`);
-    //   users = await res.json();
-    // }
-    // if (users.length > 0) {
-    //   const userWithEmail = users.find(
-    //     (user) => user.email === email
-    //   );
-    //   if (!userWithEmail) return;
-    //   if (
-    //     email === userWithEmail.email &&
-    //     password === userWithEmail.password
-    //   ) {
-    //     dispatch({ type: 'login', payload: userWithEmail });
-    //   }
-    // }
+  async function login(data) {
+    dispatch({ type: 'login', payload: data });
   }
 
   function logout() {
     dispatch({ type: 'logout' });
   }
 
-  function commitThatUserExist(id) {
-    dispatch({ type: 'commitUser', payload: id });
-  }
-  async function createNewUser(userData) {
-    // const res = await fetch(`${BASE_URL}/users`);
-    // const allUsers = await res.json();
-
-    // if (allUsers.length > 0) {
-    //   const userAlreadyExist = allUsers.find(
-    //     (user) => user.email === userData.email
-    //   );
-    //   if (userAlreadyExist) {
-    //     throw new Error('User already exists');
-    //   }
-    // }
-    // const newUser = await fetch(`${BASE_URL}/users`, {
-    //   method: 'POST',
-    //   body: JSON.stringify(userData),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
-    // const newUserData = await newUser.json();
-    dispatch({ type: 'login', payload: newUserData });
+  function commitThatUserExist(data) {
+    const { _id, registered } = data;
+    dispatch({ type: 'commitUser', payload: { _id, registered } });
   }
 
   return (
@@ -99,9 +67,9 @@ function AuthProvider({ children }) {
         user,
         isAuthenticated,
         userExist,
+        isRegistered,
         login,
         logout,
-        createNewUser,
         commitThatUserExist,
       }}
     >

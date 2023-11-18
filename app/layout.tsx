@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { Inter, Ranga, Roboto_Condensed } from 'next/font/google';
-import { AuthProvider } from '../contexts/authContext';
+import { Providers } from './providers';
 
 const ranga = Ranga({
   subsets: ['latin'],
@@ -34,7 +34,7 @@ export default function RootLayout({
       className={`${ranga.variable} ${robotoCondensed.variable}}`}
     >
       <body>
-        <AuthProvider>
+        <Providers>
           <Toaster
             position='top-center'
             gutter={12}
@@ -56,7 +56,7 @@ export default function RootLayout({
             }}
           />
           {children}
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

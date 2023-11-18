@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase, collections } from '../../../libs/mongoDB';
+import { checkRateLimit } from '../../../helpers/rateLimiter';
+import bcrypt from 'bcrypt';
 
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
@@ -15,9 +17,14 @@ export async function GET(req) {
     if (translators.length > 0) {
       if (existsParam) {
         return NextResponse.json({
-          msg: 'email was found in database',
+          msg: translators[0].password
+            ? `Hello ${translators[0].name}. Please log in`
+            : 'email was found in database',
           success: true,
-          data: translators[0]._id,
+          data: {
+            _id: translators[0]._id,
+            registered: translators[0].password ? true : false,
+          },
         });
       } else {
         return NextResponse.json({
@@ -33,27 +40,44 @@ export async function GET(req) {
   }
 }
 
-// export async function POST(req) {
-//   console.log('Posting translator');
-//   try {
-//     await connectToDatabase();
-//     await mongooseConnectDB();
+export async function POST(req) {
+  const { email, password } = await req.json();
+  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress;
 
-//     // Find documents in the collection
-//     const translatorsCollections = collections.get('collectionTranslators');
-//     const irina = await translatorsCollections
-//       .find({ email: 'pesnja25@gmail.com' })
-//       .toArray();
-//     const newTranslator = irina[0];
-//     const insertedTranslator =
-//       await Translator.collection.insertOne(newTranslator);
-//     return NextResponse.json({
-//       msg: 'translators found using mongoose',
-//       success: true,
-//       data: newTranslator,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     throw new Error('Error in function:', err);
-//   }
-// }
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json({
+      msg: 'Too many requests, please try again later.',
+      success: false,
+    });
+  }
+
+  try {
+    await connectToDatabase();
+
+    // Find documents in the collection
+    const translatorsCollections = collections.get('collectionTranslators');
+    const searchingTranslator = await translatorsCollections.findOne({
+      email: email,
+    });
+
+    if (searchingTranslator && searchingTranslator.password) {
+      const passwordsMatch = await bcrypt.compare(
+        password,
+        searchingTranslator.password
+      );
+
+      if (passwordsMatch) {
+        return NextResponse.json({
+          msg: 'passwords match',
+          success: true,
+          data: searchingTranslator,
+        });
+      } else {
+        throw new Error('There was a mistake in email or password');
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    throw new Error('Error in function:', err);
+  }
+}

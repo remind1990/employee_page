@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/authContext';
 import getTranslator from '@/services/getTranslator';
 import updateTranslator from '@/services/updateTranslator';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useState, useTransition } from 'react';
+import React, { ChangeEvent, useEffect, useState, useTransition } from 'react';
 import toast from 'react-hot-toast';
 import Button from './Button';
 import FormRow from './FormRow';
@@ -13,12 +13,18 @@ type Props = {};
 type Event = ChangeEvent<HTMLInputElement>;
 
 const SignupForm = (props: Props) => {
-  const { userExist, user, commitThatUserExist } = useAuth();
+  const { userExist, user, isRegistered, commitThatUserExist } = useAuth();
   const [isPending, startTransition] = useTransition();
   const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    if (isRegistered) {
+      router.push('/login');
+    }
+  }, [isRegistered]);
 
   function handleInputChange(e: Event): void {
     const { name, value } = e.target;
@@ -40,10 +46,9 @@ const SignupForm = (props: Props) => {
     if (email && !userExist) {
       startTransition(async () => {
         try {
-          const data = await getTranslator(email, true);
-          toast.success(data.msg);
-          console.log(data);
-          commitThatUserExist(data.data);
+          const res = await getTranslator(email, true);
+          toast.success(res.msg);
+          commitThatUserExist(res.data);
         } catch (err: any) {
           toast.error(err.message);
         }
@@ -60,8 +65,7 @@ const SignupForm = (props: Props) => {
       } else {
         startTransition(async () => {
           try {
-            const data = await updateTranslator(user.id, { email, password });
-            console.log(data);
+            const data = await updateTranslator(user._id, { email, password });
             toast.success(data.msg);
             router.push('/login');
           } catch (err: any) {
@@ -71,7 +75,6 @@ const SignupForm = (props: Props) => {
       }
     }
   }
-
   return (
     <form
       className='flex-column  w-full gap-4  p-4  font-mono'
@@ -92,6 +95,7 @@ const SignupForm = (props: Props) => {
             type='password'
             name='password'
             value={password}
+            disabled={isRegistered}
             onChange={handleInputChange}
           />
           <FormRow
@@ -99,11 +103,12 @@ const SignupForm = (props: Props) => {
             type='password'
             name='passwordConfirm'
             value={passwordConfirm}
+            disabled={isRegistered}
             onChange={handleInputChange}
           />
         </>
       )}
-      <Button type='submit' variation='formButton'>
+      <Button type='submit' variation='formButton' disabled={isRegistered}>
         {isPending ? (
           <span className='flex h-[24px] items-center justify-center'>
             <Spinner />

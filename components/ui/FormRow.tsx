@@ -6,9 +6,17 @@ type Props = {
   name: string;
   value: string | number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 };
 
-export default function FormRow({ id, type, name, value, onChange }: Props) {
+export default function FormRow({
+  id,
+  type,
+  name,
+  value,
+  disabled,
+  onChange,
+}: Props) {
   return (
     <div className='flex w-full flex-col text-black '>
       <label htmlFor={id}>
@@ -23,6 +31,7 @@ export default function FormRow({ id, type, name, value, onChange }: Props) {
         type={type}
         name={name}
         value={value}
+        disabled={disabled}
         onChange={onChange}
       />
     </div>
