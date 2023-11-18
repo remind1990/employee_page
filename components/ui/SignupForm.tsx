@@ -12,7 +12,7 @@ type Props = {};
 type Event = ChangeEvent<HTMLInputElement>;
 
 const SignupForm = (props: Props) => {
-  const { userExist, commitThatUserExist } = useAuth();
+  const { userExist, user, commitThatUserExist } = useAuth();
   const [isPending, startTransition] = useTransition();
   const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');
@@ -40,7 +40,8 @@ const SignupForm = (props: Props) => {
         try {
           const data = await getTranslator(email, true);
           toast.success(data.msg);
-          commitThatUserExist();
+          console.log(data);
+          commitThatUserExist(data.data);
         } catch (err: any) {
           toast.error(err.message);
         }
@@ -53,7 +54,14 @@ const SignupForm = (props: Props) => {
         toast.error('password does not match');
       } else {
         startTransition(async () => {
-          await updateTranslator(email, password);
+          try {
+            console.log(user.id);
+            const data = await updateTranslator(user.id, { email, password });
+            console.log(data);
+            toast.success(data.msg);
+          } catch (err: any) {
+            console.error(err.message);
+          }
         });
       }
     }

@@ -1,6 +1,5 @@
 'use client';
 import { createContext, useContext, useReducer } from 'react';
-import getTranslator from '@/services/getTranslator';
 const AuthContext = createContext();
 const initialState = {
   user: null,
@@ -21,7 +20,11 @@ function reducer(state, action) {
     case 'createNewUser':
       return { ...state, user: null, isAuthenticated: false };
     case 'commitUser':
-      return { ...state, userExist: true };
+      return {
+        ...state,
+        userExist: true,
+        user: { ...state.user, id: action.payload },
+      };
     default:
       throw new Error('Unknown action');
   }
@@ -64,8 +67,8 @@ function AuthProvider({ children }) {
     dispatch({ type: 'logout' });
   }
 
-  function commitThatUserExist() {
-    dispatch({ type: 'commitUser' });
+  function commitThatUserExist(id) {
+    dispatch({ type: 'commitUser', payload: id });
   }
   async function createNewUser(userData) {
     // const res = await fetch(`${BASE_URL}/users`);

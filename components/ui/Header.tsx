@@ -8,7 +8,7 @@ type Props = {
   variant: 'light' | 'dark';
 };
 
-export default function Header({ variant }: Props) {
+export default function Header({ variant = 'light' }: Props) {
   const pathname = usePathname();
   const isActive = (path: string) => {
     return pathname === path;
