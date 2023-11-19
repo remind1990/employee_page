@@ -25,7 +25,6 @@ export async function PUT(req, { params }) {
       { $set: { password: hashedPassword } }
     );
     if (updatedResult.modifiedCount > 0) {
-      console.log('Updated 🤗');
       const searchingTranslator = await translatorsCollections.findOne({
         _id: objectId,
       });

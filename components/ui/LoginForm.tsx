@@ -8,14 +8,11 @@ import Button from './Button';
 import loginTranslator from '@/services/loginTranslator';
 import { useAuth } from '@/contexts/authContext';
 
-type Props = {
-  setUser: any;
-};
 type Event = ChangeEvent<HTMLInputElement>;
 
-const LoginForm = (props: Props) => {
+const LoginForm = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('pesnja25@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -47,12 +44,12 @@ const LoginForm = (props: Props) => {
 
   return (
     <form
-      className='flex-column  w-full gap-4  p-4  font-mono'
+      className='flex-column w-full gap-4 p-4  font-mono'
       onSubmit={handleSubmit}
     >
       <FormRow
         id='email'
-        type='text'
+        type='email'
         name='email'
         value={email}
         onChange={handleInputChange}

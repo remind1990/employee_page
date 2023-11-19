@@ -25,16 +25,13 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: url('/main-background.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .flex-column {
   @apply flex flex-col items-center;
 }
 .header-link {
-  @apply rounded-md px-4 py-2 text-stone-800 transition duration-300 hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600;
+  @apply rounded-md px-4 py-2 text-center text-stone-800 transition duration-300 hover:bg-amber-600 focus:bg-amber-600 active:bg-amber-600;
 }
 .link {
   @apply bg-amber-600;

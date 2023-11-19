@@ -6,28 +6,16 @@ type Props = {};
 const AboutPage = (props: Props) => {
   return (
     <main
-      className='grid h-[100vh] grid-rows-[auto,3fr] bg-cover bg-center'
+      className='flex h-full w-full flex-1 items-center justify-end p-6'
       style={{ backgroundImage: 'url(/about.jpg)' }}
     >
-      <Header />
-      <div className='relative'>
-        <div
-          className='font-fantasy absolute right-[17rem] max-w-xl sm:top-20 md:right-10 md:top-60 lg:top-40'
-          style={{ fontFamily: 'fantasy' }}
-        >
-          <h1
-            className='bg-gradient-to-t from-amber-500  to-amber-900 bg-clip-text text-center text-4xl text-transparent 
-        '
-            style={{
-              textShadow: '5px 4px 9px #101010',
-            }}
-          >
-            ❝Hello dear coworkers! For us, as employers, it has always been
-            important to uphold fair principles in our collaboration with you.
-            That is why we decided to create this small app, which can assist
-            you in tracking your progress every day and keeping it visible.❞
-          </h1>
-        </div>
+      <div className='shadow-levitate animate-attractAttention z-10 max-w-xl rounded-md bg-white bg-opacity-90 p-6 '>
+        <h1 className='text-center text-3xl text-black'>
+          Hello dear coworkers! For us, as employers, it has always been
+          important to uphold fair principles in our collaboration with you.
+          That is why we decided to create this small app, which can assist you
+          in tracking your progress every day and keeping it visible.
+        </h1>
       </div>
       {/* <div className='custom-shape-divider-top justify-self-end'>
         <svg

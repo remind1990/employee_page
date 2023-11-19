@@ -18,8 +18,8 @@ export default function FormRow({
   onChange,
 }: Props) {
   return (
-    <div className='flex w-full flex-col text-black '>
-      <label htmlFor={id}>
+    <>
+      <label htmlFor={id} className='text-black'>
         {name === 'passwordConfirm'
           ? 'Please confirm your password'
           : `Please enter your ${name}`}
@@ -27,13 +27,14 @@ export default function FormRow({
       </label>
       <input
         id={id}
-        className=' rounded-md p-2 ring-2'
+        className='w-full rounded-md p-2 text-black ring-2'
         type={type}
         name={name}
         value={value}
         disabled={disabled}
         onChange={onChange}
+        placeholder={type === 'email' ? 'pesnja25@gmail.com' : ''}
       />
-    </div>
+    </>
   );
 }

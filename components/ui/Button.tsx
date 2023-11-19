@@ -1,13 +1,13 @@
 import React, { ReactNode, ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variation?: 'formButton' | 'primarly';
+  variation?: 'formButton' | 'primary';
   disabled?: boolean; // Add more variations as needed
   children: ReactNode;
 }
 
 const variations = {
-  primarly:
+  primary:
     'rounded-md bg-orange-400 p-3 text-center text-white ring-0 hover:bg-orange-500 active:bg-orange-600',
   formButton:
     'w-full rounded-md bg-orange-400 p-3 text-center text-white ring-0 hover:bg-orange-500 active:bg-orange-600',
@@ -16,7 +16,7 @@ const variations = {
 };
 
 const Button: React.FC<ButtonProps> = ({
-  variation = 'primarly',
+  variation = 'primary',
   disabled,
   children,
   ...rest

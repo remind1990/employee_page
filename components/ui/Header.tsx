@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/authContext';
 import Button from './Button';
 
 type Props = {
-  variant: 'light' | 'dark';
+  variant?: 'light' | 'dark';
 };
 
 export default function Header({ variant = 'light' }: Props) {
@@ -23,34 +23,29 @@ export default function Header({ variant = 'light' }: Props) {
       ? 'bg-stone-100'
       : 'bg-gradient-to-r from-stone-800 via-slate-300  via-slate-400 to-rose-500';
   const textColorClass = variant === 'light' ? '' : 'text-white';
-  const gridCols = isAuthenticated
-    ? 'grid-cols-[5rem,1fr,1fr,1fr]'
-    : 'grid-cols-[5rem,1fr,1fr]';
   return (
     <header
-      className={`grid ${gridCols} items-center gap-4 p-4 font-mono ${backgroundColorClass} ${textColorClass} shadow-md`}
+      className={`flex flex-row flex-wrap items-center justify-between gap-0 p-4 font-mono md:justify-start md:gap-4 ${backgroundColorClass} ${textColorClass} z-10 shadow-md`}
     >
       <Link href='/'>
         <Logo width={80} height={70} />
       </Link>
-      <div className='grid grid-cols-2 gap-2'>
-        <Link
-          href='/about'
-          className={`header-link text-center ${
-            isActive('/about') ? 'link' : ''
-          }`}
-        >
-          About
-        </Link>
-        <Link
-          href='/contacts'
-          className={`header-link text-center ${
-            isActive('/contacts') ? 'link' : ''
-          }`}
-        >
-          Contacts
-        </Link>
-      </div>
+      <Link
+        href='/about'
+        className={`header-link text-center ${
+          isActive('/about') ? 'link' : ''
+        }`}
+      >
+        About
+      </Link>
+      <Link
+        href='/contacts'
+        className={`header-link text-center ${
+          isActive('/contacts') ? 'link' : ''
+        }`}
+      >
+        Contacts
+      </Link>
       {isAuthenticated && (
         <Link
           href='/dashboard'
@@ -61,7 +56,7 @@ export default function Header({ variant = 'light' }: Props) {
           Dashboard
         </Link>
       )}
-      <div className='grid justify-self-end'>
+      <div className={`ml-auto grid  justify-self-end`}>
         {!isAuthenticated ? (
           <Link
             href='/login'

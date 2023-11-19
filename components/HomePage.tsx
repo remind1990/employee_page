@@ -1,18 +1,17 @@
 import React from 'react';
 import Header from './ui/Header';
-import Sidebar from './ui/Sidebar';
+import StartNowBox from './ui/StartNowBox';
 
 type Props = {};
 
 const HomePage = (props: Props) => {
   return (
-    <div
-      className='flex h-screen w-full flex-col  gap-8 bg-cover bg-center'
+    <section
+      className='flex h-full w-full flex-1 flex-col gap-8 bg-cover bg-center bg-no-repeat py-4 md:p-4'
       style={{ backgroundImage: 'url(/bg-2.jpg)' }}
     >
-      <Header variant='light' />
-      <Sidebar />
-    </div>
+      <StartNowBox />
+    </section>
   );
 };
 

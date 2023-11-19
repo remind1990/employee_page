@@ -1,8 +1,9 @@
 import React from 'react';
 import TableComponent from './Table';
+import { Day } from '@/types/types';
 
 type Props = {
-  day: {};
+  day: Day;
 };
 
 function TableRow({ day }: Props) {

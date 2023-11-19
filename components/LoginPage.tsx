@@ -11,21 +11,18 @@ type Props = {};
 const LoginPage = (props: Props) => {
   const pathname = usePathname();
   return (
-    <>
-      <Header variant='light' />
-      <main className='flex h-screen items-center justify-center'>
-        <div className='flex-column w-[400px] gap-2 rounded-lg border-r-amber-200 bg-amber-50'>
-          <div className='flex w-full flex-col items-center  gap-1  rounded-t-lg bg-gradient-to-r from-orange-300 via-orange-100 via-orange-50 to-amber-500'>
-            <Logo />
-            <h1 className='mb-4 font-mono text-xl'>
-              {' '}
-              Sunrise Employee {pathname === '/signin' ? 'Sign in' : 'Log In'}:
-            </h1>
-          </div>
-          {pathname === '/signin' ? <SignupForm /> : <LoginForm />}
+    <main className='z-10 flex h-screen items-center justify-center'>
+      <div className='flex-column shadow-levitate w-[90%] max-w-[400px] rounded-lg border-r-amber-200 bg-amber-50'>
+        <div className='flex w-full flex-col items-center  gap-1  rounded-t-lg bg-gradient-to-r from-orange-300 via-orange-100 via-orange-50 to-amber-500'>
+          <Logo />
+          <h1 className='mb-4 font-mono text-xl text-black'>
+            {' '}
+            Sunrise Employee {pathname === '/signin' ? 'Sign in' : 'Log In'}:
+          </h1>
         </div>
-      </main>
-    </>
+        {pathname === '/signin' ? <SignupForm /> : <LoginForm />}
+      </div>
+    </main>
   );
 };
 
