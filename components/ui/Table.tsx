@@ -35,12 +35,7 @@ type StyledHeaderProps = {
 };
 
 const StyledHeader: React.FC<StyledHeaderProps> = ({ columns, children }) => (
-  <CommonRow
-    columns={columns}
-    className='border-b border-gray-300 bg-gray-200 p-4 font-semibold uppercase text-gray-600'
-  >
-    {children}
-  </CommonRow>
+  <CommonRow columns={columns}>{children}</CommonRow>
 );
 
 type StyledRowProps = {
@@ -49,9 +44,7 @@ type StyledRowProps = {
 };
 
 const StyledRow: React.FC<StyledRowProps> = ({ columns, children }) => (
-  <CommonRow columns={columns} className='border-b border-gray-300 p-3'>
-    {children}
-  </CommonRow>
+  <CommonRow columns={columns}>{children}</CommonRow>
 );
 
 type StyledBodyProps = {

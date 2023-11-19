@@ -4,11 +4,11 @@ import Link from 'next/link';
 
 type Props = {};
 
-const Sidebar = (props: Props) => {
+const StartNowBox = (props: Props) => {
   return (
-    <div className='flex-column  ml-8 h-[400px] w-[350px] justify-around gap-4 rounded-xl bg-gradient-to-t from-stone-700 to-stone-900 px-4 py-3 shadow-xl'>
+    <div className='flex-column shadow-levitate animate-attractAttention mx-auto w-[90%] max-w-[450px] gap-4 rounded-xl bg-gradient-to-t from-stone-700 to-stone-900 px-6 py-6 md:mx-8'>
       <Logo />
-      <h1 className='font-roboto text-3xl text-slate-100'>
+      <h1 className='text-center font-roboto text-3xl text-slate-100'>
         Track your{' '}
         <span className='bg-gradient-to-b from-orange-300 to-orange-500 bg-clip-text text-transparent'>
           Progress
@@ -28,4 +28,4 @@ const Sidebar = (props: Props) => {
   );
 };
 
-export default Sidebar;
+export default StartNowBox;
