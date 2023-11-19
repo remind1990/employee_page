@@ -44,7 +44,7 @@ const LoginForm = () => {
 
   return (
     <form
-      className='flex-column  w-full gap-4  p-4  font-mono'
+      className='flex-column w-full gap-4 p-4  font-mono'
       onSubmit={handleSubmit}
     >
       <FormRow
