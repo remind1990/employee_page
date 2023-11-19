@@ -9,7 +9,6 @@ const AboutPage = (props: Props) => {
       className='grid h-[100vh] grid-rows-[auto,3fr] bg-cover bg-center'
       style={{ backgroundImage: 'url(/about.jpg)' }}
     >
-      <Header />
       <div className='relative'>
         <div
           className='font-fantasy absolute right-[17rem] max-w-xl sm:top-20 md:right-10 md:top-60 lg:top-40'

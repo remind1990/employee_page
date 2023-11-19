@@ -6,7 +6,7 @@ type Props = {};
 
 const StartNowBox = (props: Props) => {
   return (
-    <div className='flex-column shadow-levitate animate-attractAttention mx-auto w-[90%] max-w-[450px] gap-4 rounded-xl bg-gradient-to-t from-stone-700 to-stone-900 px-6 py-6 md:mx-8'>
+    <div className='flex-column shadow-levitate animate-attractAttention z-10 mx-auto w-[90%] max-w-[450px] gap-4 rounded-xl bg-gradient-to-t from-stone-700 to-stone-900 px-6 py-6 md:mx-0'>
       <Logo />
       <h1 className='text-center font-roboto text-3xl text-slate-100'>
         Track your{' '}

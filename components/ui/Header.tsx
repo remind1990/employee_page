@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/authContext';
 import Button from './Button';
 
 type Props = {
-  variant: 'light' | 'dark';
+  variant?: 'light' | 'dark';
 };
 
 export default function Header({ variant = 'light' }: Props) {
