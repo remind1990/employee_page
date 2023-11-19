@@ -1,4 +1,5 @@
 import React from 'react';
+import ProgressChart from './ProgressChart';
 import TableComponent from './Table';
 import TableRow from './TableRow';
 
@@ -19,6 +20,7 @@ function ClientContent({ clients, statistics, userName }: Props) {
     <div className='grid min-h-[300px] w-full grid-cols-[0.7fr,1fr] rounded-bl-xl bg-stone-700 text-stone-800'>
       <div className='col-span-1 text-stone-100'>
         <h1>Hello! {userName} Start exploring your dashboard</h1>
+        <ProgressChart />
       </div>
       <TableComponent columns='8'>
         <TableComponent.Header>
