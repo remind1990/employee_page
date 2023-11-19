@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import Error from 'next/error';
 import ClientContent from './ui/ClientContent';
+import { Statistic, Day, Client, BalanceDay } from '@/types/types';
 
 function Dashboard() {
   const { isAuthenticated, user } = useAuth();
@@ -31,30 +32,28 @@ function Dashboard() {
   const currentMonth = currentDate.getMonth();
   const todayString = `${currentDay} ${currentMonth} ${currentYear}`;
 
-  const curYearStatistic = statistics.filter(
-    (item: { year: string; months: [] }) => item.year === currentYear.toString()
+  const curYearStatistic: Statistic[] = statistics.filter(
+    (item: Statistic) => item.year === currentYear.toString()
   );
-  const thisMonthsStatistics = curYearStatistic[0].months[currentMonth];
+  const thisMonthsStatistics: Day[] = curYearStatistic[0].months[currentMonth];
 
-  const daysOnlyWithPickedClient = thisMonthsStatistics
-    .filter((day) => {
+  const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics
+    .filter((day: Day) => {
       return day.id <= todayString;
     })
-    .map((day) => {
+    .map((day: Day) => {
       const filteredClients = day.clients.filter(
-        (client) => client.id === pickedClient
+        (client: Client) => client._id === pickedClient
       );
       return {
         ...day,
         clients: filteredClients,
       };
     });
-
-  console.log(daysOnlyWithPickedClient);
   return (
     <main className='py-10 pl-10'>
       <div className='flex min-h-[150px] w-full flex-wrap gap-2 rounded-tl-xl bg-gradient-to-b from-slate-100 to-pink-300 p-4 drop-shadow-xl'>
-        {notSuspendedClients.map((client: { _id?: string }) => (
+        {notSuspendedClients.map((client: Client) => (
           <ClientCard key={client?._id} client={client} />
         ))}
       </div>

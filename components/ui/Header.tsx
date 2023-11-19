@@ -25,7 +25,7 @@ export default function Header({ variant = 'light' }: Props) {
   const textColorClass = variant === 'light' ? '' : 'text-white';
   return (
     <header
-      className={`flex flex-row flex-wrap items-center justify-between gap-0 p-4 font-mono md:justify-start md:gap-4 ${backgroundColorClass} ${textColorClass} shadow-md`}
+      className={`flex flex-row flex-wrap items-center justify-between gap-0 p-4 font-mono md:justify-start md:gap-4 ${backgroundColorClass} ${textColorClass} z-10 shadow-md`}
     >
       <Link href='/'>
         <Logo width={80} height={70} />

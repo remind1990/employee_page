@@ -8,12 +8,9 @@ import Button from './Button';
 import loginTranslator from '@/services/loginTranslator';
 import { useAuth } from '@/contexts/authContext';
 
-type Props = {
-  setUser: any;
-};
 type Event = ChangeEvent<HTMLInputElement>;
 
-const LoginForm = (props: Props) => {
+const LoginForm = () => {
   const { login } = useAuth();
   const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');

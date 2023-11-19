@@ -1,10 +1,13 @@
+import { BalanceDay } from '@/types/types';
 import React, { createContext, useContext } from 'react';
 
 type TableContextProps = {
   columns: string;
 };
 
-const TableContext = createContext<TableContextProps | undefined>(undefined);
+const defaultValue = { columns: '' };
+
+const TableContext = createContext<TableContextProps>(defaultValue);
 
 type StyledTableProps = {
   children: React.ReactNode;
@@ -87,12 +90,8 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const { columns } = useContext(TableContext);
-  return (
-    <StyledHeader role='row' columns={columns} as='header'>
-      {children}
-    </StyledHeader>
-  );
+  const { columns }: TableContextProps = useContext(TableContext);
+  return <StyledHeader columns={columns}>{children}</StyledHeader>;
 };
 
 type RowProps = {
@@ -101,21 +100,17 @@ type RowProps = {
 
 const Row: React.FC<RowProps> = ({ children }) => {
   const { columns } = useContext(TableContext);
-  return (
-    <StyledRow role='row' columns={columns}>
-      {children}
-    </StyledRow>
-  );
+  return <StyledRow columns={columns}>{children}</StyledRow>;
 };
 
 type BodyProps = {
-  data: any[];
+  data?: BalanceDay[];
   render: (item: any) => React.ReactNode;
 };
 
 const Body: React.FC<BodyProps> = ({ data, render }) => {
-  if (!data.length) return <Empty>No data to show at the moment</Empty>;
-  return <StyledBody>{data.map(render)}</StyledBody>;
+  if (!data?.length) return <Empty>No data to show at the moment</Empty>;
+  return <StyledBody>{data?.map(render)}</StyledBody>;
 };
 
 type TableComponent = React.FC<TableProps> & {

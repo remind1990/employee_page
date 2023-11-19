@@ -1,10 +1,11 @@
 import React from 'react';
 import TableComponent from './Table';
 import TableRow from './TableRow';
+import { BalanceDay } from '@/types/types';
 
 type Props = {
   clients: [Client];
-  statistics?: [];
+  statistics?: BalanceDay[];
   userName?: string;
   userSurname?: string;
 };
