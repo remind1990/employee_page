@@ -12,7 +12,7 @@ type Event = ChangeEvent<HTMLInputElement>;
 
 const LoginForm = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('pesnja25@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -49,7 +49,7 @@ const LoginForm = () => {
     >
       <FormRow
         id='email'
-        type='text'
+        type='email'
         name='email'
         value={email}
         onChange={handleInputChange}
