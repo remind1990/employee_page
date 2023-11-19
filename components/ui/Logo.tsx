@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import React from 'react';
 
-type Props = {};
+type Props = {
+  width?: number;
+  height?: number;
+};
 
-function Logo({}: Props) {
-  return <Image src='/logo.png' alt='logo' width='150' height='150' />;
-}
+const Logo: React.FC<Props> = ({ width = 150, height = 150 }: Props) => {
+  return <Image src='/logo.png' alt='logo' width={width} height={height} />;
+};
 
 export default Logo;

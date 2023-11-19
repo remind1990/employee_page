@@ -1,24 +1,39 @@
 'use client';
-import FormRow from '@/components/ui/FormRow';
+import React, { ChangeEvent, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useState } from 'react';
+import FormRow from '@/components/ui/FormRow';
 import toast from 'react-hot-toast';
+import Spinner from './Spinner';
+import Button from './Button';
+import loginTranslator from '@/services/loginTranslator';
+import { useAuth } from '@/contexts/authContext';
 
-type Props = {};
+type Props = {
+  setUser: any;
+};
+type Event = ChangeEvent<HTMLInputElement>;
 
 const LoginForm = (props: Props) => {
-  const [email, setEmail] = useState('');
+  const { login } = useAuth();
+  const [email, setEmail] = useState('pesnja25@gmail.com');
   const [password, setPassword] = useState('');
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!email || !password) return;
-    toast.success('Succefully logged in');
-    console.log(email, password);
-    router.push('/dashboard');
+    startTransition(async () => {
+      try {
+        const res = await loginTranslator({ email, password });
+        toast.success(res.msg);
+        login(res.data);
+        router.push('/dashboard');
+      } catch (err: any) {
+        toast.error(err.message);
+      }
+    });
   };
-  type Event = ChangeEvent<HTMLInputElement>;
 
   function handleInputChange(e: Event): void {
     const { name, value } = e.target;
@@ -29,6 +44,7 @@ const LoginForm = (props: Props) => {
       setEmail((state: string) => value);
     }
   }
+
   return (
     <form
       className='flex-column  w-full gap-4  p-4  font-mono'
@@ -36,28 +52,27 @@ const LoginForm = (props: Props) => {
     >
       <FormRow
         id='email'
-        type='email'
+        type='text'
         name='email'
         value={email}
         onChange={handleInputChange}
       />
       <FormRow
         id='password'
-        type='text'
+        type='password'
         name='password'
         value={password}
         onChange={handleInputChange}
       />
-      <button
-        type='submit'
-        className='w-full rounded-md bg-orange-400
-          p-3 text-center text-white
-          ring-0
-          hover:bg-orange-500 
-          active:bg-orange-600'
-      >
-        Log in
-      </button>
+      <Button type='submit' variation='formButton'>
+        {isPending ? (
+          <span className='flex h-[24px] items-center justify-center'>
+            <Spinner /> Sending
+          </span>
+        ) : (
+          'Log in'
+        )}
+      </Button>
     </form>
   );
 };
