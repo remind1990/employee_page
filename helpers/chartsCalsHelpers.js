@@ -1,3 +1,14 @@
+const COLORS = [
+  '#FF5733',
+  '#FFC300',
+  '#33FF57',
+  '#334CFF',
+  '#FF33D1',
+  '#33FFE7',
+  '#8A2BE2',
+  '#FF6347',
+];
+
 export const calculateSum = (data) => {
   // Extract values from the object and filter out non-numeric values
   const numericValues = Object.values(data).filter(
@@ -48,9 +59,11 @@ export const calculateTotalSumForEachCategory = (statistics) => {
             categoryObject.value += day.clients[0][field];
           } else {
             // If the object doesn't exist, create a new one
+            const colorIndex = totalSumArray.length % COLORS.length;
             totalSumArray.push({
               name: field,
               value: day.clients[0][field],
+              color: COLORS[colorIndex],
             });
           }
         }

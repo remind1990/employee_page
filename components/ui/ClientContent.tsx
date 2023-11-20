@@ -4,6 +4,7 @@ import TableComponent from './Table';
 import TableRow from './TableRow';
 import { BalanceDay } from '@/types/types';
 import PieChartComponent from './PieChartComponent';
+import PieChartV2 from './PieChartV2';
 
 type Props = {
   clients: [Client];
@@ -20,16 +21,11 @@ type Client = {
 function ClientContent({ clients, statistics, userName }: Props) {
   return (
     <section className='grid min-h-[300px] w-full grid-cols-[0.7fr,1fr] rounded-bl-xl bg-stone-700  text-stone-800'>
-      <div className='col-span-1 min-h-[200px] px-2 py-5 text-stone-100'>
+      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-5 text-stone-100'>
         <ProgressChart statistics={statistics} />
-        <div className='flex w-full  items-center justify-around gap-4'>
-          <h1 className='flex-shrink-0'>Progress per category:</h1>
-          <div className='w-4/5'>
-            <PieChartComponent statistics={statistics} />
-          </div>
-        </div>
+        <PieChartV2 statistics={statistics} />
       </div>
-      <div className='col-span-1'>
+      <div className='col-span-1 h-full max-h-[500px] overflow-y-auto'>
         <TableComponent columns='8'>
           <TableComponent.Header>
             <div>{clients[0]?.name}</div>
