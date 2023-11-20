@@ -50,7 +50,7 @@ export default function Header({ variant = 'light' }: Props) {
         <Link
           href='/dashboard'
           className={`header-link text-center ${
-            isActive('/contacts') ? 'link' : ''
+            isActive('/dashboard') ? 'link' : ''
           }`}
         >
           Dashboard

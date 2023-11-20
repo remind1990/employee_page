@@ -3,21 +3,31 @@ import TableComponent from './Table';
 import { Day } from '@/types/types';
 
 type Props = {
-  day: Day;
+  id: string;
+  client: {
+    chats: number;
+    dating: number;
+    letters: number;
+    penalties: number;
+    phoneCalls: number;
+    photoAttachments: number;
+    virtualGiftsDating: number;
+    virtualGiftsSvadba: number;
+  };
+  columns: string;
 };
 
-function TableRow({ day }: Props) {
-  const { id, clients } = day;
+function TableRow({ id, client }: Props) {
   const {
     chats,
     dating,
     letters,
     penalties,
     phoneCalls,
-    photoAttachments,
     virtualGiftsDating,
     virtualGiftsSvadba,
-  } = clients[0];
+  } = client;
+
   return (
     <TableComponent.Row>
       <div>{id}</div>

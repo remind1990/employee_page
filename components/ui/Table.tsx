@@ -25,9 +25,7 @@ type CommonRowProps = {
 };
 
 const CommonRow: React.FC<CommonRowProps> = ({ columns, children }) => (
-  <div
-    className={`grid grid-cols-${columns} items-center gap-6 transition-none`}
-  >
+  <div className={`grid grid-cols-8 items-center gap-6 transition-none`}>
     {children}
   </div>
 );
