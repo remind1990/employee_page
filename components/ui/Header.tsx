@@ -17,12 +17,11 @@ export default function Header({ variant = 'light' }: Props) {
   const isActive = (path: string) => {
     return pathname === path;
   };
-
-  const backgroundColorClass =
-    variant === 'light'
-      ? 'bg-stone-100'
-      : 'bg-gradient-to-r from-stone-800 via-slate-300  via-slate-400 to-rose-500';
-  const textColorClass = variant === 'light' ? '' : 'text-white';
+  const dark = pathname === '/dashboard';
+  const backgroundColorClass = !dark
+    ? 'bg-stone-100'
+    : 'bg-gradient-to-r from-stone-800 via-slate-300  via-slate-400 to-rose-500';
+  const textColorClass = !dark ? '' : 'text-white';
   return (
     <header
       className={`flex flex-row flex-wrap items-center justify-between gap-0 p-4 font-mono md:justify-start md:gap-4 ${backgroundColorClass} ${textColorClass} z-10 shadow-md`}
