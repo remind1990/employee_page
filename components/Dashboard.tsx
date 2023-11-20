@@ -9,7 +9,6 @@ import { Statistic, Day, Client, BalanceDay } from '@/types/types';
 
 function Dashboard() {
   const { isAuthenticated, user } = useAuth();
-  const [pickedClient, setPickedClient] = useState('');
   const router = useRouter();
 
   if (!isAuthenticated) {
@@ -21,8 +20,10 @@ function Dashboard() {
   const notSuspendedClients = clients.filter(
     (client: { suspended?: boolean }) => client?.suspended === false
   );
+  const [pickedClient, setPickedClient] = useState(notSuspendedClients[0]._id);
+
   useEffect(() => {
-    if (notSuspendedClients) {
+    if (notSuspendedClients && notSuspendedClients.length > 0) {
       setPickedClient(notSuspendedClients[0]._id);
     }
   }, [notSuspendedClients]);
@@ -43,7 +44,7 @@ function Dashboard() {
     })
     .map((day: Day) => {
       const filteredClients = day.clients.filter(
-        (client: Client) => client._id === pickedClient
+        (client: any) => client.id === pickedClient
       );
       return {
         ...day,
@@ -51,8 +52,8 @@ function Dashboard() {
       };
     });
   return (
-    <main className='py-10 pl-10'>
-      <div className='flex min-h-[150px] w-full flex-wrap gap-2 rounded-tl-xl bg-gradient-to-b from-slate-100 to-pink-300 p-4 drop-shadow-xl'>
+    <main className='z-10 py-10 pl-10'>
+      <div className=' flex min-h-[150px] w-full flex-wrap gap-2 rounded-tl-xl bg-gradient-to-b from-slate-100 to-pink-300 p-4 drop-shadow-xl'>
         {notSuspendedClients.map((client: Client) => (
           <ClientCard key={client?._id} client={client} />
         ))}
