@@ -1,16 +1,17 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import ProgressChart from './ProgressChart';
 import TableComponent from './Table';
 import TableRow from './TableRow';
 import { BalanceDay } from '@/types/types';
 import PieChartV2 from './PieChartV2';
+import Pagination from './PaginationComponents';
 
 type Props = {
   client: Client;
   statistics: BalanceDay[];
   userName?: string;
   userSurname?: string;
-  dataPerPage: BalanceDay[];
 };
 type Client = {
   _id?: string;
@@ -18,14 +19,25 @@ type Client = {
   surname: string;
 };
 
-function ClientContent({ client, statistics, dataPerPage }: Props) {
+function ClientContent({ client, statistics }: Props) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8; // Adjust as needed
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedStatistics = statistics.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(statistics.length / itemsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <section className='grid min-h-[300px] w-full grid-cols-[0.7fr,1fr] rounded-bl-xl bg-stone-700  text-stone-800'>
       <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-5 text-stone-100'>
         <ProgressChart statistics={statistics} />
         <PieChartV2 statistics={statistics} />
       </div>
-      <div className='col-span-1 h-full max-h-[500px] overflow-y-auto'>
+      <div className='col-span-1 h-full max-h-[400px] overflow-y-auto'>
         <TableComponent columns='8'>
           <TableComponent.Header>
             <div>{client.name}</div>
@@ -38,7 +50,7 @@ function ClientContent({ client, statistics, dataPerPage }: Props) {
             <div>Penalties</div>
           </TableComponent.Header>
           <TableComponent.Body
-            data={dataPerPage}
+            data={paginatedStatistics}
             render={(day) => (
               <TableRow
                 columns='8'
@@ -49,6 +61,11 @@ function ClientContent({ client, statistics, dataPerPage }: Props) {
             )}
           />
         </TableComponent>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );
