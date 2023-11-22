@@ -15,7 +15,7 @@ type Event = ChangeEvent<HTMLInputElement>;
 const SignupForm = (props: Props) => {
   const { userExist, user, isRegistered, commitThatUserExist } = useAuth();
   const [isPending, startTransition] = useTransition();
-  const [email, setEmail] = useState('pesnja25@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const router = useRouter();

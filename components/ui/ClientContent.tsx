@@ -37,7 +37,7 @@ function ClientContent({ client, statistics }: Props) {
         <ProgressChart statistics={statistics} />
         <PieChartV2 statistics={statistics} />
       </div>
-      <div className='col-span-1 h-full max-h-[400px] overflow-y-auto'>
+      <div className='col-span-1 h-full max-h-[400px]'>
         <TableComponent columns='8'>
           <TableComponent.Header>
             <div>{client.name}</div>

@@ -21,17 +21,19 @@ export default function ProgressChart({ statistics }: Props) {
   const month = statistics.map((day) => {
     const newDay = {
       date: day.id.split(' ')[0],
-      // sum: calculateSum(day?.clients[0]),
+      sum: calculateSum(day?.clients[0]),
       // Fake data
-      sum: (Math.random() * 30).toFixed(2),
+      // sum: (Math.random() * 30).toFixed(2),
     };
     return newDay;
   });
-  // const calculatedMaxSum = Math.round(Math.max(...month.map((day) => day.sum))* 1.2) ;
-  // Fake data
   const calculatedMaxSum = Math.round(
-    Math.max(...month.map((day) => parseFloat(day.sum))) * 1.2
+    Math.max(...month.map((day) => day.sum)) * 1.2
   );
+  // Fake data
+  // const calculatedMaxSum = Math.round(
+  //   Math.max(...month.map((day) => parseFloat(day.sum))) * 1.2
+  // );
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
   const currentMonthName = getMonthNameFromId(
     statistics[0]?.id.split(' ')?.[1]
