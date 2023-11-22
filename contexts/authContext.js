@@ -28,7 +28,7 @@ function reducer(state, action) {
         userExist: true,
         user: {
           ...state.user,
-          _id: action.payload.id,
+          _id: action.payload._id,
         },
         isRegistered: action.payload.registered,
       };

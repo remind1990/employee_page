@@ -26,7 +26,7 @@ type CommonRowProps = {
 
 const CommonRow: React.FC<CommonRowProps> = ({ columns, children }) => (
   <div
-    className={`grid grid-cols-8 items-center gap-6 border border-stone-400 font-sans transition-none`}
+    className={`grid grid-cols-8 items-center gap-6 border border-stone-400 font-sans transition-none md:gap-2`}
   >
     {children}
   </div>
@@ -55,7 +55,7 @@ type StyledBodyProps = {
 };
 
 const StyledBody: React.FC<StyledBodyProps> = ({ children }) => (
-  <section className='m-1/6'>{children}</section>
+  <section className='1/6'>{children}</section>
 );
 
 type FooterProps = {
