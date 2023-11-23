@@ -14,7 +14,7 @@ type StyledTableProps = {
 };
 
 const StyledTable: React.FC<StyledTableProps> = ({ children }) => (
-  <div className='h-full max-h-[450px] overflow-y-auto rounded border border-stone-200 bg-stone-100 text-base'>
+  <div className=' h-auto max-h-[450px] min-h-[200px] overflow-y-auto rounded border border-stone-200 bg-stone-100 text-base'>
     {children}
   </div>
 );
@@ -26,7 +26,7 @@ type CommonRowProps = {
 
 const CommonRow: React.FC<CommonRowProps> = ({ columns, children }) => (
   <div
-    className={`grid grid-cols-8 items-center gap-6 border border-stone-400 font-sans transition-none md:gap-2`}
+    className={`grid grid-cols-8 items-center gap-6 border border-stone-400 text-center font-sans transition-none md:gap-2`}
   >
     {children}
   </div>
