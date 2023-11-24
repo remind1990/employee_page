@@ -16,7 +16,7 @@ const Pagination: React.FC<PaginationProps> = ({
       {Array.from({ length: totalPages }, (_, index) => (
         <button
           key={index}
-          className={`mx-2 px-4 py-2 ${
+          className={`mx-2 rounded-full px-4 py-2 ${
             currentPage === index + 1
               ? 'bg-orange-500 text-white'
               : 'bg-gray-300'

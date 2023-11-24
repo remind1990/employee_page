@@ -97,7 +97,7 @@ function PieChartV2({ statistics }: Props) {
           <Legend
             verticalAlign='middle'
             align='left'
-            width='40%'
+            width={100}
             iconSize={15}
             iconType='circle'
           />

@@ -14,7 +14,7 @@ type StyledTableProps = {
 };
 
 const StyledTable: React.FC<StyledTableProps> = ({ children }) => (
-  <div className='h-full max-h-[450px] overflow-y-auto rounded border border-stone-200 bg-stone-100 text-base'>
+  <div className='w-full flex-grow overflow-y-auto rounded border border-stone-200 bg-stone-100 text-base'>
     {children}
   </div>
 );

@@ -32,12 +32,12 @@ function ClientContent({ client, statistics }: Props) {
   };
 
   return (
-    <section className='grid min-h-[300px] w-full grid-cols-[0.7fr,1fr] rounded-bl-xl bg-stone-700  text-stone-800'>
-      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-5 text-stone-100'>
+    <section className='w-100 relative z-10 grid min-h-[300px] grid-cols-[0.7fr,1fr] rounded-b-xl bg-stone-700 p-10 text-stone-800'>
+      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 text-stone-100'>
         <ProgressChart statistics={statistics} />
         <PieChartV2 statistics={statistics} />
       </div>
-      <div className='col-span-1 h-full max-h-[400px]'>
+      <div className='flex-column col-span-1 h-full flex-grow'>
         <TableComponent columns='8'>
           <TableComponent.Header>
             <div>{client.name}</div>

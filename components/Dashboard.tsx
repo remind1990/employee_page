@@ -1,18 +1,19 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { Statistic, Day, Client, BalanceDay } from '@/types/types';
+import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import Error from 'next/error';
 import ClientContent from './ui/ClientContent';
-import { Statistic, Day, Client, BalanceDay } from '@/types/types';
 
 function Dashboard() {
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
 
   if (!isAuthenticated) {
-    router.replace('/login');
+    router?.replace('/login');
     return <Error statusCode={404} />;
   }
 
@@ -58,8 +59,11 @@ function Dashboard() {
   );
 
   return (
-    <main className='z-10 py-10 pl-10'>
-      <div className=' flex min-h-[150px] w-full flex-wrap gap-2 rounded-tl-xl bg-gradient-to-b from-slate-100 to-pink-300 p-4 drop-shadow-xl'>
+    <main
+      className={`p-10 ${whiteCoverCSSClasses}`}
+      style={{ backgroundImage: "url('/main-background.jpg')" }}
+    >
+      <div className='z-10 flex min-h-[150px] w-full flex-1 flex-wrap gap-2 rounded-t-xl bg-gradient-to-b from-slate-100 to-pink-300 p-4 drop-shadow-xl'>
         {notSuspendedClients.map((client: Client) => (
           <ClientCard
             key={client?._id}

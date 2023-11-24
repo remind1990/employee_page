@@ -12,7 +12,7 @@ import Spinner from './Spinner';
 type Props = {};
 type Event = ChangeEvent<HTMLInputElement>;
 
-const SignupForm = (props: Props) => {
+const SignUpForm = (props: Props) => {
   const { userExist, user, isRegistered, commitThatUserExist } = useAuth();
   const [isPending, startTransition] = useTransition();
   const [email, setEmail] = useState('');
@@ -77,7 +77,7 @@ const SignupForm = (props: Props) => {
   }
   return (
     <form
-      className='flex-column  w-full gap-4  p-4  font-mono'
+      className='flex-column w-full gap-4 p-4 font-mono'
       onSubmit={handleSubmit}
     >
       {!userExist ? (
@@ -123,4 +123,4 @@ const SignupForm = (props: Props) => {
   );
 };
 
-export default SignupForm;
+export default SignUpForm;

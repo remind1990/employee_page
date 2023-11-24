@@ -39,11 +39,11 @@ const config: Config = {
     },
     variants: {
       extend: {
-        backgroundColor: ['after'],
-        display: ['after'],
-        content: ['after'],
-        inset: ['after'],
-        backdropBlur: ['after'],
+        backgroundColor: ['before'],
+        display: ['before'],
+        content: ['before'],
+        inset: ['before'],
+        backdropBlur: ['before'],
       },
     },
   },

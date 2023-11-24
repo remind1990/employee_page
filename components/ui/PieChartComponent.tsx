@@ -136,7 +136,7 @@ type Props = {
 export default function PieChartComponent({ statistics }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
-    (_, index) => {
+    (event: React.MouseEvent<SVGPathElement, MouseEvent>, index: number) => {
       setActiveIndex(index);
     },
     [setActiveIndex]

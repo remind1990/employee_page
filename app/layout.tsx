@@ -56,10 +56,7 @@ export default function RootLayout({
               },
             }}
           />
-          <div
-            className='min-w-screen after:backdrop-blur-1 relative flex min-h-screen flex-col bg-cover bg-no-repeat after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-white after:bg-opacity-20 '
-            style={{ backgroundImage: "url('/main-background.jpg')" }}
-          >
+          <div className='min-w-screen relative flex min-h-screen flex-col'>
             <Header />
             {children}
           </div>
