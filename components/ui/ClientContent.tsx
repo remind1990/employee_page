@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProgressChart from './ProgressChart';
 import TableComponent from './Table';
 import TableRow from './TableRow';
@@ -21,19 +21,42 @@ type Client = {
 
 function ClientContent({ client, statistics }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8; // Adjust as needed
+  const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedStatistics = statistics.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(statistics.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+  useEffect(() => {
+    function handleResize() {
+      setItemsPerPage(calculateItemsPerPage());
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [statistics]);
+
+  function calculateItemsPerPage() {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 600) {
+      return 5;
+    } else if (screenWidth < 1200) {
+      return 7;
+    } else {
+      return 14;
+    }
+  }
+  const totalPages = Math.ceil(statistics.length / itemsPerPage);
 
   return (
     <section className='grid min-h-[300px] w-full grid-cols-[0.7fr,1fr] rounded-bl-xl bg-stone-700  text-stone-800'>
-      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-5 text-stone-100'>
+      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
         <ProgressChart statistics={statistics} />
         <PieChartV2 statistics={statistics} />
       </div>
