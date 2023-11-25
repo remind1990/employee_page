@@ -55,12 +55,12 @@ function ClientContent({ client, statistics }: Props) {
   const totalPages = Math.ceil(statistics.length / itemsPerPage);
 
   return (
-    <section className='grid min-h-[300px] w-full grid-cols-[0.7fr,1fr] rounded-bl-xl bg-stone-700  text-stone-800'>
+    <section className='flex min-h-[300px] w-full flex-col-reverse gap-16 rounded-bl-xl bg-stone-700 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
       <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
         <ProgressChart statistics={statistics} />
         <PieChartV2 statistics={statistics} />
       </div>
-      <div className='col-span-1 h-full max-h-[400px]'>
+      <div className='col-span-1 h-full max-h-[400px] w-full'>
         <TableComponent columns='8'>
           <TableComponent.Header>
             <div>{client.name}</div>

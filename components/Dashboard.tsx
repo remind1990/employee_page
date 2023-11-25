@@ -58,8 +58,21 @@ function Dashboard() {
   );
 
   return (
-    <main className='z-10 py-10 pl-10'>
-      <div className=' flex min-h-[150px] w-full flex-wrap gap-2 rounded-tl-xl bg-gradient-to-b from-slate-100 to-pink-300 p-4 drop-shadow-xl'>
+    <main className='z-10 py-10 pl-0 sm:pl-10'>
+      <div
+        className='flex
+      h-[50vh] max-h-[300px]
+      w-full  flex-wrap justify-center
+      gap-10 overflow-auto
+      rounded-tl-xl bg-gradient-to-b
+      from-slate-100
+      to-pink-300 p-4 drop-shadow-xl
+      sm:h-[50vh] sm:max-w-[100vw]
+      sm:flex-wrap
+      sm:justify-normal
+      sm:gap-2
+      '
+      >
         {notSuspendedClients.map((client: Client) => (
           <ClientCard
             key={client?._id}

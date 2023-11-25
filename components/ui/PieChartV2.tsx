@@ -71,7 +71,7 @@ type Props = {
 function PieChartV2({ statistics }: Props) {
   const statsWithTotalSums = calculateTotalSumForEachCategory(statistics);
   return (
-    <div className='sw-full  h-[250px] max-h-[400px] overflow-y-scroll'>
+    <div className='sw-full  h-[350px] max-h-[400px] overflow-y-scroll sm:h-[250px] sm:max-h-[400px]'>
       <h1>Progress per category:</h1>
       <ResponsiveContainer>
         <PieChart>
