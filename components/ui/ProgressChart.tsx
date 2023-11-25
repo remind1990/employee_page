@@ -22,27 +22,22 @@ export default function ProgressChart({ statistics }: Props) {
     const newDay = {
       date: day.id.split(' ')[0],
       sum: calculateSum(day?.clients[0]),
-      // Fake data
-      // sum: (Math.random() * 30).toFixed(2),
     };
     return newDay;
   });
   const calculatedMaxSum = Math.round(
     Math.max(...month.map((day) => day.sum)) * 1.2
   );
-  // Fake data
-  // const calculatedMaxSum = Math.round(
-  //   Math.max(...month.map((day) => parseFloat(day.sum))) * 1.2
-  // );
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
   const currentMonthName = getMonthNameFromId(
     statistics[0]?.id.split(' ')?.[1]
   );
+  const mediaQuery = window.matchMedia('(max-width: 640px)');
   return (
-    <div className='flex w-full max-w-[500px] flex-col  items-center justify-center pt-2 font-roboto'>
+    <div className='flex  w-full max-w-[500px] flex-col items-center justify-center pt-2 font-roboto sm:w-full sm:max-w-[500px]'>
       <h1>Your progress for {currentMonthName}</h1>
       <AreaChart
-        width={500}
+        width={mediaQuery ? 400 : 500}
         height={200}
         data={month}
         margin={{

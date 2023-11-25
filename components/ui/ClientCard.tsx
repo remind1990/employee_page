@@ -10,6 +10,7 @@ type Client = {
   name: string;
   surname: string;
 };
+const mediaQuery = window.matchMedia('(max-width: 640px)');
 function ClientCard({ client, selectClient }: Props) {
   const handleClick = () => {
     selectClient(client);
