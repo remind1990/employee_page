@@ -6,6 +6,7 @@ type Props = {
   client: Client;
   selectClient: (client?: Client) => void;
 };
+const mediaQuery = window.matchMedia('(max-width: 640px)');
 function ClientCard({ client, selectClient }: Props) {
   const handleClick = () => {
     selectClient(client);
