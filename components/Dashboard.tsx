@@ -9,20 +9,12 @@ import Error from 'next/error';
 import ClientContent from './ui/ClientContent';
 
 function Dashboard() {
+  const [pickedClient, setPickedClient] = useState<Client | null>(null);
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
-
-  if (!isAuthenticated) {
-    router?.replace('/login');
-    return <Error statusCode={404} />;
-  }
-
   const { clients, statistics, name, surname } = user;
   const notSuspendedClients = clients.filter(
     (client: { suspended?: boolean }) => client?.suspended === false
-  );
-  const [pickedClient, setPickedClient] = useState<Client>(
-    notSuspendedClients[0]
   );
 
   useEffect(() => {
@@ -51,7 +43,7 @@ function Dashboard() {
   const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics.map(
     (day: Day) => {
       const filteredClients = day.clients.filter(
-        (client: any) => client.id === pickedClient._id
+        (client: any) => client.id === pickedClient?._id
       );
       return {
         ...day,
@@ -59,6 +51,12 @@ function Dashboard() {
       };
     }
   );
+
+  useEffect(() => {
+    if (!user) {
+      router.replace('/login');
+    }
+  }, [user, router]);
 
   return (
     <main
@@ -82,16 +80,18 @@ function Dashboard() {
             key={client?._id}
             client={client}
             selectClient={setPickedClient}
-            pickedClientId={pickedClient._id}
+            pickedClientId={pickedClient?._id}
           />
         ))}
       </div>
-      <ClientContent
-        client={pickedClient}
-        statistics={daysOnlyWithPickedClient}
-        userName={name}
-        userSurname={surname}
-      />
+      {pickedClient && (
+        <ClientContent
+          client={pickedClient}
+          statistics={daysOnlyWithPickedClient}
+          userName={name}
+          userSurname={surname}
+        />
+      )}
     </main>
   );
 }
