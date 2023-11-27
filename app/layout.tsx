@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 import { Inter, Ranga, Roboto_Condensed } from 'next/font/google';
-import { Providers } from './providers';
 import Header from '@/components/ui/Header';
+import { Providers } from './providers';
 
 const ranga = Ranga({
   subsets: ['latin'],

@@ -12,6 +12,8 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'main-background-gradient':
+          'radial-gradient(circle farthest-side, rgba(252, 234, 187, 0.2), rgba(248, 181, 0, 0.2))',
       },
       fontFamily: {
         ranga: ['var(--font-ranga-bold)'],
