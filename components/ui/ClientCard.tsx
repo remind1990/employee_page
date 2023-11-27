@@ -10,7 +10,7 @@ type Props = {
 
 function ClientCard({ client, selectClient, pickedClientId }: Props) {
   const handleClick = () => {
-    selectClient(client);
+    // selectClient(client);
   };
   const clientIsSelected = client._id === pickedClientId;
   const styleForSelectedClient = clientIsSelected

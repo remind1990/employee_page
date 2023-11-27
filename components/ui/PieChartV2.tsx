@@ -1,4 +1,4 @@
-import { calculateTotalSumForEachCategory } from '@/helpers/chartsCalsHelpers';
+import { calculateTotalSumForEachCategory } from '@/helpers/chartsCalculationsHelpers';
 import { BalanceDay } from '@/types/types';
 import React from 'react';
 import {
@@ -17,7 +17,7 @@ type Props = {
 function PieChartV2({ statistics }: Props) {
   const statsWithTotalSums = calculateTotalSumForEachCategory(statistics);
   return (
-    <div className='sw-full  h-[350px] max-h-[400px] overflow-y-scroll sm:h-[250px] sm:max-h-[400px]'>
+    <div className='h-[350px] max-h-[400px] w-full overflow-y-scroll sm:h-[250px] sm:max-h-[400px]'>
       <h1>Progress per category:</h1>
       <ResponsiveContainer>
         <PieChart>

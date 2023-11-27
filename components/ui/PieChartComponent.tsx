@@ -1,5 +1,5 @@
 'use client';
-import { calculateTotalSumForEachCategory } from '@/helpers/chartsCalsHelpers';
+import { calculateTotalSumForEachCategory } from '@/helpers/chartsCalculationsHelpers';
 import { BalanceDay } from '@/types/types';
 import React, { useCallback, useState } from 'react';
 import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';

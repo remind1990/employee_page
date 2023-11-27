@@ -54,8 +54,6 @@ export async function POST(req) {
 
   try {
     await connectToDatabase();
-
-    // Find documents in the collection
     const translatorsCollections = collections.get('collectionTranslators');
     const searchingTranslator = await translatorsCollections.findOne({
       email: email,
