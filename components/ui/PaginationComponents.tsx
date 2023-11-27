@@ -12,7 +12,7 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   return (
-    <div className='mt-2 flex justify-center'>
+    <div className='mt-4 flex justify-center'>
       {Array.from({ length: totalPages }, (_, index) => (
         <button
           key={index}

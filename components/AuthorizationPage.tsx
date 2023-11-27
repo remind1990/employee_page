@@ -4,7 +4,7 @@ import React from 'react';
 import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import LoginForm from './ui/LoginForm';
 import Logo from './ui/Logo';
-import SignUpForm from './ui/SignUpForm';
+import SignUpForm from './ui/SignupForm';
 
 type Props = {};
 

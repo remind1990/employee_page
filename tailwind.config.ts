@@ -19,6 +19,8 @@ const config: Config = {
       },
       boxShadow: {
         levitate: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+        levitateSelectedRed:
+          '0 14px 28px rgba(255,0,0,0.25), 0 10px 10px rgba(255,0,0,0.22)',
       },
       backdropBlur: {
         '1': '1px',

@@ -15,48 +15,6 @@ const COLORS = [
   '#FF6347',
 ];
 
-const fakeStatistics = [
-  {
-    id: '01 11 2023',
-    clients: [
-      {
-        id: 'client1',
-        chats: 5,
-        letters: 10,
-        dating: 3,
-        // Add more fields as needed
-      },
-      {
-        id: 'client2',
-        chats: 8,
-        letters: 5,
-        dating: 2,
-        // Add more fields as needed
-      },
-    ],
-  },
-  {
-    id: '02 11 2023',
-    clients: [
-      {
-        id: 'client1',
-        chats: 3,
-        letters: 12,
-        dating: 6,
-        // Add more fields as needed
-      },
-      {
-        id: 'client2',
-        chats: 6,
-        letters: 8,
-        dating: 4,
-        // Add more fields as needed
-      },
-    ],
-  },
-  // Add more days as needed
-];
-
 const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const {
@@ -141,10 +99,7 @@ export default function PieChartComponent({ statistics }: Props) {
     },
     [setActiveIndex]
   );
-  const statsWithTotalSums = calculateTotalSumForEachCategory(fakeStatistics);
-
-  // Example usage
-  console.log(statsWithTotalSums);
+  const statsWithTotalSums = calculateTotalSumForEachCategory(statistics);
 
   return (
     <PieChart width={300} height={150}>

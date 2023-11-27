@@ -4,33 +4,42 @@ import React from 'react';
 
 type Props = {
   client: Client;
-  selectClient: (client?: Client) => void;
+  selectClient: (client: Client) => void;
+  pickedClientId: string;
 };
-const mediaQuery = window.matchMedia('(max-width: 640px)');
-function ClientCard({ client, selectClient }: Props) {
+
+function ClientCard({ client, selectClient, pickedClientId }: Props) {
   const handleClick = () => {
     selectClient(client);
   };
+  const clientIsSelected = client._id === pickedClientId;
+  const styleForSelectedClient = clientIsSelected
+    ? `scale-125 mx-4 shadow-levitateSelectedRed z-10`
+    : ``;
+  const hoverStyles = clientIsSelected
+    ? ''
+    : 'hover:mx-4 hover:scale-125 hover:shadow-levitate hover:z-10';
   return (
     <div
-      className='relative flex cursor-pointer flex-col gap-1 rounded-md'
+      className='flex cursor-pointer flex-col gap-1 rounded-md'
       onClick={handleClick}
     >
-      <div className='box-border overflow-hidden rounded-md'>
+      <div
+        className={`relative box-border rounded-md transition-all duration-300 ${hoverStyles} ${styleForSelectedClient}`}
+      >
         <Image
           src={client.image ?? '/defaultClient.jpg'}
           alt='client'
           width={150}
           height={200}
-          className='h-[200px] w-[150px] transform object-cover object-top transition-all duration-300 hover:scale-125'
+          className='h-[200px] w-[150px] transform rounded-md object-cover object-top'
           blurDataURL='/defaultClient.jpg'
         />
-      </div>
-
-      <div className='absolute bottom-[-10px] px-4'>
-        <h1 className='text-md rounded-md bg-stone-200 px-3 text-stone-700 '>
-          {client?.name} {client?.surname}
-        </h1>
+        <div className='absolute bottom-[-10px] w-full px-2'>
+          <p className='line rounded-md bg-stone-200 px-3 py-1 text-center text-sm font-bold leading-5 text-stone-700'>
+            {client?.name}
+          </p>
+        </div>
       </div>
     </div>
   );

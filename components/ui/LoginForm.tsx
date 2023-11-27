@@ -16,7 +16,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  console.log(`isPending: ${isPending}`);
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!email || !password) return;

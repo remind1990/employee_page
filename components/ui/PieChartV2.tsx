@@ -10,60 +10,6 @@ import {
   Tooltip,
 } from 'recharts';
 
-const fakeStatistics = [
-  {
-    id: '01 11 2023',
-    clients: [
-      {
-        id: 'client1',
-        chats: 5,
-        letters: 10,
-        dating: 3,
-        VG: 3,
-        VGD: 3,
-        PC: 3,
-        // Add more fields as needed
-      },
-      {
-        id: 'client2',
-        chats: 8,
-        letters: 5,
-        dating: 2,
-        VG: 3,
-        VGD: 3,
-        PC: 3,
-        // Add more fields as needed
-      },
-    ],
-  },
-  {
-    id: '02 11 2023',
-    clients: [
-      {
-        id: 'client1',
-        chats: 3,
-        letters: 12,
-        dating: 6,
-        VG: 3,
-        VGD: 3,
-        PC: 3,
-        // Add more fields as needed
-      },
-      {
-        id: 'client2',
-        chats: 6,
-        letters: 8,
-        dating: 4,
-        VG: 3,
-        VGD: 3,
-        PC: 3,
-        // Add more fields as needed
-      },
-    ],
-  },
-  // Add more days as needed
-];
-
 type Props = {
   statistics: BalanceDay[];
 };
@@ -97,6 +43,7 @@ function PieChartV2({ statistics }: Props) {
           <Legend
             verticalAlign='middle'
             align='left'
+            // @ts-ignore
             width='35%'
             iconSize={15}
             iconType='circle'
