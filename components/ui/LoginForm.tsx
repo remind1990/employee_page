@@ -16,7 +16,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!email || !password) return;
@@ -61,7 +60,7 @@ const LoginForm = () => {
         value={password}
         onChange={handleInputChange}
       />
-      <Button type='submit' variation='formButton'>
+      <Button type='submit' variation='formButton' disabled={isPending}>
         {isPending ? (
           <span className='flex h-[24px] items-center justify-center'>
             <Spinner /> Sending

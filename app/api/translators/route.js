@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { connectToDatabase, collections } from '../../../libs/mongoDB';
 import { checkRateLimit } from '../../../helpers/rateLimiter';
 import bcrypt from 'bcrypt';
@@ -53,13 +54,40 @@ export async function POST(req) {
 
   try {
     await connectToDatabase();
-
-    // Find documents in the collection
     const translatorsCollections = collections.get('collectionTranslators');
     const searchingTranslator = await translatorsCollections.findOne({
       email: email,
     });
+    if (!searchingTranslator) {
+      return NextResponse.json({
+        msg: 'No translator found',
+        success: false,
+      });
+    }
+    const clientsCollection = collections.get('collectionClients');
+    const clientsOnTranslators = searchingTranslator.clients.map(
+      ({ _id }) => new ObjectId(_id)
+    );
+    const clientsFromCollectionClients = await clientsCollection
+      .find(
+        { _id: { $in: clientsOnTranslators } },
+        { projection: { _id: 1, image: 1 } }
+      )
+      .toArray();
+    const updatedClientsArray = searchingTranslator.clients.map((client) => {
+      const clientFromCollection = clientsFromCollectionClients.find(
+        (collectionClient) => collectionClient._id.toString() === client._id
+      );
 
+      if (clientFromCollection) {
+        return {
+          ...client,
+          image: clientFromCollection.image,
+        };
+      }
+
+      return client;
+    });
     if (searchingTranslator && searchingTranslator.password) {
       const passwordsMatch = await bcrypt.compare(
         password,
@@ -70,7 +98,10 @@ export async function POST(req) {
         return NextResponse.json({
           msg: 'passwords match',
           success: true,
-          data: searchingTranslator,
+          data: {
+            ...searchingTranslator,
+            clients: updatedClientsArray,
+          },
         });
       } else {
         throw new Error('There was a mistake in email or password');

@@ -16,6 +16,10 @@ const connectToDatabase = async () => {
     'collectionTranslators',
     client.db('translatorsDB').collection('translators')
   );
+  collections.set(
+    'collectionClients',
+    client.db('clientsDB').collection('clients')
+  );
 };
 
 export { connectToDatabase, client, collections };

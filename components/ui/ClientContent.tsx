@@ -6,9 +6,10 @@ import TableRow from './TableRow';
 import { BalanceDay } from '@/types/types';
 import PieChartV2 from './PieChartV2';
 import Pagination from './PaginationComponents';
+import moment from 'moment';
 
 type Props = {
-  client: Client;
+  client: Client | null;
   statistics: BalanceDay[];
   userName?: string;
   userSurname?: string;
@@ -55,15 +56,15 @@ function ClientContent({ client, statistics }: Props) {
   const totalPages = Math.ceil(statistics.length / itemsPerPage);
 
   return (
-    <section className='flex min-h-[300px] w-full flex-col-reverse gap-16 rounded-bl-xl bg-stone-700 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
+    <section className='relative z-10 flex min-h-[300px] w-full flex-col-reverse gap-16 bg-stone-700 pb-10 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
       <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
         <ProgressChart statistics={statistics} />
         <PieChartV2 statistics={statistics} />
       </div>
-      <div className='col-span-1 h-full max-h-[400px] w-full'>
-        <TableComponent columns='8'>
+      <div className='col-span-1 h-full w-full'>
+        <TableComponent>
           <TableComponent.Header>
-            <div>{client.name}</div>
+            <div>{moment().format('MMM / YYYY')}</div>
             <div>Chats</div>
             <div>Letters</div>
             <div>Dating</div>
@@ -75,12 +76,7 @@ function ClientContent({ client, statistics }: Props) {
           <TableComponent.Body
             data={paginatedStatistics}
             render={(day) => (
-              <TableRow
-                columns='8'
-                id={day.id}
-                client={day.clients[0]}
-                key={day.id}
-              />
+              <TableRow id={day.id} client={day.clients[0]} key={day.id} />
             )}
           />
         </TableComponent>

@@ -1,15 +1,15 @@
 import React from 'react';
-import Header from './ui/Header';
+import { whiteCoverCSSClasses } from '@/app/constants/constants';
 
 type Props = {};
 
 const AboutPage = (props: Props) => {
   return (
     <main
-      className='flex h-full w-full flex-1 items-center justify-end p-6'
+      className={`flex h-full w-full flex-1 items-center justify-end bg-cover bg-no-repeat p-6 ${whiteCoverCSSClasses}`}
       style={{ backgroundImage: 'url(/about.jpg)' }}
     >
-      <div className='shadow-levitate animate-attractAttention z-10 max-w-xl rounded-md bg-white bg-opacity-90 p-6 '>
+      <div className='z-10 max-w-xl animate-attractAttention rounded-md bg-white bg-opacity-90 bg-cover bg-no-repeat p-6 shadow-levitate'>
         <h1 className='text-center text-3xl text-black'>
           Hello dear coworkers! For us, as employers, it has always been
           important to uphold fair principles in our collaboration with you.

@@ -1,6 +1,11 @@
 import React from 'react';
 import TableComponent from './Table';
-import { Day } from '@/types/types';
+import moment from 'moment';
+
+const getBoldedStyle = (value: number) =>
+  value > 0
+    ? { fontWeight: 'bold', background: 'rgba(34, 197, 94, 1)', color: 'white' }
+    : {};
 
 type Props = {
   id: string;
@@ -14,30 +19,40 @@ type Props = {
     virtualGiftsDating: number;
     virtualGiftsSvadba: number;
   };
-  columns: string;
 };
 
 function TableRow({ id, client }: Props) {
-  const {
-    chats,
-    dating,
-    letters,
-    penalties,
-    phoneCalls,
-    virtualGiftsDating,
-    virtualGiftsSvadba,
-  } = client;
+  const clientPropsToShowInRows = [
+    'chats',
+    'dating',
+    'letters',
+    'penalties',
+    'phoneCalls',
+    'virtualGiftsDating',
+    'virtualGiftsSvadba',
+  ] as const;
 
   return (
     <TableComponent.Row>
-      <div>{id}</div>
-      <div>{chats}</div>
-      <div>{letters}</div>
-      <div>{dating}</div>
-      <div>{virtualGiftsSvadba}</div>
-      <div>{virtualGiftsDating}</div>
-      <div>{phoneCalls}</div>
-      <div>{penalties}</div>
+      <div className={`pl-2 text-left font-bold`}>
+        {moment(id, 'DD MM YYYY').format('DD,')}
+        <span
+          className={`pl-2 ${
+            moment(id, 'DD MM YYYY').day() >= 5 ? 'text-red-400' : ''
+          }`}
+        >
+          {moment(id, 'DD MM YYYY').format('ddd')}
+        </span>
+      </div>
+      {clientPropsToShowInRows.map((prop) => (
+        <div
+          key={prop}
+          className='text-stone-500'
+          style={getBoldedStyle(client[prop])}
+        >
+          {client[prop]}
+        </div>
+      ))}
     </TableComponent.Row>
   );
 }

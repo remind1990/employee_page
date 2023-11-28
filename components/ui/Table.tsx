@@ -1,53 +1,47 @@
 import { BalanceDay } from '@/types/types';
 import React, { createContext, useContext } from 'react';
 
-type TableContextProps = {
-  columns: string;
-};
-
-const defaultValue = { columns: '' };
-
-const TableContext = createContext<TableContextProps>(defaultValue);
-
 type StyledTableProps = {
   children: React.ReactNode;
 };
 
 const StyledTable: React.FC<StyledTableProps> = ({ children }) => (
-  <div className=' h-auto max-h-[450px] min-h-[200px] overflow-y-auto rounded border border-stone-200 bg-stone-100 text-base'>
+  <div className=' h-auto min-h-[200px] overflow-y-auto bg-stone-100 text-base'>
     {children}
   </div>
 );
 
 type CommonRowProps = {
-  columns: string;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 };
 
-const CommonRow: React.FC<CommonRowProps> = ({ columns, children }) => (
+const CommonRow: React.FC<CommonRowProps> = ({
+  children,
+  style = undefined,
+}) => (
   <div
-    className={`grid grid-cols-8 items-center gap-6 border border-stone-400 text-center font-sans transition-none md:gap-2`}
+    style={style}
+    className={`grid grid-cols-8 items-center gap-6 border border-stone-400 p-2 text-center font-sans text-sm transition-none md:gap-2`}
   >
     {children}
   </div>
 );
 
 type StyledHeaderProps = {
-  columns: string;
   children: React.ReactNode;
 };
 
-const StyledHeader: React.FC<StyledHeaderProps> = ({ columns, children }) => (
-  <CommonRow columns={columns}>{children}</CommonRow>
+const StyledHeader: React.FC<StyledHeaderProps> = ({ children }) => (
+  <CommonRow style={{ fontWeight: 'bold', fontSize: 16 }}>{children}</CommonRow>
 );
 
 type StyledRowProps = {
-  columns: string;
   children: React.ReactNode;
 };
 
-const StyledRow: React.FC<StyledRowProps> = ({ columns, children }) => (
-  <CommonRow columns={columns}>{children}</CommonRow>
+const StyledRow: React.FC<StyledRowProps> = ({ children }) => (
+  <CommonRow>{children}</CommonRow>
 );
 
 type StyledBodyProps = {
@@ -75,14 +69,11 @@ const Empty: React.FC<EmptyProps> = ({ children }) => (
 );
 
 type TableProps = {
-  columns: string;
   children: React.ReactNode;
 };
 
-const Table: React.FC<TableProps> = ({ columns, children }) => (
-  <TableContext.Provider value={{ columns }}>
-    <StyledTable>{children}</StyledTable>
-  </TableContext.Provider>
+const Table: React.FC<TableProps> = ({ children }) => (
+  <StyledTable>{children}</StyledTable>
 );
 
 type HeaderProps = {
@@ -90,8 +81,7 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const { columns }: TableContextProps = useContext(TableContext);
-  return <StyledHeader columns={columns}>{children}</StyledHeader>;
+  return <StyledHeader>{children}</StyledHeader>;
 };
 
 type RowProps = {
@@ -99,8 +89,7 @@ type RowProps = {
 };
 
 const Row: React.FC<RowProps> = ({ children }) => {
-  const { columns } = useContext(TableContext);
-  return <StyledRow columns={columns}>{children}</StyledRow>;
+  return <StyledRow>{children}</StyledRow>;
 };
 
 type BodyProps = {

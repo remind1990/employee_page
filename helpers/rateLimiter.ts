@@ -1,21 +1,19 @@
 const MAX_REQUESTS = 5;
-const WINDOW_MS = 60 * 1000; // 1 minute
+const WINDOW_MS = 60 * 1000;
 
-const requestQueue = new Map();
+const requestQueue = new Map<string, number[]>();
 
-export function checkRateLimit(ip) {
+export function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   let requests = requestQueue.get(ip) || [];
-
-  // Remove expired requests
   requests = requests.filter((timestamp) => timestamp > now - WINDOW_MS);
 
   if (requests.length >= MAX_REQUESTS) {
-    return false; // Request limit exceeded
+    return false;
   }
 
   requests.push(now);
   requestQueue.set(ip, requests);
 
-  return true; // Request allowed
+  return true;
 }

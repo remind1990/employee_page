@@ -12,6 +12,8 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'main-background-gradient':
+          'radial-gradient(circle farthest-side, rgba(252, 234, 187, 0.2), rgba(248, 181, 0, 0.2))',
       },
       fontFamily: {
         ranga: ['var(--font-ranga-bold)'],
@@ -19,6 +21,8 @@ const config: Config = {
       },
       boxShadow: {
         levitate: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+        levitateSelectedRed:
+          '0 14px 28px rgba(255,0,0,0.25), 0 10px 10px rgba(255,0,0,0.22)',
       },
       backdropBlur: {
         '1': '1px',
@@ -39,11 +43,11 @@ const config: Config = {
     },
     variants: {
       extend: {
-        backgroundColor: ['after'],
-        display: ['after'],
-        content: ['after'],
-        inset: ['after'],
-        backdropBlur: ['after'],
+        backgroundColor: ['before'],
+        display: ['before'],
+        content: ['before'],
+        inset: ['before'],
+        backdropBlur: ['before'],
       },
     },
   },

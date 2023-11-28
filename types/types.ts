@@ -11,6 +11,8 @@ export type Client = {
   photoAttachments: number;
   virtualGiftsDating: number;
   virtualGiftsSvadba: number;
+  image: string;
+  suspended: boolean;
 };
 
 export type Day = {
