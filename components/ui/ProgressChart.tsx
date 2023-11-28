@@ -3,7 +3,7 @@ import React from 'react';
 import {
   calculateSum,
   getMonthNameFromId,
-} from '../../helpers/chartsCalsHelpers';
+} from '../../helpers/chartsCalculationsHelpers';
 import {
   AreaChart,
   Area,
@@ -29,9 +29,9 @@ export default function ProgressChart({ statistics }: Props) {
     Math.max(...month.map((day) => day.sum)) * 1.2
   );
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
-  const currentMonthName = getMonthNameFromId(
-    statistics[0]?.id.split(' ')?.[1]
-  );
+  const monthNumberAsString = statistics[0]?.id.split(' ')?.[1];
+  const monthNumberAsNumber = parseInt(monthNumberAsString);
+  const currentMonthName = getMonthNameFromId(monthNumberAsNumber);
   const mediaQuery = window.matchMedia('(max-width: 640px)');
   return (
     <div className='flex  w-full max-w-[500px] flex-col items-center justify-center pt-2 font-roboto sm:w-full sm:max-w-[500px]'>

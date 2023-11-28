@@ -1,26 +1,21 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { Statistic, Day, Client, BalanceDay } from '@/types/types';
+import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import Error from 'next/error';
 import ClientContent from './ui/ClientContent';
-import { Statistic, Day, Client, BalanceDay } from '@/types/types';
 
 function Dashboard() {
+  const [pickedClient, setPickedClient] = useState<Client | null>(null);
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
-
-  if (!isAuthenticated) {
-    router.replace('/login');
-    return <Error statusCode={404} />;
-  }
-
   const { clients, statistics, name, surname } = user;
   const notSuspendedClients = clients.filter(
     (client: { suspended?: boolean }) => client?.suspended === false
   );
-  const [pickedClient, setPickedClient] = useState(notSuspendedClients[0]);
 
   useEffect(() => {
     if (notSuspendedClients && notSuspendedClients.length > 0) {
@@ -48,7 +43,7 @@ function Dashboard() {
   const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics.map(
     (day: Day) => {
       const filteredClients = day.clients.filter(
-        (client: any) => client.id === pickedClient._id
+        (client: any) => client.id === pickedClient?._id
       );
       return {
         ...day,
@@ -57,20 +52,27 @@ function Dashboard() {
     }
   );
 
+  useEffect(() => {
+    if (!user) {
+      router.replace('/login');
+    }
+  }, [user, router]);
+
   return (
-    <main className='z-10 py-10 pl-0 sm:pl-10'>
+    <main
+      className={`z-10 py-10 pl-0 sm:pl-10 ${whiteCoverCSSClasses} relative`}
+      style={{ backgroundImage: 'url(/main-background.jpg)' }}
+    >
       <div
-        className='flex
-      h-[50vh] max-h-[300px]
-      w-full  flex-wrap justify-center
-      gap-10 overflow-auto
-      rounded-tl-xl bg-gradient-to-b
-      from-slate-100
-      to-pink-300 p-4 drop-shadow-xl
-      sm:h-[50vh] sm:max-w-[100vw]
+        className='sm:gap-z-4
+      flex  w-full
+      flex-wrap justify-center
+      gap-x-10 gap-y-16 overflow-auto
+      rounded-tl-xl
+      bg-gradient-to-b from-slate-100 to-pink-300 px-4 pb-12 pt-10
+      drop-shadow-xl
+      sm:max-w-[100vw]
       sm:flex-wrap
-      sm:justify-normal
-      sm:gap-2
       '
       >
         {notSuspendedClients.map((client: Client) => (
@@ -78,15 +80,18 @@ function Dashboard() {
             key={client?._id}
             client={client}
             selectClient={setPickedClient}
+            pickedClientId={pickedClient?._id}
           />
         ))}
       </div>
-      <ClientContent
-        client={pickedClient}
-        statistics={daysOnlyWithPickedClient}
-        userName={name}
-        userSurname={surname}
-      />
+      {pickedClient && (
+        <ClientContent
+          client={pickedClient}
+          statistics={daysOnlyWithPickedClient}
+          userName={name}
+          userSurname={surname}
+        />
+      )}
     </main>
   );
 }

@@ -2,6 +2,10 @@
 
 import { AuthProvider } from '../contexts/authContext';
 
-export function Providers({ children }) {
+type Props = {
+  children: React.ReactNode;
+};
+
+export function Providers({ children }: Props) {
   return <AuthProvider>{children}</AuthProvider>;
 }
