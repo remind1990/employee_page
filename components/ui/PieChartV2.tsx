@@ -15,7 +15,8 @@ type Props = {
 };
 
 function PieChartV2({ statistics }: Props) {
-  const statsWithTotalSums = calculateTotalSumForEachCategory(statistics);
+  const statsWithTotalSums =
+    statistics && calculateTotalSumForEachCategory(statistics);
   return (
     <div className='h-[350px] max-h-[400px] w-full overflow-y-scroll sm:h-[250px] sm:max-h-[400px]'>
       <h1>Progress per category:</h1>
@@ -31,7 +32,7 @@ function PieChartV2({ statistics }: Props) {
             cx='50%'
             cy='40%'
           >
-            {statsWithTotalSums.map((entry, index) => (
+            {statsWithTotalSums?.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 stroke={entry.color}

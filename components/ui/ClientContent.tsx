@@ -25,7 +25,8 @@ function ClientContent({ client, statistics }: Props) {
   const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedStatistics = statistics.slice(startIndex, endIndex);
+  const paginatedStatistics =
+    statistics && statistics?.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -53,7 +54,7 @@ function ClientContent({ client, statistics }: Props) {
       return 14;
     }
   }
-  const totalPages = Math.ceil(statistics.length / itemsPerPage);
+  const totalPages = Math.ceil(statistics?.length / itemsPerPage);
 
   return (
     <section className='relative z-10 flex min-h-[300px] w-full flex-col-reverse gap-16 bg-stone-700 pb-10 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>

@@ -18,18 +18,20 @@ type Props = {
 };
 
 export default function ProgressChart({ statistics }: Props) {
-  const month = statistics.map((day) => {
-    const newDay = {
-      date: day.id.split(' ')[0],
-      sum: calculateSum(day?.clients[0]),
-    };
-    return newDay;
-  });
-  const calculatedMaxSum = Math.round(
-    Math.max(...month.map((day) => day.sum)) * 1.2
-  );
+  const month =
+    statistics &&
+    statistics?.map((day) => {
+      const newDay = {
+        date: day.id.split(' ')[0],
+        sum: calculateSum(day?.clients[0]).toFixed(2),
+      };
+      return newDay;
+    });
+  console.log(month);
+  const calculatedMaxSum =
+    statistics && Math.round(Math.max(...month?.map((day) => day.sum)) * 1.2);
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
-  const monthNumberAsString = statistics[0]?.id.split(' ')?.[1];
+  const monthNumberAsString = statistics && statistics[0]?.id.split(' ')?.[1];
   const monthNumberAsNumber = parseInt(monthNumberAsString);
   const currentMonthName = getMonthNameFromId(monthNumberAsNumber);
   const mediaQuery = window.matchMedia('(max-width: 640px)');

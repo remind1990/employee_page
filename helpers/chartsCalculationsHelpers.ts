@@ -8,7 +8,8 @@ const COLORS = [
   '#FF33D1',
   '#33FFE7',
   '#8A2BE2',
-  '#FF6347',
+  '#FF6667',
+  '#336CFF',
 ];
 
 export const calculateSum = (data: Client) => {
@@ -47,26 +48,31 @@ interface Category {
 export const calculateTotalSumForEachCategory = (
   statistics: BalanceDay[]
 ): Category[] => {
-  return statistics.reduce<Category[]>((totalSumArray, day) => {
-    if (day.clients && day.clients[0]) {
-      Object.entries(day.clients[0]).forEach(([field, value]) => {
-        if (typeof value === 'number') {
-          const categoryObject = totalSumArray.find(
-            (obj) => obj.name === field
-          );
-          if (categoryObject) {
-            categoryObject.value += value;
-          } else {
-            const colorIndex = totalSumArray.length % COLORS.length;
-            totalSumArray.push({
-              name: field,
-              value,
-              color: COLORS[colorIndex],
-            });
+  return (
+    statistics &&
+    statistics?.reduce<Category[]>((totalSumArray, day) => {
+      if (day.clients && day.clients[0]) {
+        Object.entries(day.clients[0]).forEach(([field, value]) => {
+          if (typeof value === 'number') {
+            const categoryObject = totalSumArray.find(
+              (obj) => obj.name === field
+            );
+            if (categoryObject) {
+              categoryObject.value += value;
+              categoryObject.value =
+                Math.floor(categoryObject.value * 100) / 100;
+            } else {
+              const colorIndex = totalSumArray.length % COLORS.length;
+              totalSumArray.push({
+                name: field,
+                value,
+                color: COLORS[colorIndex],
+              });
+            }
           }
-        }
-      });
-    }
-    return totalSumArray;
-  }, []);
+        });
+      }
+      return totalSumArray;
+    }, [])
+  );
 };

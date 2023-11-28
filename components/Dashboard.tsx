@@ -11,8 +11,15 @@ import ClientContent from './ui/ClientContent';
 function Dashboard() {
   const [pickedClient, setPickedClient] = useState<Client | null>(null);
   const { isAuthenticated, user } = useAuth();
+  const { clients = [], statistics = [], name = '', surname = '' } = user ?? {};
   const router = useRouter();
-  const { clients, statistics, name, surname } = user;
+
+  useEffect(() => {
+    if (!user) {
+      router.replace('/login');
+    }
+  }, [user, router]);
+
   const notSuspendedClients = clients.filter(
     (client: { suspended?: boolean }) => client?.suspended === false
   );
@@ -31,16 +38,16 @@ function Dashboard() {
   const currentMonth = currentDate.getMonth();
   const todayString = `${currentDay} ${currentMonth} ${currentYear}`;
 
-  const curYearStatistic: Statistic[] = statistics.filter(
+  const curYearStatistic: Statistic[] = statistics?.filter(
     (item: Statistic) => item.year === currentYear.toString()
   );
-  const thisMonthsStatistics: Day[] = curYearStatistic[0].months[
-    currentMonth
-  ].filter((day: Day) => {
-    return day.id <= todayString;
-  });
+  const thisMonthsStatistics: Day[] =
+    user &&
+    curYearStatistic[0].months[currentMonth].filter((day: Day) => {
+      return day.id <= todayString;
+    });
 
-  const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics.map(
+  const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics?.map(
     (day: Day) => {
       const filteredClients = day.clients.filter(
         (client: any) => client.id === pickedClient?._id
