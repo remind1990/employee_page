@@ -33,7 +33,6 @@ export default function FormRow({
         value={value}
         disabled={disabled}
         onChange={onChange}
-        placeholder={type === 'email' ? 'pesnja25@gmail.com' : ''}
       />
     </>
   );
