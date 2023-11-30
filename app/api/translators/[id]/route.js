@@ -14,7 +14,7 @@ export async function PUT(req, { params }) {
     });
   }
   const { id } = params;
-  const { email, password } = await req.json();
+  const { password } = await req.json();
   try {
     await connectToDatabase();
     const objectId = new ObjectId(id);
