@@ -28,7 +28,7 @@ function ClientCard({ client, selectClient, pickedClientId }: Props) {
         className={`relative box-border rounded-md transition-all duration-300 ${hoverStyles} ${styleForSelectedClient}`}
       >
         <Image
-          src={client.image ?? '/defaultClient.jpg'}
+          src={client.image || '/defaultClient.jpg'}
           alt='client'
           width={150}
           height={200}

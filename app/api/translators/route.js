@@ -93,7 +93,6 @@ export async function POST(req) {
         password,
         searchingTranslator.password
       );
-
       if (passwordsMatch) {
         return NextResponse.json({
           msg: 'passwords match',

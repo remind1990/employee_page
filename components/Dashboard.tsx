@@ -21,7 +21,7 @@ function Dashboard() {
   }, [user, router]);
 
   const notSuspendedClients = clients.filter(
-    (client: { suspended?: boolean }) => client?.suspended === false
+    (client: { suspended?: boolean }) => !client?.suspended
   );
 
   useEffect(() => {

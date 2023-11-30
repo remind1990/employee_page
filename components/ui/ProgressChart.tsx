@@ -27,7 +27,6 @@ export default function ProgressChart({ statistics }: Props) {
       };
       return newDay;
     });
-  console.log(month);
   const calculatedMaxSum =
     statistics &&
     Math.round(Math.max(...month?.map((day) => parseFloat(day.sum))) * 1.2);
