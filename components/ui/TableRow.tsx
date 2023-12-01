@@ -18,6 +18,7 @@ type Props = {
     photoAttachments: number;
     virtualGiftsDating: number;
     virtualGiftsSvadba: number;
+    voiceMessages: number;
   };
 };
 
@@ -26,10 +27,10 @@ function TableRow({ id, client }: Props) {
     'chats',
     'dating',
     'letters',
-    'penalties',
     'phoneCalls',
     'virtualGiftsDating',
     'virtualGiftsSvadba',
+    'voiceMessages',
   ] as const;
 
   return (
@@ -50,7 +51,7 @@ function TableRow({ id, client }: Props) {
           className='text-stone-500'
           style={getBoldedStyle(client[prop])}
         >
-          {client[prop]}
+          {client[prop] ?? 0}
         </div>
       ))}
     </TableComponent.Row>

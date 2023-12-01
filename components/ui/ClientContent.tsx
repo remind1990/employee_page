@@ -27,7 +27,6 @@ function ClientContent({ client, statistics }: Props) {
   const endIndex = startIndex + itemsPerPage;
   const paginatedStatistics =
     statistics && statistics?.slice(startIndex, endIndex);
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -42,7 +41,6 @@ function ClientContent({ client, statistics }: Props) {
       window.removeEventListener('resize', handleResize);
     };
   }, [statistics]);
-
   function calculateItemsPerPage() {
     const screenWidth = window.innerWidth;
 
@@ -55,7 +53,6 @@ function ClientContent({ client, statistics }: Props) {
     }
   }
   const totalPages = Math.ceil(statistics?.length / itemsPerPage);
-
   return (
     <section className='relative z-10 flex min-h-[300px] w-full flex-col-reverse gap-16 bg-stone-700 pb-10 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
       <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
@@ -67,12 +64,12 @@ function ClientContent({ client, statistics }: Props) {
           <TableComponent.Header>
             <div>{moment().format('MMM / YYYY')}</div>
             <div>Chats</div>
-            <div>Letters</div>
             <div>Dating</div>
-            <div>Virtual Gifts</div>
-            <div>VG Dating</div>
+            <div>Letters</div>
             <div>Phone Calls</div>
-            <div>Penalties</div>
+            <div>VG</div>
+            <div>VG Dating</div>
+            <div>Voice Messages</div>
           </TableComponent.Header>
           <TableComponent.Body
             data={paginatedStatistics}
