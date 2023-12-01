@@ -5,7 +5,6 @@ import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
-import Error from 'next/error';
 import ClientContent from './ui/ClientContent';
 
 function Dashboard() {
@@ -49,16 +48,28 @@ function Dashboard() {
 
   const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics?.map(
     (day: Day) => {
-      const filteredClients = day.clients.filter(
-        (client: any) => client.id === pickedClient?._id
-      );
+      const filteredClients = day.clients
+        .filter((client: any) => client.id === pickedClient?._id)
+        .map((client: any) => {
+          const filteredClient: any = {};
+          for (const key in client) {
+            if (
+              typeof client[key] === 'number' &&
+              key !== 'penalties' &&
+              key !== 'photoAttachments'
+            ) {
+              filteredClient[key] = client[key];
+            }
+          }
+          return filteredClient;
+        });
+
       return {
         ...day,
         clients: filteredClients,
       };
     }
   );
-
   useEffect(() => {
     if (!user) {
       router.replace('/login');
