@@ -3,16 +3,21 @@ import React, { useEffect, useState } from 'react';
 import ProgressChart from './ProgressChart';
 import TableComponent from './Table';
 import TableRow from './TableRow';
-import { BalanceDay } from '@/types/types';
+import { BalanceDay, DayWithSums } from '@/types/types';
 import PieChartV2 from './PieChartV2';
 import Pagination from './PaginationComponents';
 import moment from 'moment';
 
+type MonthTotalSums = {
+  totalSum: number;
+  daysWithTotalSum: DayWithSums[];
+};
 type Props = {
   client: Client | null;
   statistics: BalanceDay[];
   userName?: string;
   userSurname?: string;
+  monthTotalSumForEveryClient: MonthTotalSums;
 };
 type Client = {
   _id?: string;
@@ -20,7 +25,11 @@ type Client = {
   surname: string;
 };
 
-function ClientContent({ client, statistics }: Props) {
+function ClientContent({
+  client,
+  statistics,
+  monthTotalSumForEveryClient: { totalSum, daysWithTotalSum },
+}: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -41,6 +50,7 @@ function ClientContent({ client, statistics }: Props) {
       window.removeEventListener('resize', handleResize);
     };
   }, [statistics]);
+
   function calculateItemsPerPage() {
     const screenWidth = window.innerWidth;
 
@@ -56,8 +66,12 @@ function ClientContent({ client, statistics }: Props) {
   return (
     <section className='relative z-10 flex min-h-[300px] w-full flex-col-reverse gap-16 bg-stone-700 pb-10 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
       <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
-        <ProgressChart statistics={statistics} />
-        <PieChartV2 statistics={statistics} />
+        <ProgressChart name={client?.name} statistics={statistics} />
+        <PieChartV2
+          statistics={statistics}
+          totalSum={totalSum}
+          daysWithTotalSum={daysWithTotalSum}
+        />
       </div>
       <div className='col-span-1 h-full w-full'>
         <TableComponent>

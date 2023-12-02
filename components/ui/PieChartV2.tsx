@@ -1,5 +1,6 @@
+import { yesterdayString } from '@/app/constants/constants';
 import { calculateTotalSumForEachCategory } from '@/helpers/chartsCalculationsHelpers';
-import { BalanceDay } from '@/types/types';
+import { BalanceDay, DayWithSums } from '@/types/types';
 import React from 'react';
 import {
   Cell,
@@ -12,14 +13,28 @@ import {
 
 type Props = {
   statistics: BalanceDay[];
+  totalSum: number;
+  daysWithTotalSum: DayWithSums[];
 };
 
-function PieChartV2({ statistics }: Props) {
+function PieChartV2({ statistics, totalSum, daysWithTotalSum }: Props) {
   const statsWithTotalSums =
     statistics && calculateTotalSumForEachCategory(statistics);
+  const progressForYesterday = daysWithTotalSum.find(
+    (day) => day.id === yesterdayString
+  );
+
   return (
     <div className='h-[350px] max-h-[400px] w-full overflow-y-scroll sm:h-[250px] sm:max-h-[400px]'>
-      <h1>Progress per category:</h1>
+      <h1>
+        Yesterday Progress:{' '}
+        <span className='progress-number'>
+          {progressForYesterday?.allClientsSum}
+        </span>
+        $
+        <br />
+        Total progress: <span className='progress-number'>{totalSum}</span>$
+      </h1>
       <ResponsiveContainer>
         <PieChart>
           <Pie

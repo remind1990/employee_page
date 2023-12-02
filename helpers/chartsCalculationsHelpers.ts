@@ -1,4 +1,4 @@
-import { BalanceDay, Client } from '@/types/types';
+import { BalanceDay, Client, Day, DayForChart } from '@/types/types';
 
 const COLORS = [
   '#FF5733',
@@ -75,4 +75,52 @@ export const calculateTotalSumForEachCategory = (
       return totalSumArray;
     }, [])
   );
+};
+
+export const calculateTotalSumForEachDayInMonth = (
+  arrayOfDaysWithSum: DayForChart[]
+) => {
+  const totalSum = arrayOfDaysWithSum.reduce((accumulator, currentObject) => {
+    const numericSum = parseFloat(currentObject.sum);
+
+    if (!isNaN(numericSum)) {
+      accumulator += numericSum;
+    }
+
+    return accumulator;
+  }, 0);
+
+  const formattedTotalSum = totalSum.toFixed(2);
+  return formattedTotalSum;
+};
+
+export const calcTotalSumForEveryClient = (statistics: Day[]) => {
+  const daysWidthTotalSum = statistics?.map((day) => {
+    const calcSumsForEachClient = day.clients.map((client) => {
+      const values = Object.values(client);
+      const totalSumPerClient = values
+        .filter((value): value is number => typeof value === 'number') // Type guard for numbers
+        .reduce((sum: number, value: number) => sum + value, 0);
+
+      return totalSumPerClient;
+    });
+    const newDay = {
+      id: day.id,
+      allClientsSum: calcSumsForEachClient.reduce(
+        (sum: number, value: number) => sum + value,
+        0
+      ),
+    };
+    return newDay;
+  });
+
+  const totalSumForEveryClient = daysWidthTotalSum?.reduce(
+    (sum: number, day) => sum + day.allClientsSum,
+    0
+  );
+
+  return {
+    totalSum: totalSumForEveryClient ?? 0,
+    daysWithTotalSum: daysWidthTotalSum ?? [],
+  };
 };
