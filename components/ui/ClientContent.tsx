@@ -95,7 +95,7 @@ function ClientContent({
               <IoMail fill='#FFC300' />
             </div>
             <div className='category-icon'>
-              <FaPhone fill={'var(--sunrise-progress-green)'} />
+              <FaPhone fill='#33FFE7' />
             </div>
             <div className='category-icon'>
               <FaGift fill='#334CFF' />
