@@ -14,3 +14,15 @@ export const yesterdayString = `${yesterday
   .padStart(2, '0')} ${(yesterday.getMonth() + 1)
   .toString()
   .padStart(2, '0')} ${yesterday.getFullYear()}`;
+
+export const COLORS = [
+  '#3b82f6',
+  '#FFC300',
+  '#f43f5e',
+  '#6366f1',
+  '#be123c',
+  '#38bdf8',
+  '#8b5cf6',
+  '#FF6667',
+  '#336CFF',
+];
