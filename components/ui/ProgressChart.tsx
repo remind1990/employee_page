@@ -3,6 +3,7 @@ import React from 'react';
 import {
   calculateSum,
   getMonthNameFromId,
+  calculateTotalSumForEachDayInMonth,
 } from '../../helpers/chartsCalculationsHelpers';
 import {
   AreaChart,
@@ -15,9 +16,10 @@ import {
 
 type Props = {
   statistics: BalanceDay[];
+  name: string | undefined;
 };
 
-export default function ProgressChart({ statistics }: Props) {
+export default function ProgressChart({ statistics, name }: Props) {
   const month =
     statistics &&
     statistics?.map((day) => {
@@ -27,9 +29,13 @@ export default function ProgressChart({ statistics }: Props) {
       };
       return newDay;
     });
+
   const calculatedMaxSum =
     statistics &&
     Math.round(Math.max(...month?.map((day) => parseFloat(day.sum))) * 1.2);
+
+  const monthTotalSumForPickedClient =
+    calculateTotalSumForEachDayInMonth(month);
 
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
   const monthNumberAsString = statistics && statistics[0]?.id.split(' ')?.[1];
@@ -38,7 +44,12 @@ export default function ProgressChart({ statistics }: Props) {
   const mediaQuery = window.matchMedia('(max-width: 640px)');
   return (
     <div className='flex  w-full max-w-[500px] flex-col items-center justify-center pt-2 font-roboto sm:w-full sm:max-w-[500px]'>
-      <h1>Your progress for {currentMonthName}</h1>
+      <h1>
+        Your progress{' '}
+        {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}
+        {currentMonthName} is:{' '}
+        <span className='progress-number'>{monthTotalSumForPickedClient}</span>$
+      </h1>
       <AreaChart
         width={mediaQuery ? 400 : 500}
         height={200}

@@ -15,6 +15,9 @@ const config: Config = {
         'main-background-gradient':
           'radial-gradient(circle farthest-side, rgba(252, 234, 187, 0.2), rgba(248, 181, 0, 0.2))',
       },
+      colors: {
+        'sunrise-progress-green': 'rgba(34, 197, 94, 1)',
+      },
       fontFamily: {
         ranga: ['var(--font-ranga-bold)'],
         roboto: ['var(--font-roboto-condensed)'],

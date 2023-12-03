@@ -1,11 +1,17 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Statistic, Day, Client, BalanceDay } from '@/types/types';
-import { whiteCoverCSSClasses } from '@/app/constants/constants';
+import {
+  whiteCoverCSSClasses,
+  currentMonth,
+  currentYear,
+  todayString,
+} from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import ClientContent from './ui/ClientContent';
+import { calcTotalSumForEveryClient } from '../helpers/chartsCalculationsHelpers';
 
 function Dashboard() {
   const [pickedClient, setPickedClient] = useState<Client | null>(null);
@@ -14,7 +20,7 @@ function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    if (!user || !isAuthenticated) {
       router.replace('/login');
     }
   }, [user, router]);
@@ -31,12 +37,6 @@ function Dashboard() {
     }
   }, [notSuspendedClients, pickedClient]);
 
-  const currentDate = new Date();
-  const currentDay = currentDate.getDate();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
-  const todayString = `${currentDay} ${currentMonth} ${currentYear}`;
-
   const curYearStatistic: Statistic[] = statistics?.filter(
     (item: Statistic) => item.year === currentYear.toString()
   );
@@ -45,6 +45,9 @@ function Dashboard() {
     curYearStatistic[0].months[currentMonth].filter((day: Day) => {
       return day.id <= todayString;
     });
+
+  const monthTotalSumForEveryClient =
+    calcTotalSumForEveryClient(thisMonthsStatistics);
 
   const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics?.map(
     (day: Day) => {
@@ -104,6 +107,7 @@ function Dashboard() {
       </div>
       {pickedClient && (
         <ClientContent
+          monthTotalSumForEveryClient={monthTotalSumForEveryClient}
           client={pickedClient}
           statistics={daysOnlyWithPickedClient}
           userName={name}

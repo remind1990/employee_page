@@ -4,7 +4,11 @@ import moment from 'moment';
 
 const getBoldedStyle = (value: number) =>
   value > 0
-    ? { fontWeight: 'bold', background: 'rgba(34, 197, 94, 1)', color: 'white' }
+    ? {
+        fontWeight: 'bold',
+        background: 'var(--sunrise-progress-green)',
+        color: 'white',
+      }
     : {};
 
 type Props = {
