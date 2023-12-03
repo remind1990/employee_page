@@ -15,6 +15,7 @@ import {
   FaMicrophone,
 } from 'react-icons/fa';
 import { IoMail } from 'react-icons/io5';
+import { COLORS } from '@/app/constants/constants';
 
 type MonthTotalSums = {
   totalSum: number;
@@ -86,25 +87,25 @@ function ClientContent({
           <TableComponent.Header>
             <div>{moment().format('MMM / YYYY')}</div>
             <div className='category-icon'>
-              <FaRocketchat fill='#FF5733' />
+              <FaRocketchat fill={COLORS[0]} />
             </div>
             <div className='category-icon'>
-              <FaHeart fill='#33FF57' />
+              <FaHeart fill={COLORS[2]} />
             </div>
             <div className='category-icon'>
-              <IoMail fill='#FFC300' />
+              <IoMail fill={COLORS[1]} />
             </div>
             <div className='category-icon'>
-              <FaPhone fill='#33FFE7' />
+              <FaPhone fill={COLORS[5]} />
             </div>
             <div className='category-icon'>
-              <FaGift fill='#334CFF' />
+              <FaGift fill={COLORS[3]} />
             </div>
             <div className='category-icon fill-pink-500'>
-              <FaGift fill='#FF33D1' />
+              <FaGift fill={COLORS[4]} />
             </div>
             <div className='category-icon'>
-              <FaMicrophone fill='#8A2BE2' />
+              <FaMicrophone fill={COLORS[6]} />
             </div>
           </TableComponent.Header>
           <TableComponent.Body

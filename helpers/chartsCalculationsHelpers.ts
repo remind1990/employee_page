@@ -1,16 +1,5 @@
+import { COLORS } from '@/app/constants/constants';
 import { BalanceDay, Client, Day, DayForChart } from '@/types/types';
-
-const COLORS = [
-  '#FF5733',
-  '#FFC300',
-  '#33FF57',
-  '#334CFF',
-  '#FF33D1',
-  '#33FFE7',
-  '#8A2BE2',
-  '#FF6667',
-  '#336CFF',
-];
 
 export const calculateSum = (data: Client) => {
   const numericValues: number[] = Object.values(data).filter(
@@ -124,3 +113,12 @@ export const calcTotalSumForEveryClient = (statistics: Day[]) => {
     daysWithTotalSum: daysWidthTotalSum ?? [],
   };
 };
+
+export function convertVariableToTitle(variableName: string) {
+  const words = variableName.split(/(?=[A-Z])/);
+  const capitalizedWords = words.map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  });
+  const result = capitalizedWords.join(' ');
+  return String(result);
+}
