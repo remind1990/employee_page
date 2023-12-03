@@ -7,6 +7,14 @@ import { BalanceDay, DayWithSums } from '@/types/types';
 import PieChartV2 from './PieChartV2';
 import Pagination from './PaginationComponents';
 import moment from 'moment';
+import {
+  FaRocketchat,
+  FaHeart,
+  FaPhone,
+  FaGift,
+  FaMicrophone,
+} from 'react-icons/fa';
+import { IoMail } from 'react-icons/io5';
 
 type MonthTotalSums = {
   totalSum: number;
@@ -77,13 +85,27 @@ function ClientContent({
         <TableComponent>
           <TableComponent.Header>
             <div>{moment().format('MMM / YYYY')}</div>
-            <div>Chats</div>
-            <div>Dating</div>
-            <div>Letters</div>
-            <div>Phone Calls</div>
-            <div>VG</div>
-            <div>VG Dating</div>
-            <div>Voice Messages</div>
+            <div className='category-icon'>
+              <FaRocketchat fill='#FF5733' />
+            </div>
+            <div className='category-icon'>
+              <FaHeart fill='#33FF57' />
+            </div>
+            <div className='category-icon'>
+              <IoMail fill='#FFC300' />
+            </div>
+            <div className='category-icon'>
+              <FaPhone fill={'var(--sunrise-progress-green)'} />
+            </div>
+            <div className='category-icon'>
+              <FaGift fill='#334CFF' />
+            </div>
+            <div className='category-icon fill-pink-500'>
+              <FaGift fill='#FF33D1' />
+            </div>
+            <div className='category-icon'>
+              <FaMicrophone fill='#8A2BE2' />
+            </div>
           </TableComponent.Header>
           <TableComponent.Body
             data={paginatedStatistics}
