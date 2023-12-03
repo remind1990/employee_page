@@ -17,7 +17,7 @@ export const yesterdayString = `${yesterday
 
 export const COLORS = [
   '#3b82f6',
-  '#FFC300',
+  '#f97316',
   '#f43f5e',
   '#6366f1',
   '#be123c',
