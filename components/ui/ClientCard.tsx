@@ -14,25 +14,25 @@ function ClientCard({ client, selectClient, pickedClientId }: Props) {
   };
   const clientIsSelected = client._id === pickedClientId;
   const styleForSelectedClient = clientIsSelected
-    ? `scale-125 mx-4 shadow-levitateSelectedRed z-10`
+    ? `scale-125 shadow-levitateSelectedRed z-10 border-red-300`
     : ``;
   const hoverStyles = clientIsSelected
     ? ''
-    : 'hover:mx-4 hover:scale-125 hover:shadow-levitate hover:z-10';
+    : 'hover:scale-110 hover:shadow-levitate hover:z-10';
   return (
     <div
       className='flex cursor-pointer flex-col gap-1 rounded-md'
       onClick={handleClick}
     >
       <div
-        className={`relative box-border rounded-md transition-all duration-300 ${hoverStyles} ${styleForSelectedClient}`}
+        className={`border-1 relative box-border transform rounded-md transition-all duration-300 ${hoverStyles} ${styleForSelectedClient}`}
       >
         <Image
           src={client.image || '/defaultClient.jpg'}
           alt='client'
           width={150}
           height={200}
-          className='h-[200px] w-[150px] transform rounded-md object-cover object-top'
+          className='h-[150px] w-[100px] transform rounded-md object-cover object-top md:h-[200px] md:w-[150px]'
           blurDataURL='/defaultClient.jpg'
         />
         <div className='absolute bottom-[-10px] w-full px-2'>

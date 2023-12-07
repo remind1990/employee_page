@@ -6,7 +6,7 @@ type Props = {};
 const AboutPage = (props: Props) => {
   return (
     <main
-      className={`flex h-full w-full flex-1 items-center justify-end bg-cover bg-no-repeat p-6 ${whiteCoverCSSClasses}`}
+      className={`flex h-full w-full flex-1 items-center justify-end bg-cover bg-center bg-no-repeat p-6 ${whiteCoverCSSClasses}`}
       style={{ backgroundImage: 'url(/about.jpg)' }}
     >
       <div className='z-10 max-w-xl animate-attractAttention rounded-md bg-white bg-opacity-90 bg-cover bg-no-repeat p-6 shadow-levitate'>
