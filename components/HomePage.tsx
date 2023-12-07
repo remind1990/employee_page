@@ -7,7 +7,7 @@ type Props = {};
 const HomePage = (props: Props) => {
   return (
     <section
-      className={`flex h-full w-full flex-1 flex-col gap-8 bg-cover bg-center bg-no-repeat py-4 md:p-4 ${whiteCoverCSSClasses}`}
+      className={`flex h-full w-full flex-1 flex-col gap-8 bg-cover bg-center bg-no-repeat py-4 md:p-4 ${whiteCoverCSSClasses} bg-cover bg-center bg-no-repeat`}
       style={{ backgroundImage: 'url(/bg-2.jpg)' }}
     >
       <StartNowBox />
