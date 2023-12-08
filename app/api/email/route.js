@@ -39,7 +39,7 @@ export async function POST(req) {
     };
 
     try {
-      // await transporter.sendMail(mailOptions);
+      await transporter.sendMail(mailOptions);
 
       lastEmailSentTimestamp = currentTime;
 
