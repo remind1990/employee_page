@@ -1,4 +1,5 @@
 'use client';
+import { useAuth } from '@/contexts/authContext';
 import sendEmail from '@/services/sendEmail';
 import { useRouter } from 'next/navigation';
 import React, {
@@ -30,6 +31,7 @@ function ContactForm({}: Props) {
   });
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { contactEmail, sendContactEmail } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,8 +62,15 @@ function ContactForm({}: Props) {
     startTransition(async () => {
       try {
         const res = await sendEmail(formData);
-        toast.success(res.msg);
-        router.push('/');
+        if (res.success) {
+          toast.success(res.msg);
+          setTimeout(() => {
+            sendContactEmail();
+            router.push('/');
+          }, 500);
+        } else {
+          toast.error(res.msg);
+        }
       } catch (err: any) {
         toast.error(err.message);
       }
@@ -110,7 +119,11 @@ function ContactForm({}: Props) {
         onChange={handleInputChange}
       />
       {errors.message && <p className='text-red-500'>{errors.message}</p>}
-      <Button type='submit' variation='formButton' disabled={isPending}>
+      <Button
+        type='submit'
+        variation='formButton'
+        disabled={isPending || contactEmail}
+      >
         {isPending ? (
           <span className='flex h-[24px] items-center justify-center'>
             <Spinner /> Sending
@@ -119,6 +132,9 @@ function ContactForm({}: Props) {
           'Send  Message'
         )}
       </Button>
+      {contactEmail && (
+        <p className='text-green-500'>Email has already been sent</p>
+      )}
     </form>
   );
 }

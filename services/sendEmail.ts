@@ -1,9 +1,15 @@
-type data = {
+type ResponseData = {
+  msg: string;
+  success: boolean;
+};
+
+type Data = {
   name: string;
   email: string;
   message: string;
 };
-export default async function sendEmail(data: data) {
+
+export default async function sendEmail(data: Data): Promise<ResponseData> {
   try {
     const response = await fetch('/api/email', {
       method: 'POST',
@@ -12,14 +18,15 @@ export default async function sendEmail(data: data) {
       },
       body: JSON.stringify(data),
     });
+
     if (response.ok) {
-      const data = await response.json();
-      return data;
+      const responseData: ResponseData = await response.json();
+      return responseData;
     } else {
-      const data = await response.json();
-      return data;
+      const errorData: ResponseData = await response.json();
+      return errorData;
     }
   } catch (error) {
-    throw new Error('Something whent wrong');
+    throw new Error('Something went wrong');
   }
 }
