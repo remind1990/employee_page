@@ -43,7 +43,7 @@ export default function ProgressChart({ statistics, name }: Props) {
   const currentMonthName = getMonthNameFromId(monthNumberAsNumber);
   const mediaQuery = window.matchMedia('(max-width: 640px)');
   return (
-    <div className='flex  w-full max-w-[500px] flex-col items-center justify-center pt-2 font-roboto sm:w-full sm:max-w-[500px]'>
+    <div className='flex  w-full flex-col items-center justify-center pt-2 font-roboto sm:w-full'>
       <h1>
         Your progress{' '}
         {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}

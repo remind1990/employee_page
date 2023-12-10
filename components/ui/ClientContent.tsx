@@ -73,8 +73,8 @@ function ClientContent({
   }
   const totalPages = Math.ceil(statistics?.length / itemsPerPage);
   return (
-    <section className='relative z-10 flex min-h-[300px] w-full flex-col-reverse gap-16 bg-stone-700 pb-10 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
-      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
+    <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr]'>
+      <div className='col-span-1 flex flex-col gap-5 px-2 py-4 text-stone-100'>
         <ProgressChart name={client?.name} statistics={statistics} />
         <PieChartV2
           statistics={statistics}
