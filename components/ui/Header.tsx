@@ -34,14 +34,14 @@ export default function Header({ variant = 'light' }: Props) {
       >
         About
       </Link>
-      {/* <Link
+      <Link
         href='/contacts'
         className={`header-link text-center ${
           isActive('/contacts') ? 'link' : ''
         }`}
       >
         Contacts
-      </Link> */}
+      </Link>
       {isAuthenticated && (
         <Link
           href='/dashboard'

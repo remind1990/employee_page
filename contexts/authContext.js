@@ -6,6 +6,7 @@ const initialState = {
   userExist: false,
   isRegistered: false,
   isAuthenticated: false,
+  contactEmail: false,
 };
 
 function reducer(state, action) {
@@ -32,14 +33,18 @@ function reducer(state, action) {
         },
         isRegistered: action.payload.registered,
       };
+    case 'sendEmail':
+      return { ...state, contactEmail: true };
     default:
       throw new Error('Unknown action');
   }
 }
 
 function AuthProvider({ children }) {
-  const [{ user, isAuthenticated, isRegistered, userExist }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { user, isAuthenticated, isRegistered, userExist, contactEmail },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   async function login(data) {
     dispatch({ type: 'login', payload: data });
@@ -54,6 +59,10 @@ function AuthProvider({ children }) {
     dispatch({ type: 'commitUser', payload: { _id, registered } });
   }
 
+  function sendContactEmail() {
+    dispatch({ type: 'sendEmail' });
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -64,6 +73,8 @@ function AuthProvider({ children }) {
         login,
         logout,
         commitThatUserExist,
+        sendContactEmail,
+        contactEmail,
       }}
     >
       {children}
