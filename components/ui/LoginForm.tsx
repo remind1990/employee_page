@@ -7,6 +7,7 @@ import Spinner from './Spinner';
 import Button from './Button';
 import loginTranslator from '@/services/loginTranslator';
 import { useAuth } from '@/contexts/authContext';
+import { LoginServiceMessages } from '@/services/enums';
 
 type Event = ChangeEvent<HTMLInputElement>;
 
@@ -22,7 +23,7 @@ const LoginForm = () => {
     startTransition(async () => {
       try {
         const res = await loginTranslator({ email, password });
-        toast.success(res.msg);
+        toast.success(LoginServiceMessages.Success);
         login(res.data);
         router.push('/dashboard');
       } catch (err: any) {

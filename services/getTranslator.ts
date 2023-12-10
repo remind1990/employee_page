@@ -1,3 +1,5 @@
+import { GetTranslatorServiceMessages } from './enums';
+
 async function getTranslator(email: any, exists: boolean = false) {
   try {
     let baseURL = `api/translators?email=${encodeURIComponent(email)}`;
@@ -14,13 +16,13 @@ async function getTranslator(email: any, exists: boolean = false) {
       const data = await res.json();
       return data;
     } else {
-      throw new Error('user not found');
+      throw new Error(GetTranslatorServiceMessages.NotFound);
     }
   } catch (err: any) {
     if (err instanceof Error) {
-      throw new Error('There is no such user in our database');
+      throw new Error(GetTranslatorServiceMessages.NotFound);
     } else {
-      throw new Error('An unknown error occurred');
+      throw new Error(GetTranslatorServiceMessages.UnknownError);
     }
   }
 }

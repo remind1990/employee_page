@@ -2,7 +2,7 @@
 import { calculateTotalSumForEachCategory } from '@/helpers/chartsCalculationsHelpers';
 import { BalanceDay } from '@/types/types';
 import React, { useCallback, useState } from 'react';
-import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';
+import { PieChart, Pie, Sector, Cell } from 'recharts';
 
 const COLORS = [
   '#FF5733',

@@ -33,7 +33,7 @@ type StyledHeaderProps = {
 };
 
 const StyledHeader: React.FC<StyledHeaderProps> = ({ children }) => (
-  <CommonRow style={{ fontWeight: 'bold', fontSize: 16 }}>{children}</CommonRow>
+  <CommonRow style={{ fontWeight: 'bold', fontSize: 12 }}>{children}</CommonRow>
 );
 
 type StyledRowProps = {
