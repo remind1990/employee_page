@@ -12,6 +12,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ResponsiveContainer,
 } from 'recharts';
 
 type Props = {
@@ -41,32 +42,31 @@ export default function ProgressChart({ statistics, name }: Props) {
   const monthNumberAsString = statistics && statistics[0]?.id.split(' ')?.[1];
   const monthNumberAsNumber = parseInt(monthNumberAsString);
   const currentMonthName = getMonthNameFromId(monthNumberAsNumber);
-  const mediaQuery = window.matchMedia('(max-width: 640px)');
   return (
-    <div className='flex  w-full flex-col items-center justify-center pt-2 font-roboto sm:w-full'>
+    <div className='flex  w-full  flex-col items-center justify-center pt-2 font-roboto md:w-full'>
       <h1>
         Your progress{' '}
         {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}
         {currentMonthName} is:{' '}
         <span className='progress-number'>{monthTotalSumForPickedClient}</span>$
       </h1>
-      <AreaChart
-        width={mediaQuery ? 400 : 500}
-        height={200}
-        data={month}
-        margin={{
-          top: 10,
-          right: 10,
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        <CartesianGrid strokeDasharray='4 3' />
-        <XAxis dataKey='date' />
-        <YAxis domain={[0, maxSum]} />
-        <Tooltip />
-        <Area type='monotone' dataKey='sum' stroke='#a4a2c3' fill='#da78d9' />
-      </AreaChart>
+      <ResponsiveContainer width='100%' height={200}>
+        <AreaChart
+          data={month}
+          margin={{
+            top: 10,
+            right: 10,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid strokeDasharray='4 3' />
+          <XAxis dataKey='date' />
+          <YAxis domain={[0, maxSum]} />
+          <Tooltip />
+          <Area type='monotone' dataKey='sum' stroke='#a4a2c3' fill='#da78d9' />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   );
 }

@@ -63,17 +63,17 @@ function ClientContent({
   function calculateItemsPerPage() {
     const screenWidth = window.innerWidth;
 
-    if (screenWidth < 600) {
-      return 5;
-    } else if (screenWidth < 1200) {
+    if (screenWidth < 800) {
       return 7;
+    } else if (screenWidth < 1200) {
+      return 10;
     } else {
-      return 14;
+      return 15;
     }
   }
   const totalPages = Math.ceil(statistics?.length / itemsPerPage);
   return (
-    <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr]'>
+    <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 lg:grid lg:grid-cols-[0.7fr,1fr]'>
       <div className='col-span-1 flex flex-col gap-5 px-2 py-4 text-stone-100'>
         <ProgressChart name={client?.name} statistics={statistics} />
         <PieChartV2
