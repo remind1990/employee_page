@@ -1,5 +1,7 @@
-import { COLORS } from '@/app/constants/constants';
+import { ColorEnum } from '@/app/enums/enums';
 import { BalanceDay, Client, Day, DayForChart } from '@/types/types';
+
+const COLORS = Object.values(ColorEnum);
 
 export const calculateSum = (data: Client) => {
   const numericValues: number[] = Object.values(data).filter(

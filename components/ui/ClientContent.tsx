@@ -15,7 +15,7 @@ import {
   FaMicrophone,
 } from 'react-icons/fa';
 import { IoMail } from 'react-icons/io5';
-import { COLORS } from '@/app/constants/constants';
+import { ColorEnum } from '@/app/enums/enums';
 
 type MonthTotalSums = {
   totalSum: number;
@@ -87,25 +87,25 @@ function ClientContent({
           <TableComponent.Header>
             <div>{moment().format('MMM / YYYY')}</div>
             <div className='category-icon'>
-              <FaRocketchat fill={COLORS[0]} />
+              <FaRocketchat fill={ColorEnum.BLUE} />
             </div>
             <div className='category-icon'>
-              <FaHeart fill={COLORS[2]} />
+              <FaHeart fill={ColorEnum.RED} />
             </div>
             <div className='category-icon'>
-              <IoMail fill={COLORS[1]} />
+              <IoMail fill={ColorEnum.ORANGE} />
             </div>
             <div className='category-icon'>
-              <FaPhone fill={COLORS[5]} />
+              <FaPhone fill={ColorEnum.SKY_BLUE} />
             </div>
             <div className='category-icon'>
-              <FaGift fill={COLORS[3]} />
+              <FaGift fill={ColorEnum.INDIGO} />
             </div>
             <div className='category-icon fill-pink-500'>
-              <FaGift fill={COLORS[4]} />
+              <FaGift fill={ColorEnum.CRIMSON} />
             </div>
             <div className='category-icon'>
-              <FaMicrophone fill={COLORS[6]} />
+              <FaMicrophone fill={ColorEnum.PURPLE} />
             </div>
           </TableComponent.Header>
           <TableComponent.Body

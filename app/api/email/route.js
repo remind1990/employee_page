@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { ApiError, ApiSuccess } from '../enums';
 
 let lastEmailSentTimestamp = 0;
 
@@ -8,7 +9,7 @@ export async function POST(req) {
     const { email, name, message } = await req.json();
     if (!email || !name || !message) {
       return NextResponse.json({
-        msg: 'No data',
+        msg: ApiError.NO_DATA,
         success: false,
       });
     }
@@ -19,7 +20,7 @@ export async function POST(req) {
 
     if (elapsedTimeSinceLastEmail < rateLimit) {
       return NextResponse.json({
-        msg: 'Rate limit exceeded. Please wait before sending another email.',
+        msg: ApiError.RATE_LIMIT_EXCEEDED,
         success: false,
       });
     }
@@ -32,28 +33,25 @@ export async function POST(req) {
       },
     });
     const mailOptions = {
-      from: 'meetyourmate.od@gmail.com',
-      to: 'info@babchenkov-portfolio.com',
+      from: process.env.EMAIL_FROM,
+      to: process.env.EMAIL_TO,
       subject: 'New Translator',
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
 
     try {
       await transporter.sendMail(mailOptions);
-
       lastEmailSentTimestamp = currentTime;
 
       return NextResponse.json({
-        msg: 'Email has been sent successfully',
+        msg: ApiSuccess.EMAIL_SENT_SUCCESSFULLY,
         success: true,
       });
     } catch (error) {
       console.error(error);
-      return res
-        .status(500)
-        .json({ error: 'Internal server error. Failed to send email.' });
+      return res.status(500).json({ error: ApiError.INTERNAL_SERVER_ERROR });
     }
   } else {
-    return res.status(405).json({ error: 'Method not allowed.' });
+    return res.status(405).json({ error: ApiError.METHOD_NOT_ALLOWED });
   }
 }
