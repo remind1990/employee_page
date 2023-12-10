@@ -1,5 +1,6 @@
 'use client';
 import { useAuth } from '@/contexts/authContext';
+import { SendEmailServiceMessages } from '@/services/enums';
 import sendEmail from '@/services/sendEmail';
 import { useRouter } from 'next/navigation';
 import React, {
@@ -63,7 +64,7 @@ function ContactForm({}: Props) {
       try {
         const res = await sendEmail(formData);
         if (res.success) {
-          toast.success(res.msg);
+          toast.success(SendEmailServiceMessages.Success);
           setTimeout(() => {
             sendContactEmail();
             router.push('/');

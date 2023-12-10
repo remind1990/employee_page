@@ -1,5 +1,9 @@
 'use client';
 import { useAuth } from '@/contexts/authContext';
+import {
+  GetTranslatorServiceMessages,
+  UpdateTranslatorServiceMessages,
+} from '@/services/enums';
 import getTranslator from '@/services/getTranslator';
 import updateTranslator from '@/services/updateTranslator';
 import { useRouter } from 'next/navigation';
@@ -47,7 +51,7 @@ const SignUpForm = (props: Props) => {
       startTransition(async () => {
         try {
           const res = await getTranslator(email, true);
-          toast.success(res.msg);
+          toast.success(GetTranslatorServiceMessages.Success);
           commitThatUserExist(res.data);
         } catch (err: any) {
           toast.error(err.message);
@@ -66,7 +70,7 @@ const SignUpForm = (props: Props) => {
         startTransition(async () => {
           try {
             const data = await updateTranslator(user._id, { email, password });
-            toast.success(data.msg);
+            toast.success(UpdateTranslatorServiceMessages.Success);
             router.push('/login');
           } catch (err: any) {
             console.error(err.message);

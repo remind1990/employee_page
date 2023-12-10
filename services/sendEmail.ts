@@ -1,3 +1,5 @@
+import { SendEmailServiceMessages } from './enums';
+
 type ResponseData = {
   msg: string;
   success: boolean;
@@ -27,6 +29,6 @@ export default async function sendEmail(data: Data): Promise<ResponseData> {
       return errorData;
     }
   } catch (error) {
-    throw new Error('Something went wrong');
+    throw new Error(SendEmailServiceMessages.Error);
   }
 }

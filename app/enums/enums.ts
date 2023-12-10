@@ -1,5 +1,3 @@
-// src/enums.ts
-
 export enum ApiError {
   DOWNLOAD_COLLECTION_ERROR = 'Error downloading collection',
   RATE_LIMIT_EXCEEDED = 'Too many requests, please try again later.',
@@ -11,6 +9,7 @@ export enum ApiError {
 }
 
 export enum ApiSuccess {
+  EMAIL_SUCCESS = 'Emai has been sent',
   USER_FOUND_SUCCESSFULLY = 'Successfully found a user',
   LOGIN_SUCCESSFUL = 'passwords match',
   LOG_IN_MESSAGE = 'Hello [translator name]. Please log in',
@@ -27,5 +26,5 @@ export enum ColorEnum {
   PURPLE = '#8b5cf6',
   LIGHT_RED = '#FF6667',
   DARK_BLUE = '#336CFF',
-  YELLOW = '#FFD700', // New field
+  YELLOW = '#FFD700',
 }

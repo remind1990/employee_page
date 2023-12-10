@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { ApiError, ApiSuccess } from '../enums';
+import { ApiError, ApiSuccess } from '@/app/enums/enums';
 
 let lastEmailSentTimestamp = 0;
 
 export async function POST(req) {
+  console.log(ApiError.RATE_LIMIT_EXCEEDED);
   if (req.method === 'POST') {
     const { email, name, message } = await req.json();
     if (!email || !name || !message) {
@@ -44,7 +45,7 @@ export async function POST(req) {
       lastEmailSentTimestamp = currentTime;
 
       return NextResponse.json({
-        msg: ApiSuccess.EMAIL_SENT_SUCCESSFULLY,
+        msg: ApiSuccess.EMAIL_SUCCESS,
         success: true,
       });
     } catch (error) {
