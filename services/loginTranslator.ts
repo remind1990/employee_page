@@ -1,3 +1,5 @@
+import { LoginServiceMessages } from './enums';
+
 export default async function loginTranslator(data: {}) {
   try {
     const res = await fetch(`api/translators`, {
@@ -11,13 +13,13 @@ export default async function loginTranslator(data: {}) {
       const data = await res.json();
       return data;
     } else {
-      throw new Error('problem with email or password');
+      throw new Error(LoginServiceMessages.Error);
     }
   } catch (err: any) {
     if (err instanceof Error) {
-      throw new Error(err.message);
+      throw new Error(LoginServiceMessages.UnknownError);
     } else {
-      throw new Error('An unknown error occurred');
+      throw new Error(LoginServiceMessages.UnknownError);
     }
   }
 }

@@ -3,16 +3,18 @@ import { connectToDatabase, collections } from '../../../../libs/mongoDB';
 import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
 import { checkRateLimit } from '../../../../helpers/rateLimiter';
+import { ApiError, ApiSuccess } from '@/app/enums/enums';
 
 export async function PUT(req, { params }) {
   const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress;
 
   if (!checkRateLimit(ip)) {
     return NextResponse.json({
-      msg: 'Too many requests, please try again later.',
+      msg: ApiError.RATE_LIMIT_EXCEEDED,
       success: false,
     });
   }
+
   const { id } = params;
   const { password } = await req.json();
   try {
@@ -30,18 +32,18 @@ export async function PUT(req, { params }) {
       });
 
       return NextResponse.json({
-        msg: 'Translator was updated with mongoose',
+        msg: ApiSuccess.TRANSLATOR_UPDATED_SUCCESSFULLY,
         success: true,
         data: searchingTranslator,
       });
     } else {
       return NextResponse.json({
-        msg: 'No translator was updated',
+        msg: ApiError.TRANSLATOR_NOT_UPDATED,
         success: false,
       });
     }
   } catch (err) {
     console.log(err);
-    throw new Error('Error in function:', err);
+    throw new Error(`${ApiError.FUNCTION_ERROR}: ${err.message}`);
   }
 }

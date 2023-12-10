@@ -6,7 +6,8 @@ const DB = process.env.DATABASE.replace(
 );
 const mongooseConnectDB = async () => {
   try {
-    await mongoose.connect(DB);
+    // NOTE: needed for later use
+    // await mongoose.connect(DB);
     console.log('Connected to database with Mongoose');
   } catch (err) {
     console.log(err);

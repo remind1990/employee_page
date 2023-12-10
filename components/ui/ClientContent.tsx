@@ -15,7 +15,7 @@ import {
   FaMicrophone,
 } from 'react-icons/fa';
 import { IoMail } from 'react-icons/io5';
-import { COLORS } from '@/app/constants/constants';
+import { ColorEnum } from '@/app/enums/enums';
 
 type MonthTotalSums = {
   totalSum: number;
@@ -63,18 +63,18 @@ function ClientContent({
   function calculateItemsPerPage() {
     const screenWidth = window.innerWidth;
 
-    if (screenWidth < 600) {
-      return 5;
-    } else if (screenWidth < 1200) {
+    if (screenWidth < 800) {
       return 7;
+    } else if (screenWidth < 1200) {
+      return 10;
     } else {
-      return 14;
+      return 15;
     }
   }
   const totalPages = Math.ceil(statistics?.length / itemsPerPage);
   return (
-    <section className='relative z-10 flex min-h-[300px] w-full flex-col-reverse gap-16 bg-stone-700 pb-10 text-stone-800 sm:grid sm:grid-cols-[0.7fr,1fr] sm:gap-0'>
-      <div className='col-span-1 flex min-h-[200px] flex-col gap-5 px-2 py-4 text-stone-100'>
+    <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 lg:grid lg:grid-cols-[0.7fr,1fr]'>
+      <div className='col-span-1 flex flex-col gap-5 px-2 py-4 text-stone-100'>
         <ProgressChart name={client?.name} statistics={statistics} />
         <PieChartV2
           statistics={statistics}
@@ -87,25 +87,25 @@ function ClientContent({
           <TableComponent.Header>
             <div>{moment().format('MMM / YYYY')}</div>
             <div className='category-icon'>
-              <FaRocketchat fill={COLORS[0]} />
+              <FaRocketchat fill={ColorEnum.BLUE} />
             </div>
             <div className='category-icon'>
-              <FaHeart fill={COLORS[2]} />
+              <FaHeart fill={ColorEnum.RED} />
             </div>
             <div className='category-icon'>
-              <IoMail fill={COLORS[1]} />
+              <IoMail fill={ColorEnum.ORANGE} />
             </div>
             <div className='category-icon'>
-              <FaPhone fill={COLORS[5]} />
+              <FaPhone fill={ColorEnum.SKY_BLUE} />
             </div>
             <div className='category-icon'>
-              <FaGift fill={COLORS[3]} />
+              <FaGift fill={ColorEnum.INDIGO} />
             </div>
             <div className='category-icon fill-pink-500'>
-              <FaGift fill={COLORS[4]} />
+              <FaGift fill={ColorEnum.CRIMSON} />
             </div>
             <div className='category-icon'>
-              <FaMicrophone fill={COLORS[6]} />
+              <FaMicrophone fill={ColorEnum.PURPLE} />
             </div>
           </TableComponent.Header>
           <TableComponent.Body

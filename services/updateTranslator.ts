@@ -1,3 +1,5 @@
+import { UpdateTranslatorServiceMessages } from './enums';
+
 export default async function updateTranslator(id: string, data: {}) {
   try {
     const res = await fetch(`api/translators/${id}`, {
@@ -11,13 +13,13 @@ export default async function updateTranslator(id: string, data: {}) {
       const data = await res.json();
       return data;
     } else {
-      throw new Error('user was not updated');
+      throw new Error(UpdateTranslatorServiceMessages.Error);
     }
   } catch (err: any) {
     if (err instanceof Error) {
-      throw new Error('Some problem occurred during updating');
+      throw new Error(UpdateTranslatorServiceMessages.UnknownError, err);
     } else {
-      throw new Error('An unknown error occurred');
+      throw new Error(UpdateTranslatorServiceMessages.UnknownError);
     }
   }
 }

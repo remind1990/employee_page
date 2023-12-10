@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 import { connectToDatabase, collections } from '../../../libs/mongoDB';
 import { checkRateLimit } from '../../../helpers/rateLimiter';
 import bcrypt from 'bcrypt';
+import { ApiError, ApiSuccess } from '@/app/enums/enums';
 
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
@@ -19,8 +20,8 @@ export async function GET(req) {
       if (existsParam) {
         return NextResponse.json({
           msg: translators[0].password
-            ? `Hello ${translators[0].name}. Please log in`
-            : 'email was found in database',
+            ? `${ApiSuccess.LOG_IN_MESSAGE}`
+            : `${ApiSuccess.USER_FOUND_SUCCESSFULLY}`,
           success: true,
           data: {
             _id: translators[0]._id,
@@ -29,7 +30,7 @@ export async function GET(req) {
         });
       } else {
         return NextResponse.json({
-          msg: 'Successfully found a user',
+          msg: ApiSuccess.USER_FOUND_SUCCESSFULLY,
           success: true,
           data: translators[0],
         });
@@ -37,7 +38,9 @@ export async function GET(req) {
     }
   } catch (err) {
     console.error(err);
-    throw new Error('Error downloading collection');
+    throw new Error(
+      `${ApiError.FUNCTION_ERROR}: ${ApiError.DOWNLOAD_COLLECTION_ERROR}`
+    );
   }
 }
 
@@ -47,7 +50,7 @@ export async function POST(req) {
 
   if (!checkRateLimit(ip)) {
     return NextResponse.json({
-      msg: 'Too many requests, please try again later.',
+      msg: ApiError.RATE_LIMIT_EXCEEDED,
       success: false,
     });
   }
@@ -60,7 +63,7 @@ export async function POST(req) {
     });
     if (!searchingTranslator) {
       return NextResponse.json({
-        msg: 'No translator found',
+        msg: ApiError.NO_TRANSLATOR_FOUND,
         success: false,
       });
     }
@@ -95,7 +98,7 @@ export async function POST(req) {
       );
       if (passwordsMatch) {
         return NextResponse.json({
-          msg: 'passwords match',
+          msg: ApiSuccess.LOGIN_SUCCESSFUL,
           success: true,
           data: {
             ...searchingTranslator,
@@ -103,11 +106,11 @@ export async function POST(req) {
           },
         });
       } else {
-        throw new Error('There was a mistake in email or password');
+        throw new Error(ApiError.AUTHENTICATION_ERROR);
       }
     }
   } catch (err) {
     console.error(err);
-    throw new Error('Error in function:', err);
+    throw new Error(`${ApiError.FUNCTION_ERROR}: ${err.message}`);
   }
 }

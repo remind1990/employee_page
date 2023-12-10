@@ -31,7 +31,7 @@ function PieChartV2({ statistics, totalSum, daysWithTotalSum }: Props) {
     Number(progressForYesterday?.allClientsSum).toFixed(2) || 0;
 
   return (
-    <div className='h-[350px] max-h-[400px] w-full overflow-y-scroll sm:h-[250px] sm:max-h-[400px]'>
+    <>
       <h1>
         Yesterday Progress:{' '}
         <span className='progress-number'>{yesterdayProgress}</span>
@@ -40,7 +40,7 @@ function PieChartV2({ statistics, totalSum, daysWithTotalSum }: Props) {
         Total progress: <span className='progress-number'>{totalProgress}</span>
         $
       </h1>
-      <ResponsiveContainer>
+      <ResponsiveContainer width='100%' height={450} className={'mt-[-100px]'}>
         <PieChart>
           <Pie
             data={statsWithTotalSums}
@@ -49,8 +49,6 @@ function PieChartV2({ statistics, totalSum, daysWithTotalSum }: Props) {
             innerRadius={60}
             outerRadius={80}
             paddingAngle={3}
-            cx='50%'
-            cy='40%'
           >
             {statsWithTotalSums?.map((entry, index) => (
               <Cell
@@ -77,7 +75,7 @@ function PieChartV2({ statistics, totalSum, daysWithTotalSum }: Props) {
           />
         </PieChart>
       </ResponsiveContainer>
-    </div>
+    </>
   );
 }
 

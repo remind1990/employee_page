@@ -37,17 +37,21 @@ function TableRow({ id, client }: Props) {
     'voiceMessages',
   ] as const;
 
+  const mediaQuery = window.matchMedia('(max-width: 640px)');
+  const isMobile = mediaQuery.matches;
   return (
     <TableComponent.Row>
       <div className={`pl-2 text-left font-bold`}>
-        {moment(id, 'DD MM YYYY').format('DD,')}
-        <span
-          className={`pl-2 ${
-            moment(id, 'DD MM YYYY').day() >= 5 ? 'text-red-400' : ''
-          }`}
-        >
-          {moment(id, 'DD MM YYYY').format('ddd')}
-        </span>
+        {moment(id, 'DD MM YYYY').format(`${isMobile ? 'DD' : 'DD,'}`)}
+        {!isMobile && (
+          <span
+            className={`pl-2 ${
+              moment(id, 'DD MM YYYY').day() >= 5 ? 'text-red-400' : ''
+            }`}
+          >
+            {moment(id, 'DD MM YYYY').format('ddd')}
+          </span>
+        )}
       </div>
       {clientPropsToShowInRows.map((prop) => (
         <div

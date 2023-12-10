@@ -12,7 +12,7 @@ const AuthorizationPage = (props: Props) => {
   const pathname = usePathname();
   return (
     <main
-      className={`flex h-screen items-center justify-center ${whiteCoverCSSClasses}`}
+      className={`flex h-screen items-center justify-center ${whiteCoverCSSClasses} bg-cover bg-center bg-no-repeat`}
       style={{ backgroundImage: "url('/main-background.jpg')" }}
     >
       <div className='flex-column z-10 w-[90%] max-w-[400px] rounded-lg border-r-amber-200 bg-amber-50 shadow-levitate'>
