@@ -14,6 +14,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import moment from 'moment';
 
 type Props = {
   statistics: BalanceDay[];
@@ -21,29 +22,40 @@ type Props = {
 };
 
 export default function ProgressChart({ statistics, name }: Props) {
-  const month =
-    statistics &&
-    statistics?.map((day) => {
-      const newDay = {
-        date: day.id.split(' ')[0],
-        sum: calculateSum(day?.clients[0]).toFixed(2),
-      };
-      return newDay;
-    });
+  const currentMonthName = moment().format('MMMM');
 
-  const calculatedMaxSum =
-    statistics &&
-    Math.round(Math.max(...month?.map((day) => parseFloat(day.sum))) * 1.2);
+  // Get the number of days in the current month
+  const daysInMonth = moment().daysInMonth();
+
+  // Create an array of all the days in the month
+  const allDaysInMonth = Array.from({ length: daysInMonth }, (_, i) =>
+    moment()
+      .date(i + 1)
+      .format('DD')
+  );
+
+  // Merge existing statistics with all days in the month
+  const month = allDaysInMonth.map((day) => {
+    const foundDay = statistics.find(
+      (d) => moment(d.dateTimeId).format('DD') === day
+    );
+    return {
+      date: day,
+      sum: foundDay ? calculateSum(foundDay.statistics).toFixed(2) : '0', // Set sum to 0 if no data exists for the day
+    };
+  });
+
+  const calculatedMaxSum = Math.round(
+    Math.max(...month.map((day) => parseFloat(day.sum))) * 1.2
+  );
 
   const monthTotalSumForPickedClient =
     calculateTotalSumForEachDayInMonth(month);
 
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
-  const monthNumberAsString = statistics && statistics[0]?.id.split(' ')?.[1];
-  const monthNumberAsNumber = parseInt(monthNumberAsString);
-  const currentMonthName = getMonthNameFromId(monthNumberAsNumber);
+
   return (
-    <div className='flex  w-full  flex-col items-center justify-center pt-2 font-roboto md:w-full'>
+    <div className='flex w-full flex-col items-center justify-center pt-2 font-roboto md:w-full'>
       <h1>
         Your progress{' '}
         {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}

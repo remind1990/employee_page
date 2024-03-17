@@ -4,11 +4,20 @@ import { connectToDatabase, collections } from '../../../libs/mongoDB';
 import { checkRateLimit } from '../../../helpers/rateLimiter';
 import bcrypt from 'bcrypt';
 import { ApiError, ApiSuccess } from '@/app/enums/enums';
+import {
+  mongooseConnectDB,
+  getCollections,
+} from '../../../libs/mongodbConnectWithMongoose';
+import {
+  getCurrentMonthEndDayInUTC,
+  getCurrentMonthStartDayInUTC,
+} from '@/helpers/dateCalcs/dateCalcs';
 
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
   const userEmail = searchParams.get('email');
   const existsParam = searchParams.get('exists');
+
   try {
     await connectToDatabase();
     const translatorsCollections = collections.get('collectionTranslators');
@@ -57,7 +66,9 @@ export async function POST(req) {
 
   try {
     await connectToDatabase();
+    await mongooseConnectDB();
     const translatorsCollections = collections.get('collectionTranslators');
+    const mongooseData = await getTranslatorsWithMongoose(email);
     const searchingTranslator = await translatorsCollections.findOne({
       email: email,
     });
@@ -104,6 +115,9 @@ export async function POST(req) {
             ...searchingTranslator,
             clients: updatedClientsArray,
           },
+          mongooseData: {
+            mongooseData,
+          },
         });
       } else {
         throw new Error(ApiError.AUTHENTICATION_ERROR);
@@ -112,5 +126,50 @@ export async function POST(req) {
   } catch (err) {
     console.error(err);
     throw new Error(`${ApiError.FUNCTION_ERROR}: ${err.message}`);
+  }
+}
+
+async function getTranslatorsWithMongoose(email) {
+  try {
+    const translator = await getCollections()
+      .collectionTranslators.findOne({
+        email: email,
+      })
+      .populate('clients');
+    if (translator) {
+      const balanceDays = await getMonthBalanceDaysForTranslators(
+        translator._id
+      );
+      const data = {
+        translator,
+        balanceDays,
+      };
+      return data;
+    } else {
+      console.log('No translators found.');
+    }
+  } catch (error) {
+    console.error('Error finding translators:', error);
+  }
+}
+
+async function getMonthBalanceDaysForTranslators(id) {
+  const firstDayOfTheMonth = getCurrentMonthStartDayInUTC();
+  const lastDayOfTheMonth = getCurrentMonthEndDayInUTC();
+  let query = {};
+  try {
+    if (id) {
+      query.translator = id;
+    }
+    query.dateTimeId = {
+      $gte: firstDayOfTheMonth,
+      $lte: lastDayOfTheMonth,
+    };
+    const BalanceDay = await getCollections().collectionBalanceDays;
+    const currentMonthBalanceDays = await BalanceDay.find(query).exec();
+    return currentMonthBalanceDays;
+  } catch (err) {
+    console.log(err);
+    throw new error('Error: getting balance day', err);
   }
 }

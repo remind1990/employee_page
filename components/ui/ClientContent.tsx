@@ -34,31 +34,27 @@ type Client = {
   surname: string;
 };
 
-function ClientContent({
-  client,
-  statistics,
-  monthTotalSumForEveryClient: { totalSum, daysWithTotalSum },
-}: Props) {
+function ClientContent({ client, clientBalance }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedStatistics =
-    statistics && statistics?.slice(startIndex, endIndex);
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-  useEffect(() => {
-    function handleResize() {
-      setItemsPerPage(calculateItemsPerPage());
-    }
+  // const paginatedStatistics =
+  //   statistics && statistics?.slice(startIndex, endIndex);
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
+  // useEffect(() => {
+  //   function handleResize() {
+  //     setItemsPerPage(calculateItemsPerPage());
+  //   }
 
-    window.addEventListener('resize', handleResize);
+  //   window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [statistics]);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [statistics]);
 
   function calculateItemsPerPage() {
     const screenWidth = window.innerWidth;
@@ -71,16 +67,19 @@ function ClientContent({
       return 15;
     }
   }
-  const totalPages = Math.ceil(statistics?.length / itemsPerPage);
+
+  // const totalPages = Math.ceil(statistics?.length / itemsPerPage);
   return (
     <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 lg:grid lg:grid-cols-[0.7fr,1fr]'>
       <div className='col-span-1 flex flex-col gap-5 px-2 py-4 text-stone-100'>
-        <ProgressChart name={client?.name} statistics={statistics} />
-        <PieChartV2
+        {clientBalance.length > 0 && (
+          <ProgressChart name={client?.name} statistics={clientBalance} />
+        )}
+        {/* <PieChartV2
           statistics={statistics}
           totalSum={totalSum}
           daysWithTotalSum={daysWithTotalSum}
-        />
+        /> */}
       </div>
       <div className='col-span-1 h-full w-full'>
         <TableComponent>
@@ -109,17 +108,21 @@ function ClientContent({
             </div>
           </TableComponent.Header>
           <TableComponent.Body
-            data={paginatedStatistics}
+            data={clientBalance}
             render={(day) => (
-              <TableRow id={day.id} client={day.clients[0]} key={day.id} />
+              <TableRow
+                id={day.dateTimeId}
+                statistics={day.statistics}
+                key={day._id}
+              />
             )}
           />
         </TableComponent>
-        <Pagination
+        {/* <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={handlePageChange}
-        />
+        /> */}
       </div>
     </section>
   );
