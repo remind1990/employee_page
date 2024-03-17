@@ -12,7 +12,7 @@ import { LoginServiceMessages } from '@/services/enums';
 type Event = ChangeEvent<HTMLInputElement>;
 
 const LoginForm = () => {
-  const { login } = useAuth();
+  const { login, mongooseLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPending, startTransition] = useTransition();
@@ -25,6 +25,7 @@ const LoginForm = () => {
         const res = await loginTranslator({ email, password });
         toast.success(LoginServiceMessages.Success);
         login(res.data);
+        mongooseLogin(res.mongooseData);
         router.push('/dashboard');
       } catch (err: any) {
         toast.error(err.message);

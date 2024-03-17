@@ -3,6 +3,7 @@ import { createContext, useContext, useReducer } from 'react';
 const AuthContext = createContext();
 const initialState = {
   user: null,
+  mongooseUser: null,
   userExist: false,
   isRegistered: false,
   isAuthenticated: false,
@@ -15,6 +16,14 @@ function reducer(state, action) {
       return {
         ...state,
         user: action.payload,
+        isAuthenticated: true,
+        isRegistered: true,
+        userExist: true,
+      };
+    case 'mongooseLogin':
+      return {
+        ...state,
+        mongooseUser: action.payload,
         isAuthenticated: true,
         isRegistered: true,
         userExist: true,
@@ -42,7 +51,14 @@ function reducer(state, action) {
 
 function AuthProvider({ children }) {
   const [
-    { user, isAuthenticated, isRegistered, userExist, contactEmail },
+    {
+      user,
+      isAuthenticated,
+      isRegistered,
+      userExist,
+      contactEmail,
+      mongooseUser,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -53,7 +69,9 @@ function AuthProvider({ children }) {
   function logout() {
     dispatch({ type: 'logout' });
   }
-
+  function mongooseLogin(data) {
+    dispatch({ type: 'mongooseLogin', payload: data.mongooseData });
+  }
   function commitThatUserExist(data) {
     const { _id, registered } = data;
     dispatch({ type: 'commitUser', payload: { _id, registered } });
@@ -72,6 +90,8 @@ function AuthProvider({ children }) {
         isRegistered,
         login,
         logout,
+        mongooseUser,
+        mongooseLogin,
         commitThatUserExist,
         sendContactEmail,
         contactEmail,
