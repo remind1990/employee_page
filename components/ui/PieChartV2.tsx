@@ -1,9 +1,16 @@
-import { yesterdayString } from '@/app/constants/constants';
+import { YESTERDAY, yesterdayString } from '@/app/constants/constants';
 import {
+  calculateSum,
   calculateTotalSumForEachCategory,
   convertVariableToTitle,
 } from '@/helpers/chartsCalculationsHelpers';
-import { BalanceDay, DayWithSums } from '@/types/types';
+import {
+  BalanceDay,
+  ClientBalanceDay,
+  DayWithSums,
+  NewStatistic,
+} from '@/types/types';
+import moment from 'moment';
 import React from 'react';
 import {
   Cell,
@@ -15,30 +22,32 @@ import {
 } from 'recharts';
 
 type Props = {
-  statistics: BalanceDay[];
-  totalSum: number;
-  daysWithTotalSum: DayWithSums[];
+  balanceDay: ClientBalanceDay[];
 };
 
-function PieChartV2({ statistics, totalSum, daysWithTotalSum }: Props) {
-  const statsWithTotalSums =
-    statistics && calculateTotalSumForEachCategory(statistics);
-  const progressForYesterday = daysWithTotalSum.find(
-    (day) => day.id === yesterdayString
+function PieChartV2({ balanceDay }: Props) {
+  const statsWithTotalSums = calculateTotalSumForEachCategory(balanceDay);
+  // const progressForYesterday = daysWithTotalSum.find(
+  //   (day) => day.id === yesterdayString
+  // );
+  // const totalProgress = Number(totalSum).toFixed(2) || 0;
+  console.log(balanceDay);
+  const yesterdayBalanceDay = balanceDay.find((day) =>
+    moment(day.dateTimeId).isSame(YESTERDAY, 'day')
   );
-  const totalProgress = Number(totalSum).toFixed(2) || 0;
-  const yesterdayProgress =
-    Number(progressForYesterday?.allClientsSum).toFixed(2) || 0;
+  console.log(yesterdayBalanceDay);
+  const yesterdayProgress = yesterdayBalanceDay
+    ? calculateSum(yesterdayBalanceDay?.statistics).toFixed(2)
+    : '0';
 
   return (
     <>
       <h1>
         Yesterday Progress:{' '}
-        <span className='progress-number'>{yesterdayProgress}</span>
-        $
-        <br />
-        Total progress: <span className='progress-number'>{totalProgress}</span>
-        $
+        <span className='progress-number'>{yesterdayProgress}</span>$
+        {/* <br />
+        Total progress:{' '}
+        <span className='progress-number'>{'totalProgress'}</span>$ */}
       </h1>
       <ResponsiveContainer width='100%' height={450} className={'mt-[-100px]'}>
         <PieChart>

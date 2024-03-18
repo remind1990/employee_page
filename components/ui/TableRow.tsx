@@ -12,7 +12,7 @@ const getBoldedStyle = (value: number) =>
     : {};
 
 type Props = {
-  id: string;
+  date: string;
   statistics: {
     chats: number;
     dating: number;
@@ -26,7 +26,7 @@ type Props = {
   };
 };
 
-function TableRow({ id, statistics }: Props) {
+function TableRow({ date, statistics }: Props) {
   const clientPropsToShowInRows = [
     'chats',
     'dating',
@@ -42,16 +42,7 @@ function TableRow({ id, statistics }: Props) {
   return (
     <TableComponent.Row>
       <div className={`pl-2 text-left font-bold`}>
-        {moment(id).format('D, MMMM')}
-        {/* {!isMobile && (
-          <span
-            className={`pl-2 ${
-              moment(id, 'DD MM YYYY').day() >= 5 ? 'text-red-400' : ''
-            }`}
-          >
-            {moment(id, 'DD MM YYYY').format('ddd')}
-          </span>
-        )} */}
+        {moment(date).format('D, MMMM')}
       </div>
       {clientPropsToShowInRows.map((prop) => (
         <div

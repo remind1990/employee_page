@@ -25,9 +25,15 @@ export type Statistic = {
   months: Day[][];
 };
 
-export type BalanceDay = {
-  clients: Client[];
-  id: string;
+export type NewStatistic = {
+  chats: number;
+  dating: number;
+  letters: number;
+  penalties: number;
+  phoneCalls: number;
+  photoAttachments: number;
+  virtualGiftsDating: number;
+  virtualGiftsSvadba: number;
 };
 
 export type DayForChart = {
@@ -38,4 +44,13 @@ export type DayForChart = {
 export type DayWithSums = {
   id: string;
   allClientsSum: string | number | boolean;
+};
+
+export type ClientBalanceDay = {
+  client: string;
+  dateTimeId: string;
+  statistics: NewStatistic;
+  translator: string;
+  __v: number;
+  _id: string;
 };

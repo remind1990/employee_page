@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fa';
 import { IoMail } from 'react-icons/io5';
 import { ColorEnum } from '@/app/enums/enums';
+import { DAYS_TILL_TODAY } from '@/app/constants/constants';
 
 type MonthTotalSums = {
   totalSum: number;
@@ -23,10 +24,9 @@ type MonthTotalSums = {
 };
 type Props = {
   client: Client | null;
-  statistics: BalanceDay[];
   userName?: string;
   userSurname?: string;
-  monthTotalSumForEveryClient: MonthTotalSums;
+  clientBalance: BalanceDay[];
 };
 type Client = {
   _id?: string;
@@ -38,23 +38,26 @@ function ClientContent({ client, clientBalance }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(calculateItemsPerPage());
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  // const paginatedStatistics =
-  //   statistics && statistics?.slice(startIndex, endIndex);
-  // const handlePageChange = (page: number) => {
-  //   setCurrentPage(page);
-  // };
-  // useEffect(() => {
-  //   function handleResize() {
-  //     setItemsPerPage(calculateItemsPerPage());
-  //   }
+  const endIndex = Math.min(startIndex + itemsPerPage, DAYS_TILL_TODAY.length);
+  const paginatedStatistics = DAYS_TILL_TODAY.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(DAYS_TILL_TODAY.length / itemsPerPage);
 
-  //   window.addEventListener('resize', handleResize);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, [statistics]);
+  useEffect(() => {
+    function handleResize() {
+      setItemsPerPage(calculateItemsPerPage());
+      const newCurrentPage = Math.ceil(startIndex / itemsPerPage) + 1;
+      setCurrentPage(newCurrentPage);
+    }
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [startIndex, itemsPerPage]);
 
   function calculateItemsPerPage() {
     const screenWidth = window.innerWidth;
@@ -73,13 +76,12 @@ function ClientContent({ client, clientBalance }: Props) {
     <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 lg:grid lg:grid-cols-[0.7fr,1fr]'>
       <div className='col-span-1 flex flex-col gap-5 px-2 py-4 text-stone-100'>
         {clientBalance.length > 0 && (
-          <ProgressChart name={client?.name} statistics={clientBalance} />
+          <>
+            <ProgressChart name={client?.name} balanceDay={clientBalance} />
+
+            <PieChartV2 balanceDay={clientBalance} />
+          </>
         )}
-        {/* <PieChartV2
-          statistics={statistics}
-          totalSum={totalSum}
-          daysWithTotalSum={daysWithTotalSum}
-        /> */}
       </div>
       <div className='col-span-1 h-full w-full'>
         <TableComponent>
@@ -108,21 +110,26 @@ function ClientContent({ client, clientBalance }: Props) {
             </div>
           </TableComponent.Header>
           <TableComponent.Body
-            data={clientBalance}
-            render={(day) => (
-              <TableRow
-                id={day.dateTimeId}
-                statistics={day.statistics}
-                key={day._id}
-              />
-            )}
+            data={paginatedStatistics}
+            render={(day) => {
+              const dataForDay = clientBalance.find(
+                (item) => moment(item.dateTimeId).date() === day.date()
+              );
+              return (
+                <TableRow
+                  date={day.format('YYYY-MM-DD')}
+                  statistics={dataForDay ? dataForDay.statistics : {}}
+                  key={day.format('YYYY-MM-DD')}
+                />
+              );
+            }}
           />
         </TableComponent>
-        {/* <Pagination
+        <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={handlePageChange}
-        /> */}
+        />
       </div>
     </section>
   );

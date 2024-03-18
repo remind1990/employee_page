@@ -1,20 +1,18 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Statistic, Day, Client, BalanceDay } from '@/types/types';
+import { Client, ClientBalanceDay } from '@/types/types';
 import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import ClientContent from './ui/ClientContent';
-import { calcTotalSumForEveryClient } from '@/helpers/chartsCalculationsHelpers';
 
 function Dashboard() {
   const { isAuthenticated, user } = useAuth();
   const { mongooseUser } = useAuth();
   const [notSuspended, setNotSuspended] = useState<Client[]>([]);
   const [pickedClient, setPickedClient] = useState<Client>();
-  const [clientBalance, setClientBalance] = useState<BalanceDay[]>([]);
-  const { clients = [], statistics = [], name = '', surname = '' } = user ?? {};
+  const [clientBalance, setClientBalance] = useState<ClientBalanceDay[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -42,7 +40,7 @@ function Dashboard() {
       return;
     }
     const clientBalance = mongooseUser.balanceDays.filter(
-      (day: BalanceDay) => day.client === pickedClient._id
+      (day: ClientBalanceDay) => day?.client === pickedClient._id
     );
     setClientBalance(clientBalance);
   }, [pickedClient]);

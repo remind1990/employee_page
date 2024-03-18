@@ -1,8 +1,7 @@
-import { BalanceDay } from '@/types/types';
+import { ClientBalanceDay } from '@/types/types';
 import React from 'react';
 import {
   calculateSum,
-  getMonthNameFromId,
   calculateTotalSumForEachDayInMonth,
 } from '../../helpers/chartsCalculationsHelpers';
 import {
@@ -15,33 +14,25 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import moment from 'moment';
+import {
+  ALL_DAYS_IN_MONTH,
+  CURRENT_MONTH_NAME,
+  DAYS_IN_CURRENT_MONTH,
+} from '@/app/constants/constants';
 
 type Props = {
-  statistics: BalanceDay[];
+  balanceDay: ClientBalanceDay[];
   name: string | undefined;
 };
 
-export default function ProgressChart({ statistics, name }: Props) {
-  const currentMonthName = moment().format('MMMM');
-
-  // Get the number of days in the current month
-  const daysInMonth = moment().daysInMonth();
-
-  // Create an array of all the days in the month
-  const allDaysInMonth = Array.from({ length: daysInMonth }, (_, i) =>
-    moment()
-      .date(i + 1)
-      .format('DD')
-  );
-
-  // Merge existing statistics with all days in the month
-  const month = allDaysInMonth.map((day) => {
-    const foundDay = statistics.find(
+export default function ProgressChart({ balanceDay, name }: Props) {
+  const month = ALL_DAYS_IN_MONTH.map((day) => {
+    const foundDay = balanceDay.find(
       (d) => moment(d.dateTimeId).format('DD') === day
     );
     return {
       date: day,
-      sum: foundDay ? calculateSum(foundDay.statistics).toFixed(2) : '0', // Set sum to 0 if no data exists for the day
+      sum: foundDay ? calculateSum(foundDay?.statistics).toFixed(2) : '0',
     };
   });
 
@@ -59,7 +50,7 @@ export default function ProgressChart({ statistics, name }: Props) {
       <h1>
         Your progress{' '}
         {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}
-        {currentMonthName} is:{' '}
+        {CURRENT_MONTH_NAME} is:{' '}
         <span className='progress-number'>{monthTotalSumForPickedClient}</span>$
       </h1>
       <ResponsiveContainer width='100%' height={200}>
