@@ -1,6 +1,7 @@
 import React from 'react';
 import TableComponent from './Table';
 import moment from 'moment';
+import { NewStatistic } from '@/types/types';
 
 const getBoldedStyle = (value: number) =>
   value > 0
@@ -13,17 +14,7 @@ const getBoldedStyle = (value: number) =>
 
 type Props = {
   date: string;
-  statistics: {
-    chats: number;
-    dating: number;
-    letters: number;
-    penalties: number;
-    phoneCalls: number;
-    photoAttachments: number;
-    virtualGiftsDating: number;
-    virtualGiftsSvadba: number;
-    voiceMessages: number;
-  };
+  statistics: NewStatistic | undefined; // Change to undefined
 };
 
 function TableRow({ date, statistics }: Props) {
@@ -37,8 +28,6 @@ function TableRow({ date, statistics }: Props) {
     'voiceMessages',
   ] as const;
 
-  const mediaQuery = window.matchMedia('(max-width: 640px)');
-  const isMobile = mediaQuery.matches;
   return (
     <TableComponent.Row>
       <div className={`pl-2 text-left font-bold`}>
@@ -48,9 +37,9 @@ function TableRow({ date, statistics }: Props) {
         <div
           key={prop}
           className='text-stone-500'
-          style={getBoldedStyle(statistics[prop])}
+          style={getBoldedStyle(statistics?.[prop] || 0)} // Use optional chaining
         >
-          {statistics[prop] ?? 0}
+          {statistics?.[prop] || 0} {/* Use optional chaining */}
         </div>
       ))}
     </TableComponent.Row>

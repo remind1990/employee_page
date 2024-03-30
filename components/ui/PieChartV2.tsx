@@ -1,15 +1,10 @@
-import { YESTERDAY, yesterdayString } from '@/app/constants/constants';
+import { YESTERDAY } from '@/app/constants/constants';
 import {
   calculateSum,
   calculateTotalSumForEachCategory,
   convertVariableToTitle,
 } from '@/helpers/chartsCalculationsHelpers';
-import {
-  BalanceDay,
-  ClientBalanceDay,
-  DayWithSums,
-  NewStatistic,
-} from '@/types/types';
+import { ClientBalanceDay } from '@/types/types';
 import moment from 'moment';
 import React from 'react';
 import {
@@ -31,7 +26,6 @@ function PieChartV2({ balanceDay }: Props) {
   //   (day) => day.id === yesterdayString
   // );
   // const totalProgress = Number(totalSum).toFixed(2) || 0;
-  console.log(balanceDay);
   const yesterdayBalanceDay = balanceDay.find((day) =>
     moment(day.dateTimeId).isSame(YESTERDAY, 'day')
   );

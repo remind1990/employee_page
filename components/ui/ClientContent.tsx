@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ProgressChart from './ProgressChart';
 import TableComponent from './Table';
 import TableRow from './TableRow';
-import { BalanceDay, DayWithSums } from '@/types/types';
+import { ClientBalanceDay, DayWithSums } from '@/types/types';
 import PieChartV2 from './PieChartV2';
 import Pagination from './PaginationComponents';
 import moment from 'moment';
@@ -18,15 +18,11 @@ import { IoMail } from 'react-icons/io5';
 import { ColorEnum } from '@/app/enums/enums';
 import { DAYS_TILL_TODAY } from '@/app/constants/constants';
 
-type MonthTotalSums = {
-  totalSum: number;
-  daysWithTotalSum: DayWithSums[];
-};
 type Props = {
   client: Client | null;
   userName?: string;
   userSurname?: string;
-  clientBalance: BalanceDay[];
+  clientBalance: ClientBalanceDay[];
 };
 type Client = {
   _id?: string;
@@ -71,7 +67,6 @@ function ClientContent({ client, clientBalance }: Props) {
     }
   }
 
-  // const totalPages = Math.ceil(statistics?.length / itemsPerPage);
   return (
     <section className='relative z-10 flex h-full w-full flex-col-reverse bg-stone-700 text-stone-800 lg:grid lg:grid-cols-[0.7fr,1fr]'>
       <div className='col-span-1 flex flex-col gap-5 px-2 py-4 text-stone-100'>
@@ -118,7 +113,7 @@ function ClientContent({ client, clientBalance }: Props) {
               return (
                 <TableRow
                   date={day.format('YYYY-MM-DD')}
-                  statistics={dataForDay ? dataForDay.statistics : {}}
+                  statistics={dataForDay ? dataForDay?.statistics : undefined}
                   key={day.format('YYYY-MM-DD')}
                 />
               );

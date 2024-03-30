@@ -11,7 +11,6 @@ const DB = process.env.DATABASE.replace(
 );
 
 export const mongooseConnectDB = async () => {
-  console.log('mongoose is called');
   try {
     const connectionString = changeDatabaseInConnectionString(DB, 'clientBase');
     const clientBaseDB = mongoose.createConnection(connectionString);

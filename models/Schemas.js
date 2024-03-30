@@ -51,7 +51,6 @@ export const TranslatorSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    lowercase: true,
     required: false,
   },
   wantsToReceiveEmails: Boolean,

@@ -41,51 +41,15 @@ interface Category {
   color: string;
 }
 
-// export const calculateTotalSumForEachCategory = (
-//   statistics: NewStatistic
-// ): Category[] => {
-//   return (
-//     statistics &&
-//     statistics?.reduce<Category[]>((totalSumArray, day) => {
-//       if (day.clients && day.clients[0]) {
-//         Object.entries(day.clients[0]).forEach(([field, value]) => {
-//           if (typeof value === 'number') {
-//             const categoryObject = totalSumArray.find(
-//               (obj) => obj.name === field
-//             );
-//             if (categoryObject) {
-//               categoryObject.value += value;
-//               categoryObject.value =
-//                 Math.floor(categoryObject.value * 100) / 100;
-//             } else {
-//               const colorIndex = totalSumArray.length % COLORS.length;
-//               totalSumArray.push({
-//                 name: field,
-//                 value,
-//                 color: COLORS[colorIndex],
-//               });
-//             }
-//           }
-//         });
-//       }
-//       return totalSumArray;
-//     }, [])
-//   );
-// };
-
 export const calculateTotalSumForEachCategory = (
   balanceDay: ClientBalanceDay[]
 ): Category[] => {
   const totalSumMap: { [key: string]: number } = {};
-
-  // Calculate total sum for each category
   balanceDay.forEach((day) => {
     Object.entries(day.statistics).forEach(([category, value]) => {
       totalSumMap[category] = (totalSumMap[category] || 0) + value;
     });
   });
-
-  // Convert total sum map to array of objects
   const totalSumArray: Category[] = [];
   let colorIndex = 0;
   Object.entries(totalSumMap).forEach(([category, value]) => {

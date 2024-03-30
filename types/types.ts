@@ -34,6 +34,7 @@ export type NewStatistic = {
   photoAttachments: number;
   virtualGiftsDating: number;
   virtualGiftsSvadba: number;
+  voiceMessages: number;
 };
 
 export type DayForChart = {
