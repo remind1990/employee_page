@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase, collections } from '../../../../libs/mongoDB';
-import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
 import { checkRateLimit } from '../../../../helpers/rateLimiter';
 import { ApiError, ApiSuccess } from '@/app/enums/enums';
+import {
+  getCollections,
+  mongooseConnectDB,
+} from '@/libs/mongodbConnectWithMongoose';
 
 export async function PUT(req, { params }) {
+  console.log('in put function');
   const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress;
 
   if (!checkRateLimit(ip)) {
@@ -17,19 +20,23 @@ export async function PUT(req, { params }) {
 
   const { id } = params;
   const { password } = await req.json();
+
   try {
-    await connectToDatabase();
-    const objectId = new ObjectId(id);
-    const translatorsCollections = collections.get('collectionTranslators');
+    await mongooseConnectDB();
     const hashedPassword = await bcrypt.hash(password, 10);
-    const updatedResult = await translatorsCollections.updateOne(
-      { _id: objectId },
-      { $set: { password: hashedPassword } }
+    const result = await getCollections().collectionTranslators.updateOne(
+      {
+        _id: id,
+      },
+      {
+        password: hashedPassword,
+      }
     );
-    if (updatedResult.modifiedCount > 0) {
-      const searchingTranslator = await translatorsCollections.findOne({
-        _id: objectId,
-      });
+    if (result.modifiedCount > 0) {
+      const searchingTranslator =
+        await getCollections().collectionTranslators.findOne({
+          _id: id,
+        });
 
       return NextResponse.json({
         msg: ApiSuccess.TRANSLATOR_UPDATED_SUCCESSFULLY,

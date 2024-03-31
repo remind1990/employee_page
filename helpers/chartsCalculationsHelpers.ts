@@ -1,9 +1,14 @@
 import { ColorEnum } from '@/app/enums/enums';
-import { BalanceDay, Client, Day, DayForChart } from '@/types/types';
+import {
+  ClientBalanceDay,
+  Day,
+  DayForChart,
+  NewStatistic,
+} from '@/types/types';
 
 const COLORS = Object.values(ColorEnum);
 
-export const calculateSum = (data: Client) => {
+export const calculateSum = (data: NewStatistic) => {
   const numericValues: number[] = Object.values(data).filter(
     (value): value is number => typeof value === 'number'
   ) as number[];
@@ -37,35 +42,26 @@ interface Category {
 }
 
 export const calculateTotalSumForEachCategory = (
-  statistics: BalanceDay[]
+  balanceDay: ClientBalanceDay[]
 ): Category[] => {
-  return (
-    statistics &&
-    statistics?.reduce<Category[]>((totalSumArray, day) => {
-      if (day.clients && day.clients[0]) {
-        Object.entries(day.clients[0]).forEach(([field, value]) => {
-          if (typeof value === 'number') {
-            const categoryObject = totalSumArray.find(
-              (obj) => obj.name === field
-            );
-            if (categoryObject) {
-              categoryObject.value += value;
-              categoryObject.value =
-                Math.floor(categoryObject.value * 100) / 100;
-            } else {
-              const colorIndex = totalSumArray.length % COLORS.length;
-              totalSumArray.push({
-                name: field,
-                value,
-                color: COLORS[colorIndex],
-              });
-            }
-          }
-        });
-      }
-      return totalSumArray;
-    }, [])
-  );
+  const totalSumMap: { [key: string]: number } = {};
+  balanceDay.forEach((day) => {
+    Object.entries(day.statistics).forEach(([category, value]) => {
+      totalSumMap[category] = (totalSumMap[category] || 0) + value;
+    });
+  });
+  const totalSumArray: Category[] = [];
+  let colorIndex = 0;
+  Object.entries(totalSumMap).forEach(([category, value]) => {
+    totalSumArray.push({
+      name: category,
+      value,
+      color: Object.values(ColorEnum)[colorIndex],
+    });
+    colorIndex = (colorIndex + 1) % Object.keys(ColorEnum).length;
+  });
+
+  return totalSumArray;
 };
 
 export const calculateTotalSumForEachDayInMonth = (

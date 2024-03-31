@@ -1,22 +1,18 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Statistic, Day, Client, BalanceDay } from '@/types/types';
-import {
-  whiteCoverCSSClasses,
-  currentMonth,
-  currentYear,
-  todayString,
-} from '@/app/constants/constants';
+import { Client, ClientBalanceDay } from '@/types/types';
+import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import ClientContent from './ui/ClientContent';
-import { calcTotalSumForEveryClient } from '../helpers/chartsCalculationsHelpers';
 
 function Dashboard() {
-  const [pickedClient, setPickedClient] = useState<Client | null>(null);
   const { isAuthenticated, user } = useAuth();
-  const { clients = [], statistics = [], name = '', surname = '' } = user ?? {};
+  const { mongooseUser } = useAuth();
+  const [notSuspended, setNotSuspended] = useState<Client[]>([]);
+  const [pickedClient, setPickedClient] = useState<Client>();
+  const [clientBalance, setClientBalance] = useState<ClientBalanceDay[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -25,59 +21,29 @@ function Dashboard() {
     }
   }, [user, router]);
 
-  const notSuspendedClients = clients.filter(
-    (client: { suspended?: boolean }) => !client?.suspended
-  );
+  useEffect(() => {
+    if (!mongooseUser || mongooseUser?.translator?.clients?.length === 0) {
+      return;
+    }
+
+    const notSuspended = mongooseUser?.translator?.clients.filter(
+      (client: Client) => !client.suspended
+    );
+    const defaultClient = notSuspended[0];
+
+    setNotSuspended(notSuspended);
+    setPickedClient(defaultClient);
+  }, [mongooseUser]);
 
   useEffect(() => {
-    if (notSuspendedClients && notSuspendedClients.length > 0) {
-      if (!pickedClient || pickedClient.suspended) {
-        setPickedClient(notSuspendedClients[0]);
-      }
+    if (!pickedClient) {
+      return;
     }
-  }, [notSuspendedClients, pickedClient]);
-
-  const curYearStatistic: Statistic[] = statistics?.filter(
-    (item: Statistic) => item.year === currentYear.toString()
-  );
-  const thisMonthsStatistics: Day[] =
-    user &&
-    curYearStatistic[0].months[currentMonth].filter((day: Day) => {
-      return day.id <= todayString;
-    });
-
-  const monthTotalSumForEveryClient =
-    calcTotalSumForEveryClient(thisMonthsStatistics);
-
-  const daysOnlyWithPickedClient: BalanceDay[] = thisMonthsStatistics?.map(
-    (day: Day) => {
-      const filteredClients = day.clients
-        .filter((client: any) => client.id === pickedClient?._id)
-        .map((client: any) => {
-          const filteredClient: any = {};
-          for (const key in client) {
-            if (
-              typeof client[key] === 'number' &&
-              key !== 'penalties' &&
-              key !== 'photoAttachments'
-            ) {
-              filteredClient[key] = client[key];
-            }
-          }
-          return filteredClient;
-        });
-
-      return {
-        ...day,
-        clients: filteredClients,
-      };
-    }
-  );
-  useEffect(() => {
-    if (!user) {
-      router.replace('/login');
-    }
-  }, [user, router]);
+    const clientBalance = mongooseUser.balanceDays.filter(
+      (day: ClientBalanceDay) => day?.client === pickedClient._id
+    );
+    setClientBalance(clientBalance);
+  }, [pickedClient]);
 
   return (
     <main
@@ -96,23 +62,20 @@ function Dashboard() {
       sm:flex-wrap
       '
       >
-        {notSuspendedClients.map((client: Client) => (
-          <ClientCard
-            key={client?._id}
-            client={client}
-            selectClient={setPickedClient}
-            pickedClientId={pickedClient?._id}
-          />
-        ))}
+        {notSuspended &&
+          notSuspended.map((client: any) => {
+            return (
+              <ClientCard
+                key={client?._id}
+                client={client}
+                setPickedClient={setPickedClient}
+                pickedClientId={pickedClient?._id}
+              />
+            );
+          })}
       </div>
       {pickedClient && (
-        <ClientContent
-          monthTotalSumForEveryClient={monthTotalSumForEveryClient}
-          client={pickedClient}
-          statistics={daysOnlyWithPickedClient}
-          userName={name}
-          userSurname={surname}
-        />
+        <ClientContent client={pickedClient} clientBalance={clientBalance} />
       )}
     </main>
   );

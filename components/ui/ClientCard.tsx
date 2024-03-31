@@ -4,13 +4,16 @@ import React from 'react';
 
 type Props = {
   client: Client;
-  selectClient: (client: Client) => void;
   pickedClientId?: string;
+  setPickedClient: (client: Client) => void;
 };
 
-function ClientCard({ client, selectClient, pickedClientId }: Props) {
+function ClientCard({ client, setPickedClient, pickedClientId }: Props) {
   const handleClick = () => {
-    selectClient(client);
+    if (!client) {
+      return;
+    }
+    setPickedClient(client);
   };
   const clientIsSelected = client._id === pickedClientId;
   const styleForSelectedClient = clientIsSelected
@@ -19,6 +22,7 @@ function ClientCard({ client, selectClient, pickedClientId }: Props) {
   const hoverStyles = clientIsSelected
     ? ''
     : 'hover:scale-110 hover:shadow-levitate hover:z-10';
+
   return (
     <div
       className='flex cursor-pointer flex-col gap-1 rounded-md'
@@ -37,7 +41,7 @@ function ClientCard({ client, selectClient, pickedClientId }: Props) {
         />
         <div className='absolute bottom-[-10px] w-full px-2'>
           <p className='line rounded-md bg-stone-200 px-3 py-1 text-center text-sm font-bold leading-5 text-stone-700'>
-            {client?.name}
+            {client?.name} {client?.surname}
           </p>
         </div>
       </div>

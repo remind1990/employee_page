@@ -1,8 +1,7 @@
-import { BalanceDay } from '@/types/types';
+import { ClientBalanceDay } from '@/types/types';
 import React from 'react';
 import {
   calculateSum,
-  getMonthNameFromId,
   calculateTotalSumForEachDayInMonth,
 } from '../../helpers/chartsCalculationsHelpers';
 import {
@@ -14,40 +13,44 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import moment from 'moment';
+import {
+  ALL_DAYS_IN_MONTH,
+  CURRENT_MONTH_NAME,
+  DAYS_IN_CURRENT_MONTH,
+} from '@/app/constants/constants';
 
 type Props = {
-  statistics: BalanceDay[];
+  balanceDay: ClientBalanceDay[];
   name: string | undefined;
 };
 
-export default function ProgressChart({ statistics, name }: Props) {
-  const month =
-    statistics &&
-    statistics?.map((day) => {
-      const newDay = {
-        date: day.id.split(' ')[0],
-        sum: calculateSum(day?.clients[0]).toFixed(2),
-      };
-      return newDay;
-    });
+export default function ProgressChart({ balanceDay, name }: Props) {
+  const month = ALL_DAYS_IN_MONTH.map((day) => {
+    const foundDay = balanceDay.find(
+      (d) => moment(d.dateTimeId).format('DD') === day
+    );
+    return {
+      date: day,
+      sum: foundDay ? calculateSum(foundDay?.statistics).toFixed(2) : '0',
+    };
+  });
 
-  const calculatedMaxSum =
-    statistics &&
-    Math.round(Math.max(...month?.map((day) => parseFloat(day.sum))) * 1.2);
+  const calculatedMaxSum = Math.round(
+    Math.max(...month.map((day) => parseFloat(day.sum))) * 1.2
+  );
 
   const monthTotalSumForPickedClient =
     calculateTotalSumForEachDayInMonth(month);
 
   const maxSum = calculatedMaxSum === 0 ? 10 : calculatedMaxSum;
-  const monthNumberAsString = statistics && statistics[0]?.id.split(' ')?.[1];
-  const monthNumberAsNumber = parseInt(monthNumberAsString);
-  const currentMonthName = getMonthNameFromId(monthNumberAsNumber);
+
   return (
-    <div className='flex  w-full  flex-col items-center justify-center pt-2 font-roboto md:w-full'>
+    <div className='flex w-full flex-col items-center justify-center pt-2 font-roboto md:w-full'>
       <h1>
         Your progress{' '}
         {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}
-        {currentMonthName} is:{' '}
+        {CURRENT_MONTH_NAME} is:{' '}
         <span className='progress-number'>{monthTotalSumForPickedClient}</span>$
       </h1>
       <ResponsiveContainer width='100%' height={200}>

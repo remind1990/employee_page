@@ -1,4 +1,4 @@
-import { BalanceDay } from '@/types/types';
+import { ClientBalanceDay } from '@/types/types';
 import React, { createContext, useContext } from 'react';
 
 type StyledTableProps = {
@@ -93,7 +93,7 @@ const Row: React.FC<RowProps> = ({ children }) => {
 };
 
 type BodyProps = {
-  data?: BalanceDay[];
+  data?: any[];
   render: (item: any) => React.ReactNode;
 };
 

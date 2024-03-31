@@ -1,6 +1,7 @@
 import React from 'react';
 import TableComponent from './Table';
 import moment from 'moment';
+import { NewStatistic } from '@/types/types';
 
 const getBoldedStyle = (value: number) =>
   value > 0
@@ -12,21 +13,11 @@ const getBoldedStyle = (value: number) =>
     : {};
 
 type Props = {
-  id: string;
-  client: {
-    chats: number;
-    dating: number;
-    letters: number;
-    penalties: number;
-    phoneCalls: number;
-    photoAttachments: number;
-    virtualGiftsDating: number;
-    virtualGiftsSvadba: number;
-    voiceMessages: number;
-  };
+  date: string;
+  statistics: NewStatistic | undefined; // Change to undefined
 };
 
-function TableRow({ id, client }: Props) {
+function TableRow({ date, statistics }: Props) {
   const clientPropsToShowInRows = [
     'chats',
     'dating',
@@ -37,29 +28,18 @@ function TableRow({ id, client }: Props) {
     'voiceMessages',
   ] as const;
 
-  const mediaQuery = window.matchMedia('(max-width: 640px)');
-  const isMobile = mediaQuery.matches;
   return (
     <TableComponent.Row>
       <div className={`pl-2 text-left font-bold`}>
-        {moment(id, 'DD MM YYYY').format(`${isMobile ? 'DD' : 'DD,'}`)}
-        {!isMobile && (
-          <span
-            className={`pl-2 ${
-              moment(id, 'DD MM YYYY').day() >= 5 ? 'text-red-400' : ''
-            }`}
-          >
-            {moment(id, 'DD MM YYYY').format('ddd')}
-          </span>
-        )}
+        {moment(date).format('D, MMMM')}
       </div>
       {clientPropsToShowInRows.map((prop) => (
         <div
           key={prop}
           className='text-stone-500'
-          style={getBoldedStyle(client[prop])}
+          style={getBoldedStyle(statistics?.[prop] || 0)} // Use optional chaining
         >
-          {client[prop] ?? 0}
+          {statistics?.[prop] || 0} {/* Use optional chaining */}
         </div>
       ))}
     </TableComponent.Row>
