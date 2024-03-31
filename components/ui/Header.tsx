@@ -52,6 +52,29 @@ export default function Header({ variant = 'light' }: Props) {
           Dashboard
         </Link>
       )}
+
+      {isAuthenticated && (
+        <Link
+          href='/converter'
+          className={`header-link text-center ${
+            isActive('/converter') ? 'link' : ''
+          }`}
+        >
+          Image Converter
+        </Link>
+      )}
+      {isAuthenticated && (
+        <Link
+          href='https://chat.openai.com/'
+          target='_blank'
+          rel='noopener noreferrer'
+          className={`header-link text-center ${
+            isActive('/gpt') ? 'link' : ''
+          }`}
+        >
+          Chat GPT
+        </Link>
+      )}
       <div className={`ml-auto grid  justify-self-end`}>
         {!isAuthenticated ? (
           <Link
