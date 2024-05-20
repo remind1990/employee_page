@@ -42,7 +42,7 @@ function ClientContent({ client, clientBalance, sums }: Props) {
         <div className='flex items-center space-x-10'>
           <CustomDatePicker />
           <p className='font-roboto text-xl text-stone-300'>
-            Total: <b>{sums?.totalSum}$</b>
+            Total: <span className='progress-number'>{sums?.totalSum}</span>$
           </p>
         </div>
 
