@@ -6,6 +6,7 @@ export enum ApiError {
   FUNCTION_ERROR = 'Error in function',
   RATE_LIMIT_SUCCESSFUL = 'Rate limit check successful',
   TRANSLATOR_NOT_UPDATED = 'No translator was updated',
+  TRANSLATOR_NO_DATES_PASSED = 'No dates passed in translator balance day update',
 }
 
 export enum ApiSuccess {

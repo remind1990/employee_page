@@ -1,18 +1,21 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Client, ClientBalanceDay } from '@/types/types';
+import { Client, ClientBalanceDay, Day, TotalSums } from '@/types/types';
 import { whiteCoverCSSClasses } from '@/app/constants/constants';
 import { useAuth } from '../contexts/authContext';
 import { useRouter } from 'next/navigation';
 import ClientCard from './ui/ClientCard';
 import ClientContent from './ui/ClientContent';
+import { totalSumForSelectedDate } from '@/helpers/chartsCalculationsHelpers';
 
 function Dashboard() {
   const { isAuthenticated, user } = useAuth();
   const { mongooseUser } = useAuth();
   const [notSuspended, setNotSuspended] = useState<Client[]>([]);
-  const [pickedClient, setPickedClient] = useState<Client>();
+  const [pickedClient, setPickedClient] = useState<Client | null>(null);
   const [clientBalance, setClientBalance] = useState<ClientBalanceDay[]>([]);
+  const [totalSumsForSelectedMonth, setTotalSumsForSelectedMonth] =
+    useState<TotalSums | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,14 +39,19 @@ function Dashboard() {
   }, [mongooseUser]);
 
   useEffect(() => {
-    if (!pickedClient) {
+    if (!pickedClient || !mongooseUser.balanceDays) {
+      setClientBalance([]);
       return;
     }
-    const clientBalance = mongooseUser.balanceDays.filter(
-      (day: ClientBalanceDay) => day?.client === pickedClient._id
+    const totalSum = totalSumForSelectedDate(
+      mongooseUser.balanceDays.map((day: any) => day.statistics)
     );
-    setClientBalance(clientBalance);
-  }, [pickedClient]);
+    const balanceDays = mongooseUser.balanceDays.filter(
+      (day: ClientBalanceDay) => day.client === pickedClient._id
+    );
+    setClientBalance(balanceDays);
+    setTotalSumsForSelectedMonth(totalSum);
+  }, [pickedClient, mongooseUser]);
 
   return (
     <main
@@ -62,7 +70,7 @@ function Dashboard() {
       sm:flex-wrap
       '
       >
-        {notSuspended &&
+        {notSuspended.length > 0 &&
           notSuspended.map((client: any) => {
             return (
               <ClientCard
@@ -74,8 +82,12 @@ function Dashboard() {
             );
           })}
       </div>
-      {pickedClient && (
-        <ClientContent client={pickedClient} clientBalance={clientBalance} />
+      {pickedClient && mongooseUser && (
+        <ClientContent
+          client={pickedClient}
+          clientBalance={clientBalance}
+          sums={totalSumsForSelectedMonth}
+        />
       )}
     </main>
   );

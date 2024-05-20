@@ -1,5 +1,7 @@
 'use client';
+import updateTranslatorStatistic from '@/services/updateTranslatorStatistic';
 import { createContext, useContext, useReducer } from 'react';
+import toast from 'react-hot-toast';
 const AuthContext = createContext();
 const initialState = {
   user: null,
@@ -27,6 +29,11 @@ function reducer(state, action) {
         isAuthenticated: true,
         isRegistered: true,
         userExist: true,
+      };
+    case 'updateUserBalanceDay':
+      return {
+        ...state,
+        mongooseUser: { ...state.mongooseUser, balanceDays: action.payload },
       };
     case 'logout':
       return initialState;
@@ -77,6 +84,21 @@ function AuthProvider({ children }) {
     dispatch({ type: 'commitUser', payload: { _id, registered } });
   }
 
+  async function updateBalanceDays(dates) {
+    if (!dates || !dates.length) {
+      console.error('no dates passed in updateBalanceDays');
+      return;
+    }
+    const res = await updateTranslatorStatistic(
+      mongooseUser.translator._id,
+      dates
+    );
+    if (!res) {
+      toast.error('Something went wrong in updating balance days');
+    }
+    dispatch({ type: 'updateUserBalanceDay', payload: res.data.balanceDays });
+  }
+
   function sendContactEmail() {
     dispatch({ type: 'sendEmail' });
   }
@@ -95,6 +117,7 @@ function AuthProvider({ children }) {
         commitThatUserExist,
         sendContactEmail,
         contactEmail,
+        updateBalanceDays,
       }}
     >
       {children}

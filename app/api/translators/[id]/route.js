@@ -8,7 +8,6 @@ import {
 } from '@/libs/mongodbConnectWithMongoose';
 
 export async function PUT(req, { params }) {
-  console.log('in put function');
   const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress;
 
   if (!checkRateLimit(ip)) {
@@ -51,6 +50,112 @@ export async function PUT(req, { params }) {
     }
   } catch (err) {
     console.log(err);
-    throw new Error(`${ApiError.FUNCTION_ERROR}: ${err.message}`);
+    throw new Error(`${ApiError.FUNCTION_ERROR}`);
+  }
+}
+
+export async function POST(req, { params }) {
+  const ip =
+    req.headers.get('x-forwarded-for') ||
+    req.headers.get('x-real-ip') ||
+    req.connection.remoteAddress;
+
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      {
+        msg: ApiError.RATE_LIMIT_EXCEEDED,
+        success: false,
+      },
+      { status: 429 }
+    );
+  }
+
+  let body;
+  try {
+    body = await req.json();
+  } catch (err) {
+    return NextResponse.json(
+      {
+        msg: ApiError.INVALID_REQUEST_BODY,
+        success: false,
+      },
+      { status: 400 }
+    );
+  }
+
+  const { id } = params;
+  if (!body || !id) {
+    return NextResponse.json(
+      {
+        msg: ApiError.TRANSLATOR_NO_DATES_PASSED,
+        success: false,
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    await mongooseConnectDB();
+    const translator = await getCollections().collectionTranslators.findOne({
+      _id: id,
+    });
+
+    if (!translator) {
+      return NextResponse.json(
+        {
+          msg: ApiError.TRANSLATOR_NOT_FOUND,
+          success: false,
+        },
+        { status: 404 }
+      );
+    }
+
+    const balanceDays = await getBalanceDayForSelectedDates(
+      translator._id,
+      body
+    );
+
+    const data = {
+      translator,
+      balanceDays,
+    };
+    return NextResponse.json({
+      msg: 'Success',
+      success: true,
+      data: data,
+    });
+  } catch (err) {
+    console.error('Error in balance day update function:', err);
+    return NextResponse.json(
+      {
+        msg: `${ApiError.FUNCTION_ERROR}: ${err.message}`,
+        success: false,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+async function getBalanceDayForSelectedDates(id, dates) {
+  if (!dates.startDate || !dates.endDate) {
+    throw new Error('Error: no dates picked');
+  }
+
+  let query = {};
+  try {
+    if (id) {
+      query.translator = id;
+    }
+    query.dateTimeId = {
+      $gte: new Date(dates.startDate),
+      $lte: new Date(dates.endDate),
+    };
+
+    const BalanceDay = getCollections().collectionBalanceDays;
+    const selectedMonthBalanceDay = await BalanceDay.find(query).exec();
+    return selectedMonthBalanceDay;
+  } catch (err) {
+    console.error('Error in getBalanceDayForSelectedDates:', err);
+    throw new Error('Something went wrong while fetching balance days');
   }
 }

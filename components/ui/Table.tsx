@@ -1,12 +1,11 @@
-import { ClientBalanceDay } from '@/types/types';
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 
 type StyledTableProps = {
   children: React.ReactNode;
 };
 
 const StyledTable: React.FC<StyledTableProps> = ({ children }) => (
-  <div className=' h-auto min-h-[200px] overflow-y-auto bg-stone-100 text-base'>
+  <div className=' h-auto max-h-[700px] min-h-[200px] overflow-y-auto bg-stone-100 text-base'>
     {children}
   </div>
 );
@@ -49,7 +48,7 @@ type StyledBodyProps = {
 };
 
 const StyledBody: React.FC<StyledBodyProps> = ({ children }) => (
-  <section className='1/6'>{children}</section>
+  <section className='max-h-500 overflow-y-auto'>{children}</section>
 );
 
 type FooterProps = {
@@ -94,7 +93,7 @@ const Row: React.FC<RowProps> = ({ children }) => {
 
 type BodyProps = {
   data?: any[];
-  render: (item: any) => React.ReactNode;
+  render: (item: any, index: any) => React.ReactNode;
 };
 
 const Body: React.FC<BodyProps> = ({ data, render }) => {

@@ -14,11 +14,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import moment from 'moment';
-import {
-  ALL_DAYS_IN_MONTH,
-  CURRENT_MONTH_NAME,
-  DAYS_IN_CURRENT_MONTH,
-} from '@/app/constants/constants';
+import { ALL_DAYS_IN_MONTH } from '@/app/constants/constants';
 
 type Props = {
   balanceDay: ClientBalanceDay[];
@@ -49,8 +45,7 @@ export default function ProgressChart({ balanceDay, name }: Props) {
     <div className='flex w-full flex-col items-center justify-center pt-2 font-roboto md:w-full'>
       <h1>
         Your progress{' '}
-        {name !== 'Substituted' ? `with ${name}` : 'during substitution'} for{' '}
-        {CURRENT_MONTH_NAME} is:{' '}
+        {name !== 'Substituted' ? `with ${name}` : 'during substitution'}{' '}
         <span className='progress-number'>{monthTotalSumForPickedClient}</span>$
       </h1>
       <ResponsiveContainer width='100%' height={200}>
