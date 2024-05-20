@@ -27,7 +27,6 @@ type Props = {
 
 export default function ProgressChart({ balanceDay, name }: Props) {
   const month = ALL_DAYS_IN_MONTH.map((day) => {
-    console.log(balanceDay);
     const foundDay = balanceDay.find(
       (d) => moment(d.dateTimeId).format('DD') === day
     );

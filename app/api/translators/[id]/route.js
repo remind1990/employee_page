@@ -8,7 +8,6 @@ import {
 } from '@/libs/mongodbConnectWithMongoose';
 
 export async function PUT(req, { params }) {
-  console.log('in put function');
   const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress;
 
   if (!checkRateLimit(ip)) {

@@ -22,14 +22,9 @@ type Props = {
 
 function PieChartV2({ balanceDay }: Props) {
   const statsWithTotalSums = calculateTotalSumForEachCategory(balanceDay);
-  // const progressForYesterday = daysWithTotalSum.find(
-  //   (day) => day.id === yesterdayString
-  // );
-  // const totalProgress = Number(totalSum).toFixed(2) || 0;
   const yesterdayBalanceDay = balanceDay.find((day) =>
-    moment(day.dateTimeId).isSame(YESTERDAY, 'day')
+    moment.utc(day.dateTimeId).isSame(YESTERDAY, 'day')
   );
-
   const yesterdayProgress = yesterdayBalanceDay
     ? calculateSum(yesterdayBalanceDay?.statistics).toFixed(2)
     : '0';

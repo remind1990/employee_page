@@ -49,7 +49,7 @@ export const mongooseConnectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('Connected to MongoDB with Mongoose:', connectionString);
+    console.log('Connected to MongoDB with Mongoose:');
 
     isConnected = true;
     global.mongoose.isConnected = isConnected;
