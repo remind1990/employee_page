@@ -32,7 +32,7 @@ body {
   @apply flex flex-col items-center;
 }
 .progress-number {
-  @apply text-sunrise-progress-green font-bold;
+  @apply font-bold text-sunrise-progress-green;
 }
 .category-icon {
   @apply flex items-center justify-center text-3xl;
@@ -69,4 +69,22 @@ body {
 
 .shape-fill {
   fill: #ffffff8d;
+}
+
+.react-datepicker {
+  font-family: inherit !important;
+  border: none !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+.react-datepicker__day-name {
+  font-family: monospace;
+  font-weight: 600;
+}
+.react-datepicker__header {
+  background-color: white !important;
+  border-bottom: none !important;
+}
+.react-datepicker__day--in-range {
+  background-color: rgb(217 119 6) !important;
+  border-radius: 50% !important;
 }

@@ -34,3 +34,13 @@ export const ALL_DAYS_IN_MONTH = Array.from(
 export const DAYS_TILL_TODAY = Array.from({ length: TODAY.date() }, (_, i) =>
   moment().date(i + 1)
 );
+
+export const ORDER_KEYS = [
+  'chats',
+  'dating',
+  'letters',
+  'photoAttachments',
+  'virtualGiftsSvadba',
+  'virtualGiftsDating',
+  'voiceMessages',
+] as const;

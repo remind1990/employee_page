@@ -2,6 +2,7 @@ import React from 'react';
 import TableComponent from './Table';
 import moment from 'moment';
 import { NewStatistic } from '@/types/types';
+import { ORDER_KEYS } from '@/app/constants/constants';
 
 const getBoldedStyle = (value: number) =>
   value > 0
@@ -18,28 +19,18 @@ type Props = {
 };
 
 function TableRow({ date, statistics }: Props) {
-  const clientPropsToShowInRows = [
-    'chats',
-    'dating',
-    'letters',
-    'phoneCalls',
-    'virtualGiftsDating',
-    'virtualGiftsSvadba',
-    'voiceMessages',
-  ] as const;
-
   return (
     <TableComponent.Row>
       <div className={`pl-2 text-left font-bold`}>
-        {moment(date).format('D, MMMM')}
+        {moment.utc(date).format('D, MMMM')}
       </div>
-      {clientPropsToShowInRows.map((prop) => (
+      {ORDER_KEYS.map((key) => (
         <div
-          key={prop}
+          key={key}
           className='text-stone-500'
-          style={getBoldedStyle(statistics?.[prop] || 0)} // Use optional chaining
+          style={getBoldedStyle(statistics?.[key] || 0)} // Use optional chaining
         >
-          {statistics?.[prop] || 0} {/* Use optional chaining */}
+          {statistics?.[key] || 0} {/* Use optional chaining */}
         </div>
       ))}
     </TableComponent.Row>

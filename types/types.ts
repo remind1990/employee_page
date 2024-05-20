@@ -55,3 +55,8 @@ export type ClientBalanceDay = {
   __v: number;
   _id: string;
 };
+
+export type TotalSums = {
+  totalSum: number;
+  totalSumPerCategory: Record<string, number>;
+};
