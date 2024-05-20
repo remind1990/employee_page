@@ -31,13 +31,12 @@ function PieChartV2({ balanceDay }: Props) {
 
   return (
     <>
-      <h1>
-        Yesterday Progress:{' '}
-        <span className='progress-number'>{yesterdayProgress}</span>$
-        {/* <br />
-        Total progress:{' '}
-        <span className='progress-number'>{'totalProgress'}</span>$ */}
-      </h1>
+      {yesterdayBalanceDay && (
+        <h1>
+          Yesterday Progress:{' '}
+          <span className='progress-number'>{yesterdayProgress}</span>$
+        </h1>
+      )}
       <ResponsiveContainer width='100%' height={450} className={'mt-[-100px]'}>
         <PieChart>
           <Pie
