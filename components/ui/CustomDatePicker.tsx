@@ -1,6 +1,6 @@
 'use client';
 import { useAuth } from '@/contexts/authContext';
-import { convertDatetoIsoStringinUTC } from '@/helpers/dateCalcs/dateCalcs';
+import { convertDateToISOStringInUTC } from '@/helpers/dateCalcs/dateCalcs';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,13 +17,13 @@ const getEndOfMonth = () => {
 
 export const CustomDatePicker = () => {
   const { updateBalanceDays } = useAuth();
-  const [startDate, setStartDate] = useState(getStartOfMonth());
-  const [endDate, setEndDate] = useState(getEndOfMonth());
+  const [startDate, setStartDate] = useState<Date>(getStartOfMonth());
+  const [endDate, setEndDate] = useState<Date>(getEndOfMonth());
 
   const onChange = async (dates: (Date | null)[]) => {
     const [start, end] = dates;
     const datesToUTCArray = dates.map((date) => {
-      return date ? convertDatetoIsoStringinUTC(date) : null;
+      return date ? convertDateToISOStringInUTC(date) : null;
     });
     if (start && end) {
       await updateBalanceDays(datesToUTCArray);
@@ -32,7 +32,7 @@ export const CustomDatePicker = () => {
     setStartDate(start!);
     setEndDate(end!);
   };
-  const dayClassName = (date: Date) => {
+  const dayClassName = () => {
     return 'font-roboto font-bold';
   };
 
