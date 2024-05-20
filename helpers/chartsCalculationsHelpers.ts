@@ -123,19 +123,18 @@ export function convertVariableToTitle(variableName: string) {
 }
 
 export function totalSumForSelectedDate(statistics: NewStatistic[]): TotalSums {
-  let totalSumPerCategory: any = {};
+  let totalSumPerCategory: Record<string, number> = {};
   statistics.forEach((day) => {
     Object.entries(day).forEach(([key, value]) => {
       if (typeof value === 'number') {
-        const numericValue = parseFloat(value);
         if (key === 'penalties') {
           totalSumPerCategory[key] =
-            (totalSumPerCategory[key] || 0) - (numericValue || 0);
+            (totalSumPerCategory[key] || 0) - (value || 0);
         } else {
           if (totalSumPerCategory.hasOwnProperty(key)) {
-            totalSumPerCategory[key] += numericValue || 0;
+            totalSumPerCategory[key] += value || 0;
           } else {
-            totalSumPerCategory[key] = numericValue || 0;
+            totalSumPerCategory[key] = value || 0;
           }
         }
       }
@@ -148,7 +147,7 @@ export function totalSumForSelectedDate(statistics: NewStatistic[]): TotalSums {
 
   const totalSum = parseFloat(
     Object.values(totalSumPerCategory)
-      .reduce((acc: number, currentValue: any) => acc + currentValue, 0)
+      .reduce((acc: number, currentValue: number) => acc + currentValue, 0)
       .toFixed(2)
   );
 

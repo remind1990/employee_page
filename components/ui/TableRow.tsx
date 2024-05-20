@@ -24,13 +24,13 @@ function TableRow({ date, statistics }: Props) {
       <div className={`pl-2 text-left font-bold`}>
         {moment.utc(date).format('D, MMMM')}
       </div>
-      {ORDER_KEYS.map((prop) => (
+      {ORDER_KEYS.map((key) => (
         <div
-          key={prop}
+          key={key}
           className='text-stone-500'
-          style={getBoldedStyle(statistics?.[prop] || 0)} // Use optional chaining
+          style={getBoldedStyle(statistics?.[key] || 0)} // Use optional chaining
         >
-          {statistics?.[prop] || 0} {/* Use optional chaining */}
+          {statistics?.[key] || 0} {/* Use optional chaining */}
         </div>
       ))}
     </TableComponent.Row>

@@ -50,7 +50,7 @@ export async function PUT(req, { params }) {
     }
   } catch (err) {
     console.log(err);
-    throw new Error(`${ApiError.FUNCTION_ERROR}: ${err.message}`);
+    throw new Error(`${ApiError.FUNCTION_ERROR}`);
   }
 }
 
@@ -137,7 +137,7 @@ export async function POST(req, { params }) {
 }
 
 async function getBalanceDayForSelectedDates(id, dates) {
-  if (!dates || !dates.startDate || !dates.endDate) {
+  if (!dates.startDate || !dates.endDate) {
     throw new Error('Error: no dates picked');
   }
 

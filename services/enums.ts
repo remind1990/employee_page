@@ -22,7 +22,7 @@ export enum UpdateTranslatorServiceMessages {
 }
 
 export enum UpdateTranslatorBalanceDay {
-  Success = 'BalanceDay was succesfully updated',
+  Success = 'BalanceDay was successfully updated',
   Error = 'Error updating balanceDay',
   UnknownError = 'An unknown error occurred',
 }

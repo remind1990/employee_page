@@ -12,7 +12,7 @@ function Dashboard() {
   const { isAuthenticated, user } = useAuth();
   const { mongooseUser } = useAuth();
   const [notSuspended, setNotSuspended] = useState<Client[]>([]);
-  const [pickedClient, setPickedClient] = useState<Client>();
+  const [pickedClient, setPickedClient] = useState<Client | null>(null);
   const [clientBalance, setClientBalance] = useState<ClientBalanceDay[]>([]);
   const [totalSumsForSelectedMonth, setTotalSumsForSelectedMonth] =
     useState<TotalSums | null>(null);
@@ -39,7 +39,7 @@ function Dashboard() {
   }, [mongooseUser]);
 
   useEffect(() => {
-    if (!pickedClient || !mongooseUser || !mongooseUser.balanceDays) {
+    if (!pickedClient || !mongooseUser.balanceDays) {
       setClientBalance([]);
       return;
     }

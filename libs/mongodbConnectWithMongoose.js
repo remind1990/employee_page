@@ -1,4 +1,3 @@
-// libs/mongodb.js
 import mongoose from 'mongoose';
 import {
   BalanceDaySchema,
@@ -12,7 +11,6 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-// Global is used here to maintain a single instance across the module
 global.mongoose = global.mongoose || {};
 
 let isConnected = global.mongoose.isConnected || false;
