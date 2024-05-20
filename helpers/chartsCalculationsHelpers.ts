@@ -4,6 +4,7 @@ import {
   Day,
   DayForChart,
   NewStatistic,
+  TotalSums,
 } from '@/types/types';
 
 const COLORS = Object.values(ColorEnum);
@@ -119,4 +120,37 @@ export function convertVariableToTitle(variableName: string) {
   });
   const result = capitalizedWords.join(' ');
   return String(result);
+}
+
+export function totalSumForSelectedDate(statistics: NewStatistic[]): TotalSums {
+  let totalSumPerCategory: any = {};
+  statistics.forEach((day) => {
+    Object.entries(day).forEach(([key, value]) => {
+      if (typeof value === 'number') {
+        const numericValue = parseFloat(value);
+        if (key === 'penalties') {
+          totalSumPerCategory[key] =
+            (totalSumPerCategory[key] || 0) - (numericValue || 0);
+        } else {
+          if (totalSumPerCategory.hasOwnProperty(key)) {
+            totalSumPerCategory[key] += numericValue || 0;
+          } else {
+            totalSumPerCategory[key] = numericValue || 0;
+          }
+        }
+      }
+    });
+  });
+
+  Object.keys(totalSumPerCategory).forEach((key) => {
+    totalSumPerCategory[key] = parseFloat(totalSumPerCategory[key].toFixed(2));
+  });
+
+  const totalSum = parseFloat(
+    Object.values(totalSumPerCategory)
+      .reduce((acc: number, currentValue: any) => acc + currentValue, 0)
+      .toFixed(2)
+  );
+
+  return { totalSumPerCategory, totalSum };
 }

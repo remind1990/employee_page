@@ -70,13 +70,11 @@ export async function POST(req) {
       });
     }
     const { translator } = mongooseData;
-    console.log(password, translator.password);
     if (translator && translator.password) {
       const passwordsMatch = await bcrypt.compare(
         password,
         translator.password
       );
-      console.log(passwordsMatch);
       if (passwordsMatch) {
         return NextResponse.json({
           msg: ApiSuccess.LOGIN_SUCCESSFUL,
@@ -120,7 +118,7 @@ async function getTranslatorsWithMongoose(email) {
   }
 }
 
-async function getMonthBalanceDaysForTranslators(id) {
+async function getMonthBalanceDaysForTranslators(id, dates) {
   const firstDayOfTheMonth = getCurrentMonthStartDayInUTC();
   const lastDayOfTheMonth = getCurrentMonthEndDayInUTC();
   let query = {};
@@ -128,10 +126,18 @@ async function getMonthBalanceDaysForTranslators(id) {
     if (id) {
       query.translator = id;
     }
-    query.dateTimeId = {
-      $gte: firstDayOfTheMonth,
-      $lte: lastDayOfTheMonth,
-    };
+    if (!dates) {
+      query.dateTimeId = {
+        $gte: firstDayOfTheMonth,
+        $lte: lastDayOfTheMonth,
+      };
+    } else {
+      query.dateTimeId = {
+        $gte: dates.startDate,
+        $lte: dates.endDate,
+      };
+    }
+
     const BalanceDay = await getCollections().collectionBalanceDays;
     const currentMonthBalanceDays = await BalanceDay.find(query).exec();
     return currentMonthBalanceDays;

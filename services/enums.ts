@@ -20,3 +20,9 @@ export enum UpdateTranslatorServiceMessages {
   Error = 'User was not updated',
   UnknownError = 'An unknown error occurred',
 }
+
+export enum UpdateTranslatorBalanceDay {
+  Success = 'BalanceDay was succesfully updated',
+  Error = 'Error updating balanceDay',
+  UnknownError = 'An unknown error occurred',
+}

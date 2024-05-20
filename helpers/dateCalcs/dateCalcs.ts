@@ -11,3 +11,7 @@ export function getCurrentMonthStartDayInUTC() {
 export function getCurrentMonthEndDayInUTC() {
   return moment().utc().endOf('month').endOf('day').toISOString();
 }
+
+export function convertDatetoIsoStringinUTC(date: Date): string {
+  return moment(date).utc().toISOString();
+}

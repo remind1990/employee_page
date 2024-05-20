@@ -29,7 +29,7 @@ function PieChartV2({ balanceDay }: Props) {
   const yesterdayBalanceDay = balanceDay.find((day) =>
     moment(day.dateTimeId).isSame(YESTERDAY, 'day')
   );
-  console.log(yesterdayBalanceDay);
+
   const yesterdayProgress = yesterdayBalanceDay
     ? calculateSum(yesterdayBalanceDay?.statistics).toFixed(2)
     : '0';
