@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Logo from './Logo';
 import { useAuth } from '@/contexts/authContext';
 import Button from './Button';
+import CardDropdown from '../CardDropdown';
 
 type Props = {
   variant?: 'light' | 'dark';
@@ -26,22 +27,26 @@ export default function Header({ variant = 'light' }: Props) {
       <Link href='/'>
         <Logo width={80} height={70} />
       </Link>
-      <Link
-        href='/about'
-        className={`header-link text-center ${
-          isActive('/about') ? 'link' : ''
-        }`}
-      >
-        About
-      </Link>
-      <Link
-        href='/contacts'
-        className={`header-link text-center ${
-          isActive('/contacts') ? 'link' : ''
-        }`}
-      >
-        Contacts
-      </Link>
+      {!isAuthenticated && (
+        <>
+          <Link
+            href='/about'
+            className={`header-link text-center ${
+              isActive('/about') ? 'link' : ''
+            }`}
+          >
+            About
+          </Link>
+          <Link
+            href='/contacts'
+            className={`header-link text-center ${
+              isActive('/contacts') ? 'link' : ''
+            }`}
+          >
+            Contacts
+          </Link>
+        </>
+      )}
       {isAuthenticated && (
         <Link
           href='/dashboard'
@@ -54,26 +59,28 @@ export default function Header({ variant = 'light' }: Props) {
       )}
 
       {isAuthenticated && (
-        <Link
-          href='/converter'
-          className={`header-link text-center ${
-            isActive('/converter') ? 'link' : ''
-          }`}
-        >
-          Image Converter
-        </Link>
-      )}
-      {isAuthenticated && (
-        <Link
-          href='https://chat.openai.com/'
-          target='_blank'
-          rel='noopener noreferrer'
-          className={`header-link text-center ${
-            isActive('/gpt') ? 'link' : ''
-          }`}
-        >
-          Chat GPT
-        </Link>
+        <>
+          <CardDropdown />
+          <Link
+            href='/converter'
+            className={`header-link text-center ${
+              isActive('/converter') ? 'link' : ''
+            }`}
+          >
+            Image Converter
+          </Link>
+
+          <Link
+            href='https://chat.openai.com/'
+            target='_blank'
+            rel='noopener noreferrer'
+            className={`header-link text-center ${
+              isActive('/gpt') ? 'link' : ''
+            }`}
+          >
+            Chat GPT
+          </Link>
+        </>
       )}
       <div className={`ml-auto grid  justify-self-end`}>
         {!isAuthenticated ? (
