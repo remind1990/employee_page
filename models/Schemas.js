@@ -53,6 +53,10 @@ export const TranslatorSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  card: {
+    type: String,
+    required: false,
+  },
   wantsToReceiveEmails: Boolean,
 });
 
